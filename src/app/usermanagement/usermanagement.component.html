@@ -1,0 +1,542 @@
+<nav aria-label="breadcrumb" class="mt-4">
+  <ol class="breadcrumb border bg-transparent shadow-sm">
+    <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+      (click)="homeRouterInit()">
+      Home
+    </li>
+    <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page">
+      <u>Settings</u>
+    </li>
+    <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+      (click)="userManagementRouterInit()">
+      <u>User Management</u>
+    </li>
+  </ol>
+</nav>
+
+
+<!-- nav bar -->
+<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin:0px 10px 5px 10px;">
+
+  <li class="nav-item navlinkcss">
+      <a class="nav-link active navlinkcss"  routerLink="/ii/usermanagement"
+          id="global-setting" data-toggle="tab" role="tab" aria-controls="segment-person-account"
+          aria-selected="false">User Management</a>
+  </li>
+  <li class="nav-item navlinkcss">
+    <a class="nav-link navlinkcss"  routerLink="/ii/email-setting"
+        id="e-mail-setting" data-toggle="tab" role="tab" aria-controls="segment-person-account"
+        aria-selected="false">Email Setting</a>
+</li>
+ <li class="nav-item navlinkcss ">
+        <a class="nav-link  navlinkcss" routerLink="/ii/inv-email-setting" id="e-mail-setting" data-toggle="tab"
+            role="tab" aria-controls="segment-person-account" aria-selected="false">INV Email Setting</a>
+    </li>
+</ul>
+<!-- nav bar ends -->
+
+
+<div class="maincss" style="margin: 8px; margin-top: -20px;">
+  <div class="container-fluid pt-4 " style="font-size: 0.8rem;">
+    <div class="row">
+      <div class="col-5">
+        <button class="btn btn-outline-ishida mr-2 rounded-0" (click)="viewAddModal(registration)">
+          <i class="fa fa-user-plus" aria-hidden="true"></i> Add User</button>
+      </div>
+      <div class="col-5 float-right">
+        <div class="input-group mb-2 ">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fa fa-search"></i></div>
+          </div>
+          <input type="search" class="form-control " placeholder="{{searchPlaceholder}}" title="search box"
+            maxlength="{{searchMaxLength}}" [(ngModel)]="searchText" required>
+        </div>
+      </div>
+    </div>
+    <div class="row pt-2">
+      <div class="col-10">
+        <div class="card" style="max-width: 100%; ">
+          <div class="card-header bg-header content-center" style="padding:0px;">
+            <div class="table-res scroll">
+              <table class="table table-sm table-hover table-striped table-res " style="margin:0px;">
+                <thead class="header" style="background:#282e89; color:white;">
+                  <tr class="text-center">
+                    <th class="grid_sn" scope="col">SN</th>
+                    <th class="grid_userid" scope="col">USER ID</th>
+                    <th class="grid_username" scope="col">USER NAME</th>
+                    <th class="grid_email" scope="col">EMAIL</th>
+                    <th class="grid_department" scope="col">DEPARTMENT</th>
+                    <!-- <th class="grid_designation" scope="col">DESIGNATION</th> -->
+                    <th class="grid_role" scope="col">USER ROLE</th>
+                    <th class="grid_action" scope="col">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody class="hoverTable">
+                  <tr *ngIf="userDetails.length ==0">
+                    <td colspan="8" class="text-center">
+                      <div class="jumbotron jumbotron-fluid text-center">
+                        <div class="container">
+                          <p class="lead text-ishida">There is no such User.</p>
+                          <hr class="my-4">
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let user of userDetails| myfilter2: searchText; let i= index" style="cursor: pointer;"
+                    (click)="ClickedRow(i)" [class.active]="i == HighlightRow">
+                    <td class="grid_sn">{{i+1}}</td>
+                    <td class="grid_userid">{{user.USER_ID}}</td>
+                    <td class="grid_username">{{user.USER_NAME}}</td>
+                    <td class="grid_email">{{user.EMAIL}}</td>
+                    <td class="grid_department">{{user.DEPARTMENT}}</td>
+                    <!-- <td class="grid_designation">{{user.DESIGNATION}}</td> -->
+                    <td class="grid_role">{{user.USER_ROLE}}</td>
+                    <td class="grid_action text-center" style="padding:1px;">
+                      <button class="btn btn-sm mr-4 btn-outline-ishida rounded-0" title="Update User Details"
+                        (click)="viewUpdateModal(updateUser, user.USER_ID)">
+                        <i class="fa fa-edit"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger rounded-0" title="Delete User"
+                        (click)="viewDeleteModal(user.USER_ID)">
+                        <i class=" fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="row" style="padding-top: 2px;">
+          <div class="card rounded-0">
+            <div class="card-body"
+              style="width:100%; height:calc(100vh - 10.5rem); padding-left:0.5rem; padding-right:0.5rem;">
+              <div class="card card-margin bg-c-blue order-card user-card" style="max-height:30%"
+                [ngClass]="{'active-user-css': selectedUserList=='All'}">
+
+                <div class="card-body pt-2">
+                  <div class="card-body" style="padding-top:6px; padding-left:0px;">
+                    <div class="row padding-top">
+                      <div class="col-8 button-padding-top">
+                        <h6 class="text-ishida">Total Users</h6>
+                      </div>
+                      <div class="col-4">
+                        <div class="circular-title">
+                          {{currentUser}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row float-right button-padding-top">
+                      <button type="button" class="btn btn-sm btn-flash-border-primary cardUserData"
+                        (click)="getUserList()">Details</button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="card card-margin bg-c-green order-card  user-card" style=" max-height:30%;"
+                [ngClass]="{'active-user-css': selectedUserList=='Active'}">
+
+                <div class="card-body pt-2">
+                  <div class="card-body" style="padding-top:6px; padding-left:0px;">
+                    <div class="row padding-top">
+                      <div class="col-8 button-padding-top">
+                        <h6 class="text-ishida">Active Users</h6>
+                      </div>
+                      <div class="col-4">
+                        <div class="circular-title">
+                          {{activeUser}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row float-right button-padding-top">
+                      <button type="button" class="btn btn-sm btn-flash-border-primary cardUserData"
+                        (click)="getActiveUserList()">Details</button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="card card-margin bg-c-yellow order-card user-card" style=" max-height:30%;"
+                [ngClass]="{'active-user-css': selectedUserList=='Inactive'}">
+
+                <div class="card-body pt-2">
+                  <div class="card-body" style="padding-top:6px; padding-left:0px;">
+                    <div class="row padding-top">
+                      <div class="col-8 button-padding-top">
+                        <h6 class="text-ishida">Inactive Users</h6>
+                      </div>
+                      <div class="col-4">
+                        <div class="circular-title">
+                          {{inActiveUser}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row float-right button-padding-top">
+                      <button type="button" class="btn btn-sm btn-flash-border-primary cardUserData"
+                        (click)="getInActiveUserList()">Details</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add user Modal Start -->
+<ng-template #registration let-modal>
+  <form class='form-container' [formGroup]="addUserForm" #registration="ngForm">
+    <div class="modal-header" style="background-color: rgb(230,230,250); color:#282e89;">
+      <h6 class="modal-title">Add User</h6>
+    </div>
+    <div class="modal-body scrollModal">
+      <section class='container-fluid'>
+        <section class='row justify-content-center'>
+          <section class="col-12">
+            <div class="text-center text-danger">
+              <small></small>
+            </div>
+            <div class=" form-body">
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-id-badge fa-lg fa-fw text-ishida"></i>
+                  </div>
+                </div>
+                <input type="text" class="form-control rounded-0 ipgcss1" placeholder="User ID" formControlName="userId"
+                  [ngClass]="{'is-invalid':addUserForm.get('userId').invalid && addUserForm.get('userId').touched}"
+                  maxlength="{{userIdMaxLength}}" required>
+                <div
+                  *ngIf="addUserForm.get('userId').invalid && addUserForm.get('userId').touched && addUserForm.get('userId')?.errors.required"
+                  class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                  <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                </div>
+                <div
+                  *ngIf="addUserForm.get('userId').invalid && addUserForm.get('userId').dirty && addUserForm.get('userId')?.errors.pattern"
+                  class="invalid-tooltip" placement="left" ngbTooltip="{{globalIdPatternMsg}}">
+                  <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                </div>
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-user fa-lg fa-fw text-ishida"></i>
+                  </div>
+                </div>
+                <input type="text" class="form-control rounded-0 ipgcss1" placeholder="User Name"
+                  formControlName="userName"
+                  [ngClass]="{'is-invalid':addUserForm.get('userName').invalid && addUserForm.get('userName').touched}"
+                  maxlength="{{userNameMaxLength}}" required>
+                <div
+                  *ngIf="addUserForm.get('userName').invalid && addUserForm.get('userName')?.errors.required && addUserForm.get('userName').touched"
+                  class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                  <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                </div>
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-envelope fa-lg fa-fw text-ishida"></i>
+                  </div>
+                </div>
+                <input type="text" class="form-control rounded-0 ipgcss1" placeholder="Email" formControlName="email"
+                  [ngClass]="{'is-invalid':addUserForm.get('email').invalid && ( addUserForm.get('email').touched)}"
+                  maxlength="{{emailMaxLength}}" required>
+                <div *ngIf="addUserForm.get('email').invalid && addUserForm.get('email')?.errors.required"
+                  class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                  <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                </div>
+                <div
+                  *ngIf="addUserForm.get('email').invalid && addUserForm.get('email').dirty && addUserForm.get('email')?.errors.email"
+                  class="invalid-tooltip" placement="left" ngbTooltip="{{globalInvalidEmailMsg}}">
+                  <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                </div>
+                <div
+                *ngIf="addUserForm.get('email').invalid && addUserForm.get('email').dirty && addUserForm.get('email')?.errors.emailDomain"
+                class="invalid-tooltip" placement="left" ngbTooltip="{{globalInvalidDomainMsg}}">
+                <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+              </div>
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <i class="fa fa-lg fa-fw text-ishida"
+                      [ngClass]="{'fa-eye-slash': !fieldTextType, 'fa-eye': fieldTextType }"
+                      (click)="toggleFieldTextType()"></i>
+                  </div>
+                </div>
+                <input [type]="fieldTextType ? 'text' : 'password'" class="form-control rounded-0 ipgcss1"
+                  placeholder="Password" formControlName="password"
+                  [ngClass]="{'is-invalid':addUserForm.get('password').invalid && addUserForm.get('password').touched}"
+                  minLength="{{passwordMinLength}}" maxlength="{{passwordMaxLength}}" autocomplete="new-password"
+                  required>
+                <div *ngIf="addUserForm.get('password').invalid && addUserForm.get('password')?.errors.required"
+                  class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                  <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                </div>
+                <div
+                  *ngIf="addUserForm.get('password').invalid && addUserForm.get('password').dirty && addUserForm.get('password')?.errors.minlength"
+                  class="invalid-tooltip" placement="left" ngbTooltip="{{globalPasswordMinLengthMsg}}">
+                  <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                </div>
+                <div
+                  *ngIf="addUserForm.get('password').invalid && addUserForm.get('password').dirty && addUserForm.get('password')?.errors.maxlength"
+                  class="invalid-tooltip" placement="left" ngbTooltip="{{globalPasswordMaxLengthMsg}}">
+                  <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                </div>
+                <div
+                  *ngIf="addUserForm.get('password').invalid && addUserForm.get('password').dirty && addUserForm.get('password')?.errors.pattern && !addUserForm.get('password')?.errors.minlength && !addUserForm.get('password')?.errors.maxlength"
+                  class="invalid-tooltip" placement="left" ngbTooltip="{{globalPasswordPatternMsg}}">
+                  <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                </div>
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <i class="fa fa-cube fa-lg fa-fw text-ishida"></i>
+                  </div>
+                </div>
+                <select class="custom-select rounded-0 ipgcss1" formControlName="role"
+                  [ngClass]="{'is-invalid': addUserForm.get('role').invalid && addUserForm.get('role').touched}">
+                  <option value=null disabled>Choose Role... </option>
+                  <option *ngFor="let option of userRoleList" [ngValue]="option.USER_ROLE">
+                    {{option.USER_ROLE}}
+                  </option>
+                </select>
+                <div class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                  <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                </div>
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <i class="fa fa-building fa-lg fa-fw text-ishida"></i>
+                  </div>
+                </div>
+                <select class="custom-select rounded-0 ipgcss1" aria-label="Example select with button addon"
+                  formControlName="department"
+                  [ngClass]="{'is-invalid': addUserForm.get('department').invalid &&  addUserForm.get('department').touched}">
+                  <option value=null disabled>Choose Department... </option>
+                  <option *ngFor="let option of departmentList" [ngValue]="option.DEPARTMENT">
+                    {{option.DEPARTMENT}}
+                  </option>
+                </select>
+                <div class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                  <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                </div>
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <i class="fa fa-graduation-cap fa-lg fa-fw text-ishida"></i>
+                  </div>
+                </div>
+                <select class="custom-select rounded-0 ipgcss1" aria-label="Small" formControlName="designation"
+                  aria-describedby="inputGroup-sizing-sm"
+                  [ngClass]="{'is-invalid': addUserForm.get('designation').invalid &&  addUserForm.get('designation').touched}">
+                  <option value=null disabled>Choose Designation... </option>
+                  <option *ngFor="let option of designationList" [ngValue]="option.DESIGNATION">
+                    {{option.DESIGNATION}}
+                  </option>
+                </select>
+                <div class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                  <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                </div>
+              </div>
+
+            </div>
+          </section>
+        </section>
+      </section>
+
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+      <button type="submit" class="btn btn-outline-ishida mr-2 rounded-0" [disabled]="!addUserForm.valid"
+        style="min-width: 78px; max-width: 78px;" (click)="addUser()">Create</button>
+      <button type="button" class="btn btn-outline-danger rounded-0" aria-label="Close"
+        style="min-width: 78px; max-width: 78px;" (click)="modal.dismiss('Cross click')">
+        Close
+      </button>
+    </div>
+  </form>
+</ng-template>
+<!-- Add user Modal End -->
+
+
+<!--  update user detail modal ......................... -->
+<ng-template #updateUser let-modal>
+  <form class='form-container' [formGroup]="updateUserForm" #updateUser="ngForm" autocomplete="off">
+    <div class="modal-header" style="background-color: rgb(230,230,250); color: #282e89;">
+      <h6 class="modal-title">Update User Details</h6>
+    </div>
+    <div class="modal-body">
+      <section class='container-fluid'>
+        <section class='row justify-content-center'>
+          <section class="col-12">
+            <div class="text-center text-danger">
+              <small></small>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-id-badge fa-lg fa-fw text-ishida"></i>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control rounded-0 ipgcss1" placeholder="User ID" readonly
+                    formControlName="userId">
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <i class="fa fa-lg fa-fw text-ishida"
+                        [ngClass]="{'fa-eye-slash': !fieldTextType, 'fa-eye': fieldTextType }"
+                        (click)="toggleFieldTextType()">
+                      </i>
+                    </div>
+                  </div>
+                  <input [type]="fieldTextType ? 'text' : 'password'" class="form-control rounded-0 ipgcss1"
+                    placeholder="Password" autocomplete="new-password" formControlName="password"
+                    [ngClass]="{'is-invalid': updateUserForm.get('password').invalid && updateUserForm.get('password').touched}"
+                    minLength="{{passwordMinLength}}" maxlength="{{passwordMaxLength}}">
+                  <div
+                    *ngIf="updateUserForm.get('password').invalid && updateUserForm.get('password').dirty &&  updateUserForm.get('password')?.errors.minlength"
+                    class="invalid-tooltip" placement="left" ngbTooltip="{{globalPasswordMinLengthMsg}}">
+                    <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                  </div>
+                  <div
+                    *ngIf="updateUserForm.get('password').invalid && updateUserForm.get('password').dirty &&  updateUserForm.get('password')?.errors.maxlength"
+                    class="invalid-tooltip" placement="left" ngbTooltip="{{globalPasswordMaxLengthMsg}}">
+                    <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                  </div>
+                  <div
+                    *ngIf="updateUserForm.get('password').invalid && updateUserForm.get('password').dirty && updateUserForm.get('password')?.errors.pattern && !updateUserForm.get('password')?.errors.minlength && !updateUserForm.get('password')?.errors.maxlength"
+                    class="invalid-tooltip" placement="left" ngbTooltip="{{globalPasswordPatternMsg}}">
+                    <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-user fa-lg fa-fw text-ishida"></i>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control rounded-0 ipgcss1" placeholder="User Name" readonly
+                    formControlName="userName">
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-cube fa-lg fa-fw text-ishida"></i>
+                    </div>
+                  </div>
+                  <select class="custom-select rounded-0 ipgcss1" formControlName="role"
+                    [ngClass]="{'is-invalid': updateUserForm.get('role').invalid && updateUserForm.get('role').touched}">
+                    <option value="" disabled>Choose Role... </option>
+                    <option *ngFor="let option of userRoleList" [ngValue]="option.USER_ROLE">
+                      {{option.USER_ROLE}}
+                    </option>
+                  </select>
+                  <div class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                    <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-envelope fa-lg fa-fw text-ishida"></i>
+                    </div>
+                  </div>
+                  <input type="email" class="form-control rounded-0 ipgcss1" placeholder="Email" readonly
+                    formControlName="email">
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="input-group mb-2">
+
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <i class="fa fa-lg fa-fw text-ishida"
+                        [ngClass]="{'fa-toggle-on': updateUserForm.value.activeStatus=='true'|| updateUserForm.value.activeStatus==true,
+                                    'fa-toggle-off': updateUserForm.value.activeStatus=='false' || updateUserForm.value.activeStatus==false  }"> </i>
+                    </div>
+                  </div>
+                  <select class="custom-select rounded-0 ipgcss1" aria-label="Small" formControlName="activeStatus"
+                    aria-describedby="inputGroup-sizing-sm"
+                    [ngClass]="{'is-invalid': updateUserForm.get('activeStatus').invalid && updateUserForm.get('activeStatus').touched}">
+                    <option [ngValue]="null" disabled>Active Status</option>
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                  </select>
+                  <div class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                    <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-building fa-lg fa-fw text-ishida"></i>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control rounded-0 ipgcss1" readonly formControlName="department">
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-graduation-cap fa-lg fa-fw text-ishida"></i>
+                    </div>
+                  </div>
+                  <select class="custom-select rounded-0 ipgcss1" aria-label="Small" formControlName="designation"
+                    aria-describedby="inputGroup-sizing-sm"
+                    [ngClass]="{'is-invalid': updateUserForm.get('designation').invalid && updateUserForm.get('designation').touched}">
+                    <option value="" disabled>Choose Designation... </option>
+                    <option *ngFor="let option of designationList" [ngValue]="option.DESIGNATION">
+                      {{option.DESIGNATION}}
+                    </option>
+                  </select>
+                  <div class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                    <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </section>
+
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+      <button type="submit" class="btn btn-outline-ishida mr-2 rounded-0" [disabled]="!updateUserForm.valid"
+        style="min-width: 78px; max-width: 78px;" (click)="update()">Update</button>
+      <button type="button" class="btn btn-outline-danger rounded-0" aria-label="Close"
+        style="min-width: 78px; max-width: 78px;" (click)="modal.dismiss('Cross click')">
+        Close
+      </button>
+    </div>
+  </form>
+</ng-template>
+<!-- end of user update modal -->

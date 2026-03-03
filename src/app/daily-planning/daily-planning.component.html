@@ -1,0 +1,244 @@
+<!-- upper nav bar -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb border bg-transparent shadow-sm">
+    <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+      (click)="homeRouterInit()">
+      Home
+    </li>
+    <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+      (click)="dailyPlanningInit()">
+      <u>Daily Planning</u>
+    </li>
+  </ol>
+</nav>
+<!--upper nav bar ends-->
+
+<!-- nav bar -->
+<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin:0px 10px 5px 10px;">
+
+  <li class="nav-item navlinkcss">
+    <a class="nav-link navlinkcss" routerLink="/ii/iboard-planning" id="global-setting" data-toggle="tab" role="tab"
+      aria-selected="false">IBoard Planning</a>
+  </li>
+  <li class="nav-item navlinkcss">
+    <a class="nav-link active navlinkcss" routerLink="/ii/daily-planning" id="global-setting" data-toggle="tab"
+      role="tab" aria-selected="false">Daily Planning</a>
+  </li>
+  <!-- <li class="nav-item navlinkcss">
+    <a class="nav-link navlinkcss" routerLink="/ii/iboard-setting" id="global-setting" data-toggle="tab" role="tab"
+      aria-selected="false">IBoard Setting</a>
+  </li> -->
+  <li class="nav-item navlinkcss">
+    <a class="nav-link navlinkcss" routerLink="/ii/iboard-files" id="global-setting" data-toggle="tab" role="tab"
+      aria-selected="false">IBoard Files</a>
+  </li>
+
+</ul>
+<!-- nav bar ends -->
+ 
+<div class="container-fluid confludCss">
+  <div class="row">
+    <!-- indent list -->
+    <div class="col-md-4" style="padding-right: 5px;">
+      <div id="listExpand">
+        <div>
+          <div class="input-group input-group-sm">
+            <input class="form-control ipgcsstitle rounded-0 border-0" value="INDENT LIST"
+              aria-describedby="basic-addon2" readonly>
+          </div>
+        </div>
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <div class="input-group-text ipgcss2 rounded-0"><i class="fa fa-fw fa-search"></i></div>
+          </div>
+          <input type="search" class="form-control ipgcss1 rounded-0" placeholder="Search... "
+            maxlength="{{searchMaxLength}}" [(ngModel)]="searchText" style="width:400px; height: 35px;"
+            (input)="globalSearchKeyUp()" title="search box" required>
+
+          <div class="input-group-append" style="margin-top:1px;">
+            <span class="badge rounded-0"
+              style="font-size: 12px;font-weight: 500;border: none;outline: none;height: 32px; box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;color: silver; background-color: #FFFFFF ; padding-top: 10px; width: 49px;"><i
+                class="fa fa-list mr-1"></i>{{highNmedindentsLength}}</span>
+          </div>
+        </div>
+
+        <div class="lindent">
+          <ul class="list-group indtbl">
+            <li class="list-group-item lgiexpandCss rounded-0" *ngFor="let indentlist of highNmedindents">
+              <label *ngIf="indentlist.priority_type == 1" class="small lbllistcss bottom-0 end-0">
+                <i class="fa fa-circle" aria-hidden="true" style=" color: red;"></i>
+              </label>
+              <label *ngIf="indentlist.priority_type == 2" class="small lbllistcss bottom-0 end-0">
+                <i class="fa fa-circle" aria-hidden="true" style=" color:orange"></i>
+              </label>
+              <label *ngIf="indentlist.priority_type == 3" class="small lbllistcss bottom-0 end-0">
+                <i class="fa fa-circle" aria-hidden="true" style=" color: green"></i>
+              </label>
+              <label class="small lbllistcss  ml-1">{{indentlist.indent_sheet_num}}</label>
+              <label class="small lbllistcss mr-1 ml-1"
+                style="width: 195px; white-space: nowrap; overflow: hidden;text-overflow: ellipsis; float: right;">{{indentlist.sos_summary
+                | uppercase
+                }}</label>
+
+              <div>
+                <label class="small lbllistcss mr-1 ml-1" style="width: 275px; white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis; ">
+                  {{indentlist.contract_acnt_name}}
+                </label>
+
+                <label *ngIf="indentlist.priority_type == 1" class="small lbllistcss bottom-0 end-0"
+                  style="float: right;" [ngClass]="{'disabled': indentlist.isAdded}">
+                  <button class="myButton1 " (click)="onSelect(indentlist)">
+                    <i class="fa fa-chevron-right fa-lg" aria-hidden="true"></i>
+                  </button>
+                </label>
+
+                <label *ngIf="indentlist.priority_type == 2" class="small lbllistcss bottom-0 end-0"
+                  style="float: right;" [ngClass]="{'disabled': indentlist.isAdded}">
+                  <button class="myButton1 " (click)="onSelect(indentlist)">
+                    <i class="fa fa-chevron-right fa-lg " aria-hidden="true"></i>
+                  </button>
+                </label>
+
+                <label *ngIf="indentlist.priority_type == 3" class="small lbllistcss bottom-0 end-0 disabled"
+                  style="float: right;">
+                  <button class="myButton1" (click)="onSelect(indentlist)">
+                    <i class="fa fa-ban fa-lg disabled-icon" aria-hidden="true"></i>
+                  </button>
+                </label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- indent list ends -->
+
+    <div class="col-md-4" style="padding-left:initial;padding-right: 0px;">
+
+      <!-- Daily indent list -->
+      <div id="listExpand">
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group input-group-prepend input-group-sm">
+            <input class="form-control ipgcsstitle rounded-0 border-0" value="HIGH PRIORITY DAILY INDENTS"
+              aria-describedby="basic-addon2" readonly>
+            <span class="badge rounded-0"
+              style="font-size: 12px;font-weight: 500;border: none;outline: none;height: 25px;  color: rgb(173, 173, 173);  padding-top: 8px; width: 40px;"><i
+                class="fa fa-list mr-1"></i>{{dailyIndentsLength}}</span>
+          </div>
+        </div>
+
+        <div class="col-md-12"
+          style="padding-left:initial;  overflow-y: auto; overflow-x: hidden;  height: calc(100vh - 11rem) !important; "
+          *ngIf="dailyIndentsLength == 0">
+          <div class="jumbotron jumbo text-center rounded-0">
+            <p>Add Indents From Indent List to set the Position for Display Board.</p>
+          </div>
+        </div>
+
+        <div class="lindent2" *ngIf="dailyIndentsLength > 0">
+          <ul class="list-group ">
+            <li class="list-group-item lgiexpandCss rounded-0" *ngFor="let indentlist of dailyIndents; let i = index"
+              [ngClass]="{'highlight-row': indentlist === highlightedIndent}">
+              <div>
+                <label class="large lbllistcss " style="font-weight: 700;">
+                  {{ i + 1 }}
+                </label>
+                <label *ngIf="indentlist.priority_type == 1" class="small lbllistcss bottom-0 end-0"
+                  style="float: right;">
+                  <i class="fa fa-circle" aria-hidden="true" style=" color: red;"></i>
+                </label>
+                <label *ngIf="indentlist.priority_type == 2" class="small lbllistcss bottom-0 end-0"
+                  style="float: right;">
+                  <i class="fa fa-circle" aria-hidden="true" style=" color: orange;"></i>
+                </label>
+                <label *ngIf="indentlist.priority_type == 3" class="small lbllistcss bottom-0 end-0"
+                  style="float: right;">
+                  <i class="fa fa-circle" aria-hidden="true" style=" color: green;"></i>
+                </label>
+              </div>
+
+              <div class="mr-1 ml-1">
+                <label class="small lbllistcss  ml-1">{{indentlist.indent_sheet_num}} |</label>
+                <label class="small lbllistcss mr-1 ml-1">{{indentlist.sos_summary | uppercase
+                  }}</label>
+                <label class="small" style="cursor: pointer;float: right;" (click)="deleteDailyIndents(indentlist)">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </label>
+                <div>
+                  <label class="small lbllistcss ml-1">
+                    {{indentlist.contract_acnt_name}}
+                  </label>
+                  <button class="myButton2 " (click)="moveUp(i)">
+                    <i class="fa fa-chevron-up" aria-hidden="true" [class.disabled-icon]="i === 0"></i>
+                  </button>
+                  <button class="myButton" (click)="moveDown(i)">
+                    <i class="fa fa-chevron-down" aria-hidden="true"
+                      [class.disabled-icon]="i === dailyIndents.length - 1"></i>
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Daily indent list ends -->
+
+      <!-- update button -->
+      <div class="col-md-12 footerupdate">
+        <div>
+          <button type="button" class="btn footerBtnCss btn-sm mt-1 rounded-0" (click)="Update()">
+            <i class="fa fa-paper-plane mr-1"></i>UPDATE
+          </button>
+        </div>
+      </div>
+      <!-- update button ends -->
+    </div>
+
+    <!-- display board -->
+    <div class="col-md-4" style="padding-left: 5px;">
+      <div>
+        <div class="input-group input-group-sm">
+          <input class="form-control ipgcsstitle rounded-0 border-0" value="DISPLAY BOARD"
+            aria-describedby="basic-addon2" readonly>
+        </div>
+      </div>
+
+      <div class="col-md-12"
+        style="padding-left:initial;  overflow-y: scroll; overflow-x: hidden;  height: calc(100vh - 8.5rem) !important; "
+        *ngIf="filteredHighPriorityDataLength == 0">
+        <div class="jumbotron jumbo text-center rounded-0">
+          <p>There are zero Positioned Indents on Display Board.</p>
+        </div>
+      </div>
+
+      <div *ngIf="filteredHighPriorityDataLength > 0" class="col-md-12"
+        style="padding-left:initial; overflow-y: scroll; overflow-x: hidden; height: calc(100vh - 8.5rem) !important;">
+        <table class="table table-sm table-borderless ">
+          <tbody>
+            <ng-container *ngFor="let indentlist of filteredHighPriorityData" >
+              <tr [ngClass]="{'highlight': selectedIndentNum === indentlist}" (click)="selectIndent(indentlist)" style="cursor: pointer;">
+                <th scope="row">{{indentlist.priority_position}}</th>
+                <td><span>{{indentlist.indent_sheet_num}} | {{indentlist.sos_summary |
+                    uppercase}}</span></td>
+              </tr>
+              <tr [ngClass]="{'highlight': selectedIndentNum === indentlist}" (click)="selectIndent(indentlist)" style="cursor: pointer;">
+                <td>
+                  <span *ngIf="selectedIndentNum === indentlist">
+                    <i class="fa fa-refresh" (click)="setDefaultPosition(indentlist)" title="Set Default Position" style="cursor: pointer;"></i>
+                  </span>
+                </td>
+                <td><span>{{indentlist.contract_acnt_name}}</span></td>
+              </tr>
+              <tr style=" border-top: rgb(230, 230, 250); border-top-style: inset;"></tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- display board ends -->
+
+  </div>
+</div>

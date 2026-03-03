@@ -1,0 +1,141 @@
+<!-- nav bar -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb border bg-transparent shadow-sm">
+        <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+            (click)="homeRouterInit()">
+            Home
+        </li>
+        <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+            (click)="iboardSettingInit()">
+            <u>IBoard Setting</u>
+        </li>
+    </ol>
+</nav>
+<!-- nav bar ends -->
+
+<!-- tab bar -->
+<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin:0px 10px 5px 10px;">
+
+    <li class="nav-item navlinkcss">
+        <a class="nav-link navlinkcss" routerLink="/ii/iboard-planning" id="global-setting" data-toggle="tab" role="tab"
+            aria-selected="false">IBoard Planning</a>
+    </li>
+    <li class="nav-item navlinkcss">
+        <a class="nav-link navlinkcss" routerLink="/ii/daily-planning" id="global-setting" data-toggle="tab" role="tab"
+            aria-selected="false">Daily Planning</a>
+    </li>
+    <li class="nav-item navlinkcss">
+        <a class="nav-link active navlinkcss" routerLink="/ii/iboard-setting" id="global-setting" data-toggle="tab"
+            role="tab" aria-selected="false">IBoard Setting</a>
+    </li>
+    <li class="nav-item navlinkcss">
+        <a class="nav-link navlinkcss" routerLink="/ii/iboard-files" id="global-setting" data-toggle="tab" role="tab"
+            aria-selected="false">IBoard Files</a>
+    </li>
+
+</ul>
+<!-- tab bar ends -->
+
+<div class="pagination-setting container-fluid">
+
+    <!-- pagination setting -->
+    <div class="row">
+        <div class="col-6" style="border-right:1px solid #ccc; height: 100%;">
+            <div style="border-bottom: 1px rgb(146, 146, 146); border-bottom-style: dashed; padding-top: 15px;">
+                <div class="input-group input-group-sm" style="cursor: pointer;" style="background-color:transparent;">
+                    <input class="form-control ipgcsstitle rounded-0 border-0" value="PAGINATION SETTING"
+                        aria-describedby="basic-addon2" readonly>
+                </div>
+            </div>
+            <form [formGroup]="pageForm">
+                <div>
+                    <div class="input-group input-group-md mb-2 " style="padding: 25px;">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text rounded-0 ipgDetCss1 uppercase"
+                                id="inputGroup-sizing-md">PAGINATION
+                                STATUS</span>
+                        </div>
+                        <div
+                            style="background-color: white; width: 200px;height: 40px; padding-left: 0px; padding-top: 0px;">
+                            <div class="on-off-container form-check form-check-inline" style="width: 100%;">
+                                <div (click)="toggleState()" class="on-off-button on  border-0"
+                                    style="width: 50%;height: 35px; text-align: center; padding-top: 5px; ">ON</div>
+                                <div (click)="toggleState()" class="on-off-button off border-0"
+                                    style="width: 50%;height: 35px; text-align: center; padding-top: 5px;">OFF</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group input-group-md mb-2 " style="padding: 25px;">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text rounded-0 ipgDetCss1 uppercase"
+                                id="inputGroup-sizing-md">PAGINATION TIMER (MIN)</span>
+                        </div>
+                        <select class="custom-select rounded-0 ipgcss1" aria-label="Small" [(ngModel)]="pageTimer"
+                            aria-describedby="inputGroup-sizing-md" formControlName="pTimer"
+                            style="max-width: 200px;max-height: 33px;outline: none;">
+                            <option value="" disabled>Set the Timer</option>
+                            <option value="1">1</option>
+                            <option value="3">3</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="25">25</option>
+                            <option value="30">30</option>
+                            <option value="35">35</option>
+                            <option value="40">40</option>
+                            <option value="45">45</option>
+                            <option value="50">50</option>
+                            <option value="55">55</option>
+                            <option value="60">60</option>
+                        </select>
+                    </div>
+                    <div style="border-bottom: 1px rgb(146, 146, 146); border-bottom-style: dashed;">
+                        <div class="input-group input-group-sm" style="cursor: pointer;"
+                            style="background-color:transparent;">
+                            <input class="form-control ipgcsstitle rounded-0 border-0" value="PAGINATION JUMP SETTING"
+                                aria-describedby="basic-addon2" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group input-group-md mb-2 " style="padding: 25px;">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text rounded-0 ipgDetCss1 uppercase" id="inputGroup-sizing-md">PAGE
+                            JUMP STATUS</span>
+                    </div>
+                    <div
+                        style="background-color: white; width: 200px;height: 40px; padding-left: 0px; padding-top: 0px;">
+                        <div class="on-off-container form-check form-check-inline" style="width: 100%;">
+                            <div (click)="toggleState1()" class="on-off-button1 on  border-0"
+                                style="width: 50%;height: 35px; text-align: center; padding-top: 5px;">ON</div>
+                            <div (click)="toggleState1()" class="on-off-button1 off border-0"
+                                style="width: 50%;height: 35px; text-align: center; padding-top: 5px;">OFF</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group input-group-md mb-2 " style="padding: 25px;">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text rounded-0 ipgDetCss1 uppercase" id="inputGroup-sizing-md">PAGE
+                            JUMP NUMBER</span>
+                    </div>
+                    <input [(ngModel)]="pageJumpNum" min="1" max="{{totalPages}}" type="number" id="typeNumber"
+                        style="width: 200px; max-height: 33px; outline: none;" formControlName="pJumpNum" />
+                    <span class="badge rounded-0"
+                        style="font-size: 12px;font-weight: 500;border: none;outline: none;height: 32px;   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;color: silver; background-color: #FFFFFF ; padding-top: 10px; width: 85px;">
+                        <i class="fa fa-file-text mr-1" aria-hidden="true"></i>OUT OF {{totalPages}}</span>
+                </div>
+                <div class=" footerupdate" style="margin-top: 50px;">
+                    <div>
+                        <button type="button" class="btn footerBtnCss btn-sm mt-1 rounded-0" (click)="update()" [disabled]="!updateFlag">
+                            <i class="fa fa-paper-plane mr-1"></i>UPDATE
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- pagination setting ends -->

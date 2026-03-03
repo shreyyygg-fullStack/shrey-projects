@@ -1,0 +1,137 @@
+<nav aria-label="breadcrumb" class="mt-4">
+    <ol class="breadcrumb border bg-transparent shadow-sm">
+        <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+            (click)="homeRouterInit()">
+            Home
+        </li>
+        <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+            (click)="indentUpdateLogsInit()">
+            <u>Application Logs</u>
+        </li>
+    </ol>
+</nav>
+
+<div class="mt-2 fontCss">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <form [formGroup]="filterPlanForm">
+                    <div class="row">
+                        <div class="col-5" style="padding-right:0px;">
+                            <div class="input-group input-group-sm mb-2 pl-0" style="padding-left: 0px;">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text rounded-0 ipgDetCss1" id="inputGroup-sizing-sm">From
+                                        Date</span>
+                                </div>
+                                <input type="text" container="body" placeholder="{{dateViewFormat}}" name="dp"
+                                    ngbDatepicker #fromDate="ngbDatepicker" class="form-control rounded-0 ipgcss1"
+                                    aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                                    formControlName="fromDate" value="{{txtFromDateValue}}" maxlength="10"
+                                    [minDate]="minDate" [maxDate]="maxDate"
+                                    (dateSelect)="fromDate_ValueSelected($event)"
+                                    (navigate)="fromDate_ValueNavigated($event)" [readonly]="txtFromDateReadOnly"
+                                    autocomplete="off" />
+                                <div class="input-group-append">
+                                    <button (click)="fromDate.toggle()">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text rounded-0 ipgDetCss1 ml-2"
+                                        id="inputGroup-sizing-sm">To
+                                        Date</span>
+                                </div>
+                                <input type="text" container="body" placeholder="{{dateViewFormat}}" name="dp"
+                                    ngbDatepicker #toDate="ngbDatepicker" class="form-control rounded-0 ipgcss1"
+                                    aria-label="Small" aria-describedby="inputGroup-sizing-sm" formControlName="toDate"
+                                    value="{{txtToDateValue}}" maxlength="10" [minDate]="minDate" [maxDate]="maxDate"
+                                    (dateSelect)="toDate_ValueSelected($event)"
+                                    (navigate)="toDate_ValueNavigated($event)" [readonly]="txtToDateReadOnly"
+                                    autocomplete="off" />
+                                <div class="input-group-append">
+                                    <button (click)="toDate.toggle()">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-5" style="padding-right:0px;">
+                        <div class="input-group input-group-sm mb-2 pl-0" style="padding-left: 0px;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text rounded-0 ipgDetCss1"
+                                    id="inputGroup-sizing-sm">Search</span>
+                            </div>
+                            <input type="search" class="form-control rounded-0 ipgcss1" aria-label="Small"
+                                aria-describedby="inputGroup-sizing-sm" placeholder="{{searchPlaceholder}}"
+                                title="search box" maxlength="{{searchMaxLength}}" [(ngModel)]="searchText" required />
+                        </div>
+                    </div>
+                    <div class="col-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col">
+                <h6 *ngIf="filterIndentCount!=-1" class="text-ishida mt-2">Row Count: {{filterIndentCount}} Out of
+                    {{Label_rowCount_Text}}</h6>
+                <h6 *ngIf="filterIndentCount==-1" class="text-ishida mt-2">Row Count: {{Label_rowCount_Text}}</h6>
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-ishida rounded-0 float-right ml-2"
+                    [disabled]="button_ExportDisabled || filterIndentCount==0"
+                    style="min-width:116px; max-width: 116px;" (click)="export()"><i class="fa fa-file-excel-o"></i>
+                    Export
+                </button>
+                <button class="btn btn-outline-danger rounded-0 float-right ml-2" (click)="clickOnDelete()"
+                    [disabled]="button_DeleteDisabled || filterIndentCount==0"><i
+                        style="min-width:116px; max-width: 116px;" class="fa fa-trash"> Delete</i>
+                </button>
+                <button class="btn btn-outline-success rounded-0 float-right" (click)="clickOnReload()"><i
+                        style="min-width:116px; max-width: 116px;" class="fa fa-refresh"> Reset</i>
+                </button>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col">
+                <h6 *ngIf="filterIndentCount!=-1" class="text-ishida mt-2">Row Count: {{filterIndentCount}} Out of
+                    {{Label_rowCount_Text}}</h6>
+                <h6 *ngIf="filterIndentCount==-1" class="text-ishida mt-2">Row Count: {{Label_rowCount_Text}}</h6>
+            </div>
+        </div> -->
+
+        <div class="table-res scrollCard">
+            <table class="table table-sm table-hover table-striped table-res" style="margin:0px;">
+                <thead class="header" style="background:#282e89; color:white;">
+                    <tr class="text-center">
+                        <th scope="col" class="grid_sn"> SN </th>
+                        <th scope="col" class="grid_fixedwidth"> DATE TIME </th>
+                        <th scope="col" class="grid_fixedwidth"> USER ID </th>
+                        <th scope="col" class="grid_fixedwidth"> USER NAME </th>
+                        <th scope="col" class="grid_indentno"> INDENT NO </th>
+                        <th scope="col" class="grid_msgwidth"> MESSAGE </th>
+                        <th scope="col" class="grid_fixedwidth"> CONTROLLER </th>
+                    </tr>
+                </thead>
+                <tbody class="text-ishida">
+                    <tr *ngIf="applicationLog.length==0">
+                        <td colspan="7" class="text-center">There is no data for selected option</td>
+                    </tr>
+                    <tr *ngFor="let item of applicationLog | myfilter2: searchText; let i= index">
+                        <td class="grid_sn">{{i+1 }}</td>
+                        <td class="grid_fixedwidth">{{item.CREATE_TIME | date : 'yyyy-MM-dd hh:mm:ss'}}</td>
+                        <td class="grid_fixedwidth" title="{{item.USER_ID}}">{{item.USER_ID }}</td>
+                        <td class="grid_fixedwidth" title="{{item.USER_NAME}}">{{item.USER_NAME }}</td>
+                        <td class="grid_indentno" title="{{item.INDENT_NO}}">{{item.INDENT_NO }}</td>
+                        <td class="grid_msgwidth" title="{{item.LOG_MESSAGE}}">{{item.LOG_MESSAGE }} </td>
+                        <td class="grid_fixedwidth" title="{{item.CONTROLLER_NAME}}">{{item.CONTROLLER_NAME }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

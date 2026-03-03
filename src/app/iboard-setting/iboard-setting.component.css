@@ -1,0 +1,205 @@
+.breadcrumb {
+    margin-top: 2rem;
+    margin-bottom: initial;
+    padding: 5px 15px !important;
+    background-color: white;
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+  
+  
+  .nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+    /* Add border bottom */
+  }
+  
+  .nav-link {
+    color: #333;
+    /* Tab text color */
+    background-color: transparent;
+    /* Tab background color */
+    border: none;
+    /* Remove border */
+    border-radius: 0;
+    /* Remove border radius */
+  }
+  
+  .nav-link.active {
+  
+    /* background-color: #fff; */
+    /* Active tab background color */
+    border-bottom: 2px solid rgb(40, 46, 137);
+    /* Add bottom border to active tab */
+  }
+  
+  .nav-link:hover {
+    color: rgb(40, 46, 137);
+    /* Hover tab text color */
+  }
+  
+  
+  .navlinkcss {
+    font-size: 12px;
+    font-weight: 500;
+    background-color: transparent;
+    color: #2E3192;
+  }
+  
+  .nav-tabs .nav-item.show .nav-link,
+  .nav-tabs .nav-link.active {
+  
+    border-color: transparent;
+    background-color: transparent;
+    border-bottom: solid #2E3192;
+    color: #2E3192;
+    font-size: 12px;
+    font-weight: 500;
+    /* margin: 0px 0px -1px; */
+  }
+  
+  .nav-link:hover {
+    border-color: transparent;
+  }
+  
+  .nav-tabs {
+    background-color: transparent;
+    position: relative;
+    color: #282e89 !important;
+    /* box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px; */
+    border-bottom: transparent;
+  }
+
+
+  .pagination-setting {
+    width: 98%;
+    height: 580px;
+    margin: 20px auto;
+    /* background-color: #fff; */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+  }
+
+  .ipgDetCss1 {
+    width: 170px;
+    font-size: 0.8rem;
+    font-weight: 400;
+    max-height: 35px;
+    color:  rgb(40, 46, 137);
+    background-color:rgb(230,230,250);
+  }
+
+
+  .footerupdate {
+    height:40px;
+    max-height: 40px;
+    /* position: fixed; */
+    /* bottom: 2px; */
+    text-align:end;
+    border-bottom: rgb(146, 146, 146);
+    border-bottom-style:inset;
+    background-color:white;
+  }
+
+
+  .custom-input-group {
+    padding: 25px;
+  }
+  
+  .custom-switch-container {
+    background-color: white;
+    width: 190px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 25px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #0b5ed7; /* Custom color for the checked switch */
+    border-color: #0b5ed7;    /* Custom color for the border when checked */
+  }
+  
+  .custom-control-label::before {
+    border: 1px solid #ccc;   /* Custom color for the border when unchecked */
+  }
+  
+  .custom-time-input-container {
+    background-color: white;
+    width: 190px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 25px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .uppercase {
+    text-transform: uppercase;
+  }
+  
+
+
+.on-off-button {
+  cursor: pointer; 
+  transition: background-color 0.2s ease-in-out; 
+}
+
+.on-off-button.on { 
+  background-color: #f1f1f1; 
+  color: black;
+}
+
+.on-off-button.off { 
+  background-color: #f1f1f1; 
+  color: black;
+}
+
+.on-off-button.active { 
+  background-color: #282E89; 
+    color: white;
+    outline: none;
+}
+
+
+
+.on-off-button1 {
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out; 
+ 
+  }
+
+.on-off-button1.on { 
+    background-color: #f1f1f1; 
+    color: black;
+  }
+  
+  .on-off-button1.off { 
+    background-color: #f1f1f1; 
+    color: black;
+  }
+  
+  .on-off-button1.active {
+    background-color: #282E89; 
+    color: white;
+    outline: none;
+  }
+
+
+
+
+  .ipgcsstitle {
+    background-color:transparent;
+    outline: none;
+    box-shadow:none !important;
+    border-top: 0px;
+    color: rgb(40, 46, 137);
+    font-size:small; 
+    font-weight:500;
+  }
