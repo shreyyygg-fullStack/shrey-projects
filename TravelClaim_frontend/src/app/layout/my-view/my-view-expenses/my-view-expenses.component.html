@@ -1,0 +1,232 @@
+<ul class="nav nav-underline border-bottom nav-header-bar addExpNavCss">
+    <li class="nav-item">
+        <a class="nav-link active"><i class="bi bi-file-earmark-text"></i> Add Expense</a>
+    </li>
+</ul>
+
+<div style="padding: 4px 10px;">
+    
+    <div class="mb-3 mt-2">
+        <label class="form-label heading-2">Report</label>
+        <div class="d-flex align-items-center">
+            <div class="position-relative " style="width: 350px;">
+                <input type="text" class="form-control inputSearchCss" placeholder="Search report" [(ngModel)]="searchTerm" 
+                    (focus)="showDropdown = true" (input)="filterReports()" (blur)="hideDropdown()" />
+
+                <button *ngIf="searchTerm" type="button" class="btn position-absolute end-0 top-0  me-2"
+                    (click)="clearSearch()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+
+                <div class="dropdown-menu show mt-1 w-100 searchDropdownCss" *ngIf="showDropdown" (mousedown)="$event.preventDefault()">
+                    <input type="text" class="form-control table-data border-0 border-bottom rounded-0" placeholder="Searching.."
+                        [(ngModel)]="searchTerm" (input)="filterReports()" />
+
+                    <div *ngFor="let report of filteredReports" class="dropdown-item py-2 px-3" style="cursor: pointer;"
+                        (click)="selectReport(report)">
+                        <div class="d-flex justify-content-between">
+                            <span class="heading-2" >{{ report.code }}</span>
+                            <span class="heading-3"  >Rs.{{ report.amount.toFixed(2) }}</span>
+                        </div>
+                        <div class="table-data">{{ report.name }}</div>
+                        <div class="text-muted table-data" >{{ report.dateRange }}</div>
+                    </div>
+
+                    <div class="dropdown-item  border-top mt-1 pt-2">
+                        <i class="bi bi-plus-lg reportCss" data-bs-toggle="modal"
+                            data-bs-target="#reportModal"> New Report</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+
+        <div class="col-12">
+            <form [formGroup]="expenseForm">
+                <div class="table-responsive expenseTableCss">
+                    <table class="table align-middle">
+                        <thead class="expenseTableHeadCss">
+                            <tr>
+                                <th><i class="bi bi-layout-text-window-reverse"></i></th>
+                                <th class="theadColorCss" >EXPENSE DATE *</th>
+                                <th>MERCHANT</th>
+                                <th class="theadColorCss">CATEGORY *</th>
+                                <th class="theadColorCss">AMOUNT *</th>
+                                <th>DESCRIPTION</th>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="expenses">
+                            <tr *ngFor="let row of expenses.controls; let i = index" [formGroupName]="i"
+                                class="expenseRow" (click)="selectRow(i)"
+                                [ngClass]="{'selected-row': selectedRowIndex === i}">
+
+                                <td class="text-center table-data">{{ i + 1 }}</td>
+
+                                <td>
+                                    <div class="custom-date-time-range">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control table-data" [formControlName]="'expenseDate'"
+                                                (click)="openDateTimeRangePicker(i)" readonly
+                                                placeholder="Select Date and Time" />
+                                        </div>
+
+                                        <div *ngIf="activeRowIndex === i && dateTimeRangePickerVisible"
+                                            class="datetime-range-picker">
+
+                                            <div *ngIf="!addTodate" class="input-group mb-3 from-date-time">
+                                                <input type="date" class="form-control table-data"
+                                                    formControlName="expenseSingleDate" (change)="onFromChange(i)" />
+                                                <select class="form-control table-data" formControlName="expenseSingleTime"
+                                                    (change)="onFromChange(i)">
+                                                    <option value="" selected disabled>--:--</option>
+                                                    <option *ngFor="let hour of hours" [value]="hour">{{ hour }}:00
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <i *ngIf="!addTodate" class="bi bi-hand-index-thumb table-data"
+                                                (click)="addFromToDate()">
+                                                Set
+                                                "From and To"</i>
+
+                                            <div *ngIf="addTodate" class="input-group mb-3 from-date-time">
+                                                <label class="input-group-text table-data"
+                                                    style="width: 60px;">From:</label>
+                                                <input type="date" class="form-control table-data"
+                                                    formControlName="expenseFromDate" (change)="onFromChange(i)" />
+                                                <select class="form-control table-data" formControlName="expenseFromTime"
+                                                    (change)="onFromChange(i)">
+                                                    <option value="" selected disabled>--:--</option>
+                                                    <option *ngFor="let hour of hours" [value]="hour">{{ hour }}:00
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div *ngIf="addTodate" class="input-group to-date-time">
+                                                <label class="input-group-text table-data"
+                                                    style="width: 60px;" >To:</label>
+                                                <input type="date" class="form-control table-data" formControlName="expenseToDate"
+                                                    [min]="getFromDate(i)" (change)="onToDateChange(i)" />
+                                                <select class="form-control table-data" formControlName="expenseToTime"
+                                                    [disabled]="!getFromDate(i)">
+                                                    <option value="" selected disabled>--:--</option>
+                                                    <option *ngFor="let hour of filteredToHours[i]" [value]="hour">{{
+                                                        hour
+                                                        }}:00</option>
+                                                </select>
+                                            </div>
+
+                                            <i *ngIf="addTodate" (click)="backDate()" class="bi bi-arrow-left"
+                                                style="cursor: pointer;"></i>
+                                            <button class="btn btn-primary set-selection table-data" (click)="saveSelection(i)">Set
+                                                Values</button>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td><input type="text" class="form-control table-data" formControlName="merchant"
+                                        placeholder="Select or type to add"></td>
+                                <td>
+                                    <select class="form-select table-data" formControlName="category">
+                                        <option value="" selected>Select</option>
+                                        <option value="travel">Travel</option>
+                                        <option value="food">Food</option>
+                                        <option value="lodging">Lodging</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <span class="input-group-text">INR</span>
+                                        <input type="number" class="form-control table-data" formControlName="amount">
+                                    </div>
+                                </td>
+                                <td><input type="text" class="form-control table-data" formControlName="description"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="7">
+                                    <i class="bi bi-plus-circle-dotted reportCss " (click)="addRow()"
+                                        > Add More Expenses</i>
+
+                                    <i *ngIf="selectedRowIndex || selectedRowIndex == 0"
+                                        class="bi bi-dash-circle-dotted  reportCss" (click)="deleteSelectedRow()"
+                                        style="float: inline-end;"> Delete Selected
+                                        Expense</i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-0 ">
+
+
+        </div>
+    </div>
+
+
+
+    <div class="footerBtnCss">
+        <button type="button" class="btn save draftSaveBtn"><i class="bi bi-floppy-fill"
+                style="margin-right: 5px;"></i> Save as Draft</button>
+        <button type="button" class="btn save cancelBtn">Cancel</button>
+    </div>
+
+</div>
+<!-- New Report Modal -->
+<div class="modal fade" id="reportModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-3 border-0 ">
+
+            <div class="modal-header border-bottom-0" style=" background-color: #f9f9f9;">
+                <h5 class="modal-title " id="reportModalLabel">New Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label  heading-3 ">Report Name *</label>
+                        <input type="text" class="form-control custom-input " placeholder="eg: Trip to New York">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label heading-3 ">Business Purpose</label>
+                        <textarea class="form-control custom-input" placeholder="Max 500 characters" rows="3"
+                            style="resize: none;"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label heading-3 ">Duration</label>
+                        <div class="d-flex gap-2">
+                            <input type="text" class="form-control custom-input" placeholder="eg: 31/01/2020">
+                            <input type="text" class="form-control custom-input" placeholder="eg: 31/01/2020">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label heading-3 ">Trip</label>
+                        <select class="form-select custom-input">
+                            <option selected disabled>Select</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <div class="d-flex justify-content-start  modal-footer border-top-0" style=" background-color: #f9f9f9;">
+
+                <button type="button" class="btn save modelBtnCss">Save</button>
+                <button type="button" class="btn save modelBtnCss" data-bs-dismiss="modal" aria-label="Close"
+                    style="margin-left: 10px;">Cancel</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>

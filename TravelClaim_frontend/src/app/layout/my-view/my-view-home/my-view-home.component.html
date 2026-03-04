@@ -1,0 +1,165 @@
+<app-local-form-modal *ngIf="showLocalForm" [showModal]="true" modalTitle="Conveyance Form"
+  (modalClosed)="onModalLocalFormClosed()"></app-local-form-modal>
+
+<app-expense-form-modal *ngIf="showExpenseForm" [showModal]="true" modalTitle="Expense Form"
+  (modalClosed)="onModalExpenseFormClosed()"></app-expense-form-modal>
+
+<app-petty-cash-modal *ngIf="showPettyCashForm" [showModal]="true" modalTitle="Petty Cash Form"
+  (modalClosed)="onModalPettyCashFormClosed()"></app-petty-cash-modal>
+
+<div>
+
+  <div class="home-header-bar">
+    <span class="header-title titleTxtCss">Home</span>
+
+    <div class="header-button d-flex justify-content-end" (click)="startGuideTour()">
+      <i class="bi bi-compass tourIconCss"></i><span>Tour</span>
+    </div>
+  </div>
+
+  <div class="home-container">
+
+
+    <div class="row m-0 mb-3 pndTaskCss">
+      <div class="col-lg-4 col-12 me-3 border rounded pending-task-wrapper p-0 position-relative">
+        <div class="border-bottom px-3 py-2 header-title">
+          Pending Tasks
+        </div>
+
+        <div class="d-flex flex-column pndTaskCardCss mb-lg-0 card-shadow-css">
+          <div class="py-3 border-bottom-dashed mb-2">
+            <div class="float-end pndTaskContentCss">
+              0
+            </div>
+
+            <div class="d-flex align-items-center fw-light">
+              <i class="bi bi-check2-circle pending-tasks-icon" style="color: orange;"></i>
+              <div class="text-truncate">Pending Approval</div>
+            </div>
+          </div>
+
+
+          <div class="pt-2">
+            <div class="float-end pndTaskContentCss">
+              0
+            </div>
+
+            <div class="d-flex align-items-center fw-light">
+              <i class="bi bi-card-list pending-tasks-icon" style="color: #2e3151;"></i>
+              <div class="text-truncate">Unreported Expenses</div>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <div class="float-end  text-semi-muted ps-2 pndTaskContentCss">
+              Rs.0.00
+            </div>
+            <div class="d-flex align-items-center fw-light">
+              <i class="bi bi-wallet2 pending-tasks-icon" style="color: #2e3151;"></i>
+              <div class="text-truncate">Unreported Advances</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex col border rounded p-0 flex-column mt-4 mt-lg-0 pending-task-wrapper">
+        <div class="fw-medium border-bottom px-3 py-2 header-title">
+          Quick Add
+        </div>
+
+        <div class="row h-100 text-center m-0 quickAddCardCss">
+          <div class="text-dark col-3 border-end d-flex flex-column justify-content-center h-100 card-shadow-css">
+
+            <div>
+              <button type="button" class="btncust1 btn-circle"><span> <i class="bi bi-cash red custIcon1"></i></span></button>
+            </div>
+
+            <div class="quick-access-card-text">
+              Create Request
+            </div>
+          </div>
+
+          <div class="text-dark col-3 border-end d-flex flex-column justify-content-center h-100 card-shadow-css">
+            <div>
+              <button type="button" class="btncust2 btn-circle"><span> <i class="bi bi-pencil-fill custIcon2" (click)="toggleModal('expense')"></i></span></button>
+            </div>
+            <div class="quick-access-card-text">
+              Create Report
+            </div>
+          </div>
+
+          <div class="ext-dark col-3 border-end d-flex flex-column justify-content-center h-100 card-shadow-css">
+            <div>
+              <button type="button" class="btncust3 btn-circle"><span> <i class="bi bi-credit-card-fill custIcon3" (click)="toggleModal('petty')"></i></span></button>
+            </div>
+            <div class="quick-access-card-text">
+              Create Expense
+            </div>
+          </div>
+
+          <div class="text-dark col-3 d-flex flex-column justify-content-center h-100 card-shadow-css">
+            <div>
+              <button type="button" class="btncust4 btn-circle"><span> <i class="bi bi-airplane custIcon4"></i></span></button>
+            </div>
+            <div class="quick-access-card-text">
+              Create Trip
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <div class="row m-0 mb-4" style="padding-left: 20px; padding-right: 10px;">
+
+      <div class="col-12" style="padding: 0px;">
+
+        <div class="report-summary-section border-0">
+
+          <div class="fw-medium border-bottom px-3 py-2 header-title">
+            Reports Summary
+          </div>
+
+          <div class="tab-header">
+            <div class="tab active sub-header-title card-shadow-css">Most Recent<span>Reports</span></div>
+            <div class="tab sub-header-title card-shadow-css">Unsubmitted Reports<br><span>0 Reports</span></div>
+            <div class="tab sub-header-title card-shadow-css">Awaiting Approval<br><span>0 Reports</span></div>
+            <div class="tab sub-header-title card-shadow-css">Awaiting Reimbursement<br><span>0 Reports (Rs.0.00)</span></div>
+          </div>
+
+          <div class="tab-content card-shadow-css">
+            <p>No reports to display. Create a report using the button below.</p>
+            <button class="new-report">+ New Report</button>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+
+    <div class="row m-0 mb-2 recentTrip-container">
+
+      <div class="col-12" style="padding: 0px;">
+
+        <div class="report-summary-section border-0">
+
+          <div class="fw-medium border-bottom px-3 py-2 header-title" >
+            Recent Trip
+          </div>
+
+          <div class="tab-content card-shadow-css">
+            <p>No Trip to display. Create a Trip using the button below.</p>
+            <button class="new-report">+ New Trip</button>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+</div>

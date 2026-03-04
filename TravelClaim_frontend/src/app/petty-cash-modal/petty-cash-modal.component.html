@@ -1,0 +1,203 @@
+<div class="modal-container" *ngIf="showModal">
+    <div class="modal-content">
+        <h3>{{ modalTitle }} <i class="bi bi-x-lg" style="float: inline-end; cursor: pointer;font-size: large;"
+                (click)="closeModal()"></i>
+            <!-- <i class="bi bi-x-square" style="float: inline-end; cursor: pointer;font-size: larger;"
+          (click)="closeModal()"></i> -->
+        </h3>
+
+        <div class="tab-bar">
+            <ul class="nav-tabs">
+                <li class="tab-item " [ngClass]="{ 'active': activeTab === 'recent' }" (click)="activeTab = 'recent'">
+                    Add Expense
+                </li>
+                <li class="tab-item" [ngClass]="{ 'active': activeTab === 'unsubmitted' }"
+                    (click)="activeTab = 'unsubmitted'">
+                    Add Bulk Expenses
+                </li>
+                <li class="tab-item" [ngClass]="{ 'active': activeTab === 'awaitingApproval' }"
+                    (click)="activeTab = 'awaitingApproval'">
+                    Add Mileage
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="row">
+
+            <div class="col-5" style="border-right: 1px solid black;">
+                <div class="container-fluid "
+                    style="padding-left:10px ; height: calc(100vh - 15.5rem); overflow-y: auto; overflow-x: hidden; flex-grow: 1; ">
+
+                    <div class="row">
+                        <div *ngIf="selectedFilesArray.length == 0" class="custom-file-upload1">
+                            <label for="fileInput" class="upload-label">
+                                <i class="bi bi-plus-square-dotted"></i>
+                                <span>Add Attachments</span>
+                            </label>
+                            <input id="fileInput" type="file" maxFileSize="16777215" (change)="getFile($event)"
+                                accept="all" multiple />
+                        </div>
+
+                        <div *ngIf="selectedFilesArray.length > 0" class="col-6">
+                            <div *ngFor="let file of selectedFilesArray; let i = index"
+                                style="display: flex; justify-content:center; align-items:center;">
+
+                                <span style="font-size: 16px; font-weight: 400;">{{i+1}}.</span>
+                                <div (click)="selectFile(i,file)" [class.selectedFile]="file === selectedFile"
+                                    style="cursor: pointer; padding: 5px; margin: 5px;">
+
+                                    <div *ngIf="file.type.startsWith('image/')">
+                                        <img [src]="file.thumbnail"
+                                            style="max-width: 200px; border: 1px solid gray; min-width: 200px; height: 190px;"
+                                            alt="Image thumbnail">
+                                    </div>
+                                    <div *ngIf="file.type.startsWith('text/')">
+                                        <p>{{ file.snippet }}</p>
+                                    </div>
+                                    <div *ngIf="file.type.startsWith('video/')">
+                                        <video [src]="file.thumbnail"
+                                            style="max-width: 200px;min-width: 200px; border: 1px solid gray;  height: 190px;"
+                                            controls></video>
+                                    </div>
+                                    <div *ngIf="file.type === 'application/pdf'">
+                                        <img [src]="file.thumbnail"
+                                            style="max-width: 200px;min-width: 200px; border: 1px solid gray;  height: 190px;"
+                                            alt="PDF thumbnail">
+                                    </div>
+                                </div>
+                                <i class="bi bi-trash delete-icon" (click)="deleteFile(i, $event)"
+                                    style=" cursor: pointer; color: red; font-size: 18px;" title="Delete File"></i>
+                            </div>
+                        </div>
+
+                        <div *ngIf="selectedFilesArray.length > 0" class="col-6">
+                            <div class="custom-file-upload">
+                                <label for="fileInput" class="upload-label">
+                                    <i class="bi bi-plus-square-dotted"></i>
+                                    <span>Add Attachments</span>
+                                </label>
+                                <input id="fileInput" type="file" maxFileSize="16777215" (change)="getFile($event)"
+                                    accept="all" multiple />
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- <div class="horizontal-scroll-container mt-auto">
+                        <div *ngFor="let file of selectedFilesArray; let i = index" class="file-item"
+                            [class.selectedFile]="file === selectedFile" (click)="selectFile(i, file)">
+                            <span class="file-index">{{ i + 1 }}.</span>
+
+                            <div *ngIf="file.type.startsWith('image/')">
+                                <img [src]="file.thumbnail" alt="Image thumbnail" class="file-thumb" />
+                            </div>
+
+                            <div *ngIf="file.type.startsWith('text/')">
+                                <p>{{ file.snippet }}</p>
+                            </div>
+
+                            <div *ngIf="file.type.startsWith('video/')">
+                                <video [src]="file.thumbnail" controls class="file-thumb"></video>
+                            </div>
+
+                            <div *ngIf="file.type === 'application/pdf'">
+                                <img [src]="file.thumbnail" alt="PDF thumbnail" class="file-thumb" />
+                            </div>
+
+                            <i class="bi bi-trash delete-icon" (click)="deleteFile(i, $event)" title="Delete File"></i>
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+
+
+
+            <div class="col-7">
+
+                <div style="height: calc(100vh - 20.5rem) ; overflow-y: auto;">
+
+                    <div style="display: flex; position: relative;">
+                        <!-- <div
+                style="width: 8px; background-color: #d4d9e6; position: absolute; top: 0; bottom: 0; left: 0; margin-left: 3px;">
+            
+                <div
+                  style="width: 15px; height: 15px; background-color: rgb(235, 177, 95); border-radius: 50%; position: absolute; top: 0; left: -3px; margin-top: 40px;">
+                </div>
+               
+                <div
+                  style="width: 15px; height: 15px; background-color: rgb(235, 177, 95); border-radius: 50%; position: absolute; bottom: 0; left: -3px;">
+                </div>
+              </div> -->
+                    </div>
+                </div>
+
+
+                <div class="input-group mt-3">
+                    <!-- <div class="input-group mt-4"> -->
+                    <span class="input-group-text ipgDetCssTable" style="height: 60px;width: 130px;">Remarks</span>
+                    <textarea class="form-control" aria-label="With textarea" style="height: 60px;resize: none"
+                        placeholder="Explain policy violations or claim related info."></textarea>
+                    <!-- </div> -->
+                    <!-- <div class="input-group mt-4" > -->
+                    <span class="input-group-text ipgDetCssTable" style="height: 60px;width: 130px;">Purpose of
+                        Travel</span>
+                    <textarea class="form-control" aria-label="With textarea" style="height: 60px;resize: none"
+                        placeholder="Travel Reason."></textarea>
+                    <!-- </div> -->
+                </div>
+            </div>
+
+            <div style="height: 40px;">
+                <button type="button" class="btn  btn-lg save " (click)="onSubmit()"
+                    style="padding: 4px;width: 220px;background-color:#d4d9e6; margin-top: 10px;"><i
+                        class="bi bi-floppy-fill" style="margin-right: 5px;"></i> Save & Submit</button>
+                <button type="button" class="btn  btn-lg save" (click)="closeModal()"
+                    style="padding: 4px;width: 150px;background-color: #d4d9e6; margin-left: 30px; margin-top: 10px;">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Document Viewer -->
+        <div class="preview-container" *ngIf="selectedFile">
+            <div class="preview-content">
+
+                <h3>Preview ({{selectedFileIndex}}) <i class="bi bi-x-lg"
+                        style="float: inline-end; cursor: pointer;position: sticky; z-index: 1; top: 0;"
+                        (click)="closePreviewModal()"></i></h3>
+                <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;"
+                    title="{{selectedFileName}}">{{selectedFileName}}</h6>
+
+                <div class="zoomable-content" *ngIf="selectedFile.type.startsWith('image/')">
+                    <img [src]="selectedImageUrl" [ngStyle]="{'transform': 'scale(' + zoomLevel + ')', 'transform-origin': 'top left'}"
+                        alt="Image thumbnail">
+                </div>
+
+                <div class="zoomable-content" *ngIf="selectedFile.type.startsWith('video/')">
+                    <video [src]="selectedVideoUrl" style="width: 200px;  max-height: 200px ;" controls></video>
+                </div>
+
+                <div *ngIf="selectedFile && selectedFile.type === 'application/pdf'">
+                    <pdf-viewer [src]="selectedFileUrl" [render-text]="true" [show-all]="true" [zoom]="pdfZoomLevel" [show-borders]="true"
+                        style="width: 100%; height: calc(100vh - 20rem) !important;" (after-load-complete)="listenScroll()"></pdf-viewer>
+                </div>
+
+                <div class="zoom-controls d-flex ">
+                    <button class=" p-2 " (click)="zoomIn()" style="font-size:x-large;"><i
+                            class="bi bi-plus-circle"></i></button>
+                    <button class=" p-2  " (click)="zoomOut()" style="font-size:x-large;"><i
+                            class="bi bi-dash-circle"></i></button>
+                    <button class=" p-2  " (click)="resetZoom()" style="font-size:large;">Reset</button>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- <button type="button" class="btn btn-light btn-sm" (click)="closeModal()">Close Modal</button> -->
+
+    </div>
+</div>

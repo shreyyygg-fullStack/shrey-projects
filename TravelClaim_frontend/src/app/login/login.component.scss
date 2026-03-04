@@ -1,0 +1,425 @@
+.container1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  /* Add space below blocks */
+  // margin-top: 100px;
+  // margin-bottom: 150px;
+}
+
+.block {
+  margin-top: 100px;
+  width: 40%;
+  height: 550px;
+  // margin: 10px;
+  text-align: center;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  // box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+
+}
+
+
+/* Full-screen gradient background */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+  // background: linear-gradient(to bottom right, #e66465, #9198e5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Main container for login */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 85%;
+}
+
+/* Login box styling */
+.login-box {
+  margin-top: 60px;
+  background: rgba(255, 255, 255, 0.9);
+  width: 400px;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  // overflow: hidden;
+}
+
+/* Avatar on top */
+.avatar {
+  width: 80px;
+  height: 80px;
+  background: rgb(222, 221, 226);
+  border-radius: 50%;
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-icon {
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 50%;
+}
+
+/* Form styling */
+form {
+  margin-top: 40px;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.icon-label {
+  margin-right: 10px;
+  color: #555;
+}
+
+input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+/* Remember me and forgot password options */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.form-options a {
+  color: #282e89;
+  text-decoration: none;
+}
+
+.form-options a:hover {
+  text-decoration: underline;
+}
+
+/* Login button */
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background: #282e89;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+
+.invalid-input {
+  position: absolute;
+  right: 35px;
+  color: #dc3545;
+  background: transparent;
+
+}
+
+
+.match-password {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: red;
+  margin-bottom: 5px;
+}
+
+
+//   custom-modal {
+//     border-radius: 12px;
+//     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+//     padding: 20px;
+// }
+
+// .reset-steps {
+//     padding-left: 15px;
+// }
+
+// .reset-steps li {
+//     margin-bottom: 5px;
+//     font-size: 14px;
+// }
+
+// .form-control {
+//     height: 45px;
+//     font-size: 14px;
+//     // border-radius: 25px;
+//     padding-left: 15px;
+//     border: 1px solid #ccc;
+// }
+
+// .btn-primary {
+//     background-color: #282E89;
+//     border: none;
+//     transition: 0.3s;
+// }
+
+// .btn-primary:hover {
+//     background-color: #1F2566;
+// }
+
+// .btn-secondary {
+//     background-color: #6c757d;
+//     border: none;
+//     transition: 0.3s;
+// }
+
+// .btn-secondary:hover {
+//     background-color: #5a6268;
+// }
+
+
+.custom-modal {
+  border-radius: 15px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Step Indicator */
+.step-container {
+  margin: 15px 0;
+  padding-left: 10px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.step span {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 22px;
+  height: 22px;
+  background: #282E89;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+/* Input Field */
+.input-container {
+  margin-top: 15px;
+}
+
+.input-container label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-control {
+  height: 45px;
+  font-size: 14px;
+  border-radius: 12px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  transition: 0.3s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #282E89;
+  box-shadow: 0px 0px 10px rgba(40, 46, 137, 0.3);
+}
+
+/* Buttons */
+.btn-gradient {
+  background: #282E89;
+  color: white;
+  border-radius: 12px;
+  padding: 10px 20px;
+  // font-weight: bold;
+  transition: 0.3s;
+  border: none;
+}
+
+.btn-gradient:hover {
+  // background:  #1F2566;
+  transform: scale(1.05);
+}
+
+.btn-outline-dark {
+  color: white;
+  background-color: #6c757d;
+  border-radius: 12px;
+  padding: 10px 20px;
+  // font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-outline-dark:hover {
+  background: #5a6268;
+}
+
+
+
+.modal-dialog {
+  margin: 0 auto;
+  /* Removes top and bottom margin */
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+}
+
+.modal-content {
+  border-radius: 15px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Remove modal backdrop white border */
+.modal-backdrop.show {
+  opacity: 0.5 !important;
+  background-color: rgba(207, 207, 207, 0.6) !important;
+}
+
+.reset-modal {
+  /* Adjust modal width */
+  border-radius: 15px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+  /* Less transparent */
+  backdrop-filter: blur(8px);
+  padding: 20px;
+  transition: all 0.3s ease-in-out;
+  margin: auto;
+  /* Ensures centering */
+}
+
+/* Remove extra background effect */
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.4) !important;
+  /* Darker for contrast */
+}
+
+/* Center modal vertically */
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.reset-modal {
+  border-radius: 15px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Modal Header */
+.reset-header {
+
+  text-align: center;
+}
+
+/* Input Group */
+.reset-input-group {
+  margin-top: 10px;
+}
+
+.reset-input-group label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.reset-input {
+  height: 45px;
+  font-size: 14px;
+  border-radius: 12px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  transition: 0.3s ease-in-out;
+  width: 100%;
+}
+
+.reset-input:focus {
+  border-color: #282E89;
+  box-shadow: 0px 0px 10px rgba(40, 46, 137, 0.3);
+}
+
+/* Modal Footer */
+.reset-footer {
+  border: none;
+  justify-content: center;
+}
+
+/* Buttons */
+.reset-btn-primary {
+  background: #282E89;
+  color: white;
+  border-radius: 12px;
+  padding: 10px 20px;
+  transition: 0.3s;
+  border: none;
+}
+
+.reset-btn-primary:hover {
+  transform: scale(1.05);
+}
+
+.reset-btn-secondary {
+  border-radius: 12px;
+  padding: 10px 20px;
+  transition: 0.3s;
+  background: #5a6268;
+  color: white;
+  border: 1px solid #ccc;
+}
+
+// .reset-btn-secondary:hover {
+//   background: #e0e0e0;
+// }

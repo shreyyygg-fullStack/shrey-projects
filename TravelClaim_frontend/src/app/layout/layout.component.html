@@ -1,0 +1,206 @@
+<nav class="navbar navbar-expand-sm py-0 shadow-sm fixed-top navbar-light navbarCss">
+  <!-- <div class="container-fluid">
+    <img src="assets/brand/Logo1.png" class="logo" alt="Logo">
+  </div> -->
+  <div class="d-flex justify-content-end navbar-content">
+    <!-- <span style="color: white; padding-right: 50px; font-style: oblique; font-size: medium;">ISHIDA INDIA</span> -->
+    <i class="bi bi-bell navbar-bellicon" ></i>
+    <i class="bi bi-person-circle navbar-usericon"></i>
+  </div>
+</nav>
+
+
+<div class="sidebar" [class.collapsed]="!isCollapsed">
+  <a href="/ii/my-view/home" class="logo-container ">
+
+    <img src="assets/brand/tp31.png" style="padding-left: 7px;">
+    <i *ngIf="!isCollapsed" class="iExpenseTxtCollapsed">
+      iExpense
+    </i>
+    <i *ngIf="isCollapsed" class="iExpenseTxt">
+      iExpense
+    </i>
+
+
+  </a>
+
+  <div class="sidebar-content">
+    <ul class="menu-list">
+      <!-- My View Section -->
+      <li class="menu-group">
+        <div class="menu-header" (click)="toggleMenu('myView')" [ngbTooltip]="!isCollapsed ? 'My View' : null"
+          placement="right" container="body" [tooltipClass]="'custom-tooltip'">
+          <i class="bi bi-person-fill-dash view-icon"></i> <span class="myViewTxtCss">My View</span>
+          <i *ngIf="isCollapsed" class="bi" [ngClass]="{'bi-caret-right-fill': !myView, 'bi-caret-down-fill': myView}"
+           class="view-icon"></i>
+        </div>
+        <ul class="submenu-list" *ngIf="myView">
+          <li class="menu-item"  id="home" [ngClass]="{'active': activeTab('/ii/my-view/home')}"
+            [ngbTooltip]="!isCollapsed ? 'Home' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a routerLink="/ii/my-view/home"><i class="bi bi-house-door sidebar-icon-css"></i><span
+               class="sidebar-text-css">Home</span></a>
+          </li>
+          <li class="menu-item" id="trips" [ngbTooltip]="!isCollapsed ? 'Trips' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a (click)="tripsModal()"><i class="bi bi-briefcase sidebar-icon-css"></i><span
+                class="sidebar-text-css">Trips</span></a>
+          </li>
+          <li class="menu-item" id="expenses" [ngClass]="{'active': activeTab('/ii/my-view/expenses')}"
+            [ngbTooltip]="!isCollapsed ? 'Expenses' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a routerLink="/ii/my-view/expenses"><i class="bi bi-receipt sidebar-icon-css"></i><span
+                class="sidebar-text-css">Expenses</span></a>
+          </li>
+          <li class="menu-item" id="reports" [ngbTooltip]="!isCollapsed ? 'Reports' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a><i class="bi bi-card-checklist sidebar-icon-css"></i><span
+                class="sidebar-text-css">Reports</span></a>
+          </li>
+          <li class="menu-item" id="advances" [ngbTooltip]="!isCollapsed ? 'Advances' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a><i class="bi bi-wallet2 sidebar-icon-css"></i><span
+                class="sidebar-text-css">Advances</span></a>
+          </li>
+          <li class="menu-item" id="approvals" [ngClass]="{'active': activeTab('/ii/my-view/approvals')}"
+            [ngbTooltip]="!isCollapsed ? 'Approvals' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a routerLink="/ii/my-view/approvals"><i class="bi bi-journal-check sidebar-icon-css"></i><span
+                class="sidebar-text-css">Approvals</span></a>
+          </li>
+          <li class="menu-item" id="analytics" [ngClass]="{'active': activeTab('/ii/my-view/analytics')}"
+            [ngbTooltip]="!isCollapsed ? 'Analytics' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a routerLink="/ii/my-view/analytics"><i class="bi bi-graph-up-arrow sidebar-icon-css"></i><span
+                class="sidebar-text-css">Analytics</span></a>
+          </li>
+          <li class="menu-item" id="mySetting" [ngbTooltip]="!isCollapsed ? 'My Settings' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a><i class="bi bi-gear sidebar-icon-css" ></i><span
+                class="sidebar-text-css">My Settings</span></a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Admin View Section -->
+      <li class="menu-group">
+        <div class="menu-header" (click)="toggleMenu('adminView')" [ngbTooltip]="!isCollapsed ? 'Admin View' : null"
+          placement="right" container="body" [tooltipClass]="'custom-tooltip'">
+          <i class="bi bi-person-fill-gear view-icon"></i> <span class="adminViewTxtCss">Admin View</span>
+          <i *ngIf="isCollapsed" class="bi"
+            [ngClass]="{'bi-caret-right-fill': !adminView, 'bi-caret-down-fill': adminView}"
+            class="view-icon"></i>
+        </div>
+
+        <ul class="submenu-list" *ngIf="adminView">
+          <li class="menu-item " [ngClass]="{'active': activeTab('/ii/admin-view/home')}"
+            [ngbTooltip]="!isCollapsed ? 'Home' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a routerLink="/ii/admin-view/home"><i class="bi bi-house-door sidebar-icon-css"></i><span
+                class="sidebar-text-css">Home</span></a>
+          </li>
+          <li class="menu-item" [ngbTooltip]="!isCollapsed ? 'Trips' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a><i class="bi bi-briefcase sidebar-icon-css"></i><span
+                class="sidebar-text-css">Trips</span></a>
+          </li>
+          <li class="menu-item" [ngbTooltip]="!isCollapsed ? 'Reports' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a><i class="bi bi-card-checklist sidebar-icon-css"></i><span
+                class="sidebar-text-css">Reports</span></a>
+          </li>
+          <li class="menu-item" [ngbTooltip]="!isCollapsed ? 'Advances' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a><i class="bi bi-wallet2 sidebar-icon-css"></i><span
+                class="sidebar-text-css">Advances</span></a>
+          </li>
+          <li class="menu-item" [ngbTooltip]="!isCollapsed ? 'Analytics' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a><i class="bi bi-graph-up-arrow sidebar-icon-css"></i><span
+                class="sidebar-text-css">Analytics</span></a>
+          </li>
+          <li class="menu-item" [ngClass]="{'active': activeTab('/ii/admin-view/settings')}"
+            [ngbTooltip]="!isCollapsed ? 'Settings' : null" placement="right" container="body"
+            [tooltipClass]="'custom-tooltip'">
+            <a routerLink="/ii/admin-view/settings/users"><i class="bi bi-gear sidebar-icon-css"></i><span
+                class="sidebar-text-css">Settings</span></a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="menu-group">
+        <div class="menu-header" data-bs-toggle="modal" data-bs-target="#logout" (click)="openModal()">
+          <i style="cursor: pointer;" class="bi bi-person-fill-x sidebar-icon-css"></i><span 
+            style="font-size: 1.1rem;color:black;font-weight: 500; margin-left: 10px;">Log Out</span>
+        </div>
+      </li>
+    </ul>
+
+
+
+  </div>
+
+  <div class="d-flex justify-content-center icon collapsedIconCss" (click)="toggleSidebar()">
+    <i *ngIf="!isCollapsed" class="bi bi-chevron-right sidebar-icon-css"
+      style=" padding-top: 5px;"></i>
+
+    <i *ngIf="isCollapsed " class="bi bi-chevron-left sidebar-icon-css"
+      style="padding-top: 5px;"></i>
+  </div>
+
+</div>
+
+<div class=" component" [class.widden]="iswidden">
+
+  <router-outlet></router-outlet>
+
+</div>
+<footer class=" fixed-bottom footerupdate text-center text-sm-start" style=" width: 100%;">
+  <div class="container d-flex justify-content-end py-1">
+    <button *ngIf="viewTravelPolicy" type="button" class="btn btn-primary btn-sm btn-floating "
+      data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+      style="background-color: #6d84b8;" (click)="policyView()">
+      P
+    </button>
+  </div>
+</footer>
+
+
+<!-- Logout Modal -->
+<div class="modal fade" id="logout" data-bs-backdrop="static" data-bs-keyboard="false"
+  [attr.aria-hidden]="isModalOpen ? 'false' : 'true'" [attr.inert]="isModalOpen ? null : 'true'">
+  <div class="modal-dialog modal-dialog-top">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">USER LOGOUT</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="width: 30px;"
+          (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        Do you really want to logout ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary logoutYesBtn" data-bs-dismiss="modal" (click)="logout()">YES</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 100px;"
+          (click)="closeModal()">NO</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 
+<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button> -->
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
+  style="width: 500px;">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Travel Policy</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    ...
+  </div>
+</div>
+
+<app-my-view-trips *ngIf="showPettyCashForm" [showModal]="true" 
+  (modalClosed)="onModalPettyCashFormClosed()"></app-my-view-trips>

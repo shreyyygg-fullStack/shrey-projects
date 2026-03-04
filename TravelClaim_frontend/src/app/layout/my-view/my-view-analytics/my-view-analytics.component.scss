@@ -1,0 +1,254 @@
+// .nav-link:hover {
+//     cursor: pointer;
+// }
+.titleTxtCss{
+    padding-left: 10px;
+  }
+.headerBarDropDownCss{
+    max-width: 200px;
+}
+.colCss{
+    padding: 0px 15px;
+}
+.backAnlyticsText{
+    font-size: 1.1rem; 
+    font-weight: 500;
+    color: #428df5;
+}
+
+
+input:focus {
+    outline: none;
+    box-shadow: none !important;
+}
+
+select:focus {
+    outline: none;
+    box-shadow: none !important;
+}
+
+.card {
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.card-body>div {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.card-body h6 {
+    font-size: 14px;
+    color: #2d3748;
+}
+
+.card-body p {
+    font-size: 13px;
+}
+
+i:hover {
+    cursor: pointer;
+}
+
+
+
+.report-header {
+    background-color: white;
+    border-bottom: 1px solid #dee2e6;
+    padding: 0.8rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-pill {
+    background-color: #f1f3f5;
+    border-radius: 20px;
+    padding: 0.4rem 0.8rem;
+    
+}
+
+.datetime-filter {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.total-row {
+    background-color: #f9f9f9; font-weight: 500;
+}
+// .totalRowTxtCss{
+//     background-color: #f9f9f9;
+// }
+
+.email-text {
+    font-size: 1.0rem;
+    color: #6c757d;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.receipt-icon {
+    background-color: #e9ecef;
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+thead th {
+    font-size: 1.1rem;
+    font-weight:600 ;
+    background-color: #e3e4e9;
+    color: black;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+tbody td {
+    font-size: 1rem;
+    font-weight:400 ;
+}
+
+
+.preview-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(170, 169, 169, 0.5);
+    z-index: 1000;
+
+}
+
+.preview-content {
+    width: 80%;
+    height: 90%;
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+
+}
+
+.preview-close-icon{
+    float: inline-end;
+    cursor: pointer;
+    position: sticky;
+    z-index: 1;
+    top: 0;
+}
+.file-thumbnail{
+    height: calc(100vh - 19rem); 
+    overflow-y: auto;
+}
+.attachment{
+    display: flex; 
+    justify-content:center; 
+    align-items:center; 
+}
+.attachment-index{
+    font-size: 16px; 
+    font-weight: 400; 
+    margin-right: 10px; 
+}
+.fileCss{
+    max-width: 120px;
+    min-width: 120px; 
+    border: 1px solid gray;  
+    height: 120px;
+}
+.pdf-view{
+    width: 100%; 
+    height: calc(100vh - 19rem) !important;
+}
+
+.zoomable-content {
+    width: 80%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.zoomable-content img {
+    max-width: 100%;
+    max-height: 100%;
+    transition: transform 0.2s ease, max-width 0.2s ease, max-height 0.2s ease;
+}
+
+.zoom-controls {
+    z-index: 10;
+}
+
+.preview-button {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.info:hover {
+    color: #428df5;
+    cursor: pointer;
+}
+
+.listIconCss{
+    padding: 9px;
+    font-size: large;
+}
+.report-header-titleCss{
+    padding-left: 10px;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+.titleLabelCss{
+    color: black;
+}
+
+.reportHeaderTxtCss{
+    border-right: 1px solid black;
+    padding-right: 10px;
+    cursor: pointer; 
+    font-size: 1rem; 
+    font-weight: 500;
+}
+.exportDropdownCss{
+    padding-right: 10px;
+    cursor: pointer;
+    font-size: 1rem; 
+    font-weight: 500;  
+}
+.filterIconCss{
+    background-color: white;
+}
+.dateFilterTxtCss{
+    background-color: white; 
+    font-size: 1rem; 
+    font-weight:500 ; 
+}
+.customizeCss{
+    cursor: pointer;
+    color: #428df5;
+    font-size: 1rem; 
+    font-weight:400 
+}
+.customizeHeaderCss{
+    background-color: #f9f9f9;
+}
+.modeltxtCss{
+    margin-left: 20px;
+    color: black;
+}

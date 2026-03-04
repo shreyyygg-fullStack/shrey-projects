@@ -1,0 +1,283 @@
+<ul class="nav nav-underline border-bottom nav-header-bar approvalNavCss">
+  <li class="nav-item">
+    <a class="nav-link active" [ngClass]="{ 'active': activeTab === 'pending_approvals' }"
+      (click)="activeTab = 'pending_approvals'">Pending Approval</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="{ 'active': activeTab === 'trips' }" (click)="activeTab = 'trips'"><i
+        class="bi bi-briefcase"></i> Trips</a>
+  </li>
+  <li class="nav-item">
+    <a class=" nav-link" [ngClass]="{ 'active': activeTab === 'reports' }" (click)="activeTab = 'reports'"><i
+        class="bi bi-folder"></i> Reports</a>
+  </li>
+</ul>
+
+<div *ngIf="activeTab == 'pending_approvals'" class="container-fluid py-4">
+
+  <div class="row ">
+    <div class="col-4 pendingCardCss">
+      <div class="card shadow-sm border-bottom" style="height: 100%;">
+        <div class="card-body">
+          <div class="d-flex align-items-center border-bottom pb-3">
+            <div class="bg-warning-subtle text-dark rounded p-3 fw-bold fs-5">
+              00
+            </div>
+            <div class="ms-3">
+              <div  class="heading-2">Pending <br> Trips</div>
+            </div>
+          </div>
+          <div class="border-bottom pb-3 rounded p-4 text-center text-muted">
+            No trips pending approval
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4 pendingCardCss">
+      <div class="card shadow-sm border-bottom" style="height: 100%;">
+        <div class="card-body">
+          <div class="d-flex align-items-center border-bottom pb-3 ">
+            <div class="bg-warning-subtle text-dark rounded p-3 fw-bold fs-5">
+              01
+            </div>
+            <div class="ms-3">
+              <div  class="heading-2">Pending <br> Reports</div>
+            </div>
+          </div>
+
+          <div class=" border-bottom pb-3 pt-3">
+            <div class="text-primary heading-3">Travel to pune</div>
+            <div class="text-muted small">07/04/2025 - 07/04/2025</div>
+            <div class=" mt-2 heading-3">Rs.803.00</div>
+            <div class="d-inline-flex align-items-center gap-2 bg-light border rounded-pill px-3 py-1 mt-2">
+              <div class="bg-secondary pendingUserCss text-white rounded-circle d-flex justify-content-center align-items-center">
+                SS
+              </div>
+              <span class="small">S Singh</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="activeTab == 'reports'" class="container-fluid py-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <span class="header-text">Pending Reports</span>
+    <div>
+      <button class="btn border" type="button">
+        <i class="bi bi-three-dots"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle border-top">
+      <thead >
+        <tr >
+          <th ><input type="checkbox" /></th>
+          <th >Submitter</th>
+          <th >Report ID</th>
+          <th >Report Name</th>
+          <th >Status</th>
+          <th >Total</th>
+          <th >To be reimbursed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="report-row" (click)="report = 'nsingh' ">
+          <td><input type="checkbox" /></td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <div
+                class="avatar bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center">
+                SS
+              </div>
+              <div>
+                <div class="pendingReportTdCss">S Singh</div>
+                <div class="small text-muted">on : 08/04/2025</div>
+              </div>
+            </div>
+          </td>
+          <td  class="pendingReportTdCss">ER-00002</td>
+          <td>
+            <div class="text-primary ">Travel to pune</div>
+            <div class="small text-muted">07/04/2025 - 07/04/2025</div>
+          </td>
+          <td>
+            <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle fw-medium">
+              Pending Approval
+            </span>
+            <div class="small text-muted mt-1">Due in 15 days</div>
+          </td>
+          <td  class="pendingReportTdCss">Rs.803.00</td>
+          <td  class="pendingReportTdCss">Rs.803.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="report == 'nsingh'" class="container-fluid fullscreen-overlay">
+  <div class="p-4" style="height: calc(100vh - 2rem);">
+    <div class="d-flex justify-content-between align-items-center flex-wrap border-bottom pb-2">
+      <div class="d-flex align-items-center gap-3">
+        <div
+          class="avatar bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center ">
+          SS
+        </div>
+        <div class="border-end">
+          <div class="heading-2 mb-0">S Singh</div>
+          <small class="text-muted usrEmlTxtCss">niteshsingh2011live.com</small>
+        </div>
+
+        <div class=" ms-auto me-4">
+          <div class="heading-2">ER-00002</div>
+          <span class="badge bg-warning-subtle text-warning-emphasis">Pending Approval</span>
+          <i class="bi bi-chat-dots ms-2"></i>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button class="btn  border"><i class="bi bi-pen"></i></button>
+        <button class="btn btn-primary">Approve</button>
+        <button class="btn btn-outline-secondary">Reject</button>
+        <button class="btn  border"><i class="bi bi-three-dots"></i></button>
+        <button class="btn  border" (click)="report = '' "><i class="bi bi-x-lg"></i></button>
+      </div>
+    </div>
+
+    <div class="row ">
+      <div class="col-9 pe-4">
+        <div class="d-flex justify-content-between mb-4 mt-3">
+          <div>
+            <span class="heading-2">Travel to pune</span>
+            <p class="text-muted  mb-3">Duration: 07/04/2025 - 07/04/2025</p>
+          </div>
+
+          <div>
+            <p class=" mb-0 heading-3" >Total</p>
+            <span class="heading-2">Rs.803.00</span>
+          </div>
+          <div>
+            <p class=" mb-0 heading-3" >Amount to be Reimbursed</p>
+            <span class="heading-2">Rs.803.00</span>
+            <br>
+
+
+            <ng-template #popContent><b>Total Amount Breakdown</b></ng-template>
+            <ng-template #popTitle>
+              <div class="bg-light p-3 rounded">
+                <table class="table table-borderless small mb-0">
+                  <tbody>
+                    <tr>
+                      <td>Total Expense Amount</td>
+                      <td class="text-end">803.00</td>
+                    </tr>
+                    <tr>
+                      <td>Non-reimbursable Amount</td>
+                      <td class="text-end">(-) 0.00</td>
+                    </tr>
+                    <tr>
+                      <td>Applied Advance Amount</td>
+                      <td class="text-end">(-) 0.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <hr class="my-2">
+                <h6 class="fw-semibold text-end mb-0">Amount to be Reimbursed: Rs.803.00</h6>
+              </div>
+            </ng-template>
+            <button type="button " class="btn btn-primary btn-sm" [ngbPopover]="popContent" [popoverTitle]="popTitle">
+              View Summary
+            </button>
+
+          </div>
+        </div>
+
+        <ul class="nav nav-underline mb-3 bg-light p-2 rounded">
+          <li class="nav-item">
+            <a class="nav-link active heading-2" >
+              EXPENSES <span class="badge bg-primary-subtle text-primary-emphasis">1</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link heading-2">HISTORY</a>
+          </li>
+        </ul>
+
+        <div class="expenseRowCss">
+          <div class="card border mb-4">
+            <div class="card-body d-flex align-items-start gap-3">
+              <input type="checkbox" class="mt-2" />
+              <div class="border expsPdfCss rounded d-flex justify-content-center align-items-center">
+                <i class="bi bi-filetype-pdf pdficonCss"></i>
+              </div>
+              <div class="flex-grow-1">
+                <div class="heading-3">07/04/2025 | THE FARMERS KITCHEN</div>
+                <a class="text-primary small heading-3">Meals and Entertainments<sup>Ⓡ</sup></a>
+                <div class="text-muted small">Food</div>
+              </div>
+              <div class="heading-3">Rs.803.00</div>
+              <div class="d-flex flex-column align-items-end gap-2">
+                <i class="bi bi-exclamation-circle text-warning"></i>
+                <i class="bi bi-plus-circle text-primary"></i>
+                <i class="bi bi-three-dots"></i>
+              </div>
+            </div>
+          </div>
+
+          
+        </div>
+
+      </div>
+
+      <div class="col-3 border-start bg-light ps-4 " style="height: calc(100vh - 8rem);">
+        <p class="  mb-1 mt-3">Current Approver</p>
+        <div class="d-flex align-items-center mb-2">
+          <span
+            class="avatar-sm approverDetlCss rounded-circle bg-secondary text-white me-2 d-inline-flex justify-content-center align-items-center">NS</span>
+          <span class="heading-3">N Singh</span>
+        </div>
+        <a class="small text-primary">View approval flow</a>
+
+        <div class="mt-4">
+          <p class="  mb-1">Policy</p>
+          <p class="heading-3">zcon</p>
+        </div>
+
+        <div class="mt-3">
+          <p class="  mb-1">Business Purpose</p>
+          <p class="heading-3">To Attend Business Meeting</p>
+        </div>
+
+        <div class="mt-3">
+          <p class="mb-1">Trip</p>
+          <p>-</p>
+        </div>
+
+        <div class="mt-3">
+          <p class=" mb-1 d-flex justify-content-between">
+            Documents
+            <a><i class="bi bi-plus-circle text-primary"></i></a>
+          </p>
+          <!-- <p>-</p> -->
+          <div class="d-flex justify-content-start align-items-start">
+            <div class="border expsPdfCss rounded d-flex justify-content-center align-items-center">
+              <i class="bi bi-filetype-pdf pdficonCss"></i>
+            </div>
+            <div class="border expsPdfCss rounded d-flex justify-content-center align-items-center"
+              style=" margin-left: 10px;">
+              <i class="bi bi-filetype-pdf pdficonCss" ></i>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

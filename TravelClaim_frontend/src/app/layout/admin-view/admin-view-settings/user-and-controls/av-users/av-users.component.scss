@@ -1,0 +1,435 @@
+.titleCss {
+
+    background-color: white;
+    box-shadow: 2px 1px 5px #aaaaaa;
+    width: 100%;
+    color: #2e3151;
+    height: 40px !important;
+    overflow: hidden;
+    font-size: 1.25rem;
+    font-weight: 600;
+
+}
+
+
+.modal-container {
+    // position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // background: rgba(170, 169, 169, 0.5);
+    // z-index: 9;
+}
+
+.modal-details {
+    width: 100%;
+    height: calc(100vh - 5.1rem) !important;
+    background: white;
+    // padding: 20px;
+    // border-radius: 8px;
+    // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cancel:hover {
+    color: red;
+}
+
+.container1 {
+    max-width: 100%;
+    margin-left: 4px;
+    background-color: transparent;
+    padding: 5px;
+    // border-radius: 10px;
+    // box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-label {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+
+// button {
+//   width: 100px;
+// }
+
+.form-control {
+    background-color: white;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+input:focus,
+textarea:focus,
+button:focus,
+select:focus {
+    outline: none;
+    box-shadow: 0 0 3px #aaa;
+    /* Optional: Adds a subtle shadow */
+    border: 1px solid #ccc;
+    /* Optional: Adds a custom border color */
+}
+
+// .form-select {
+//   padding: 10px;
+//   font-size: 14px;
+// }
+
+// .dropdown {
+//   width: 300px;
+//   margin: 20px;
+// }
+
+
+.highlight {
+    background-color: yellow !important;
+    color: white;
+    font-weight: bold;
+}
+
+
+
+// .lindent {
+//   height: calc(100vh - 13rem) !important; 
+//   overflow-y: scroll;
+//   overflow-x: scroll;
+//   behavior: 'smooth'
+// }
+
+// .indtbl li {
+//   cursor: pointer;
+//   max-height: 50px;
+// }
+
+// .list-group-item  {
+//   max-height: 40px;
+//   font-size: 15px;
+//   } 
+
+//   .lgiexpandCss {
+//     line-height: 1rem;
+//     color:  #2e3151;
+//     font-size: 1rem;
+//     font-weight: 400;
+//     padding: 0.25rem 0.30rem;
+//     background-color: white;
+
+//   }
+
+.lbllistcss {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: #2e3151;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.header {
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.selected {
+    background-color: rgb(255, 255, 222) !important;
+}
+
+.columnList:hover {
+    background-color: #c4cee7;
+}
+
+.user-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f4f7f6;
+}
+
+.user-card {
+    // width: 360px;
+    // background: #ffffff;
+    // padding: 20px;
+    // border-radius: 10px;
+    // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    font-family: 'Inter';
+}
+
+.user-header {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding-bottom: 3px;
+    // border-bottom: 1px solid #e0e0e0;
+}
+
+
+.user-info span {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+}
+
+.user-info .role {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #777;
+    margin-top: 4px;
+}
+
+.user-details {
+    margin-top: 15px;
+}
+
+.detail {
+    background: #f9f9f9;
+    padding: 8px 12px;
+    // border-radius: 6px;
+    // margin-bottom: 8px;
+    font-size: 1rem;
+    font-weight: 400;
+    display: flex;
+    justify-content: space-between;
+    color: #444;
+}
+
+.detail span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #222;
+}
+
+// @media (max-width: 400px) {
+//   .user-card {
+//     width: 90%;
+//     padding: 15px;
+//   }
+
+//   .avatar {
+//     width: 50px;
+//     height: 50px;
+//     font-size: 18px;
+//   }
+
+//   .detail {
+//     font-size: 13px;
+//     padding: 6px 10px;
+//   }
+// }
+
+
+.active {
+    color: #428df5 !important;
+}
+
+.nav-link {
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: rgb(46, 49, 81);
+    padding-left: 0px;
+}
+
+.nav-link:hover {
+    cursor: pointer;
+    border-bottom-color: #408dfb;
+}
+
+.filter-dropdown{
+    height: 40px; 
+    margin-top: 10px;   
+    box-shadow:  rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.filter-text{
+    font-size: 1rem;
+    font-weight: 500; 
+    margin-top: 3px;
+    margin-left: 10px;  
+}
+.dropdown1Css{
+    margin-left: 8px;
+    height: 25px;
+    width: 120px;
+}
+.dropdownBtnCss{
+    height: 25px;
+    width: 130px;  
+}
+.new-user-btn{
+    background-color: #6d84b8;
+    width: 90px; 
+    margin-right: 40px;
+}
+.sorting-text{
+    font-size: 1rem;
+    font-weight: 500; 
+    margin-top: 3px;   
+}
+.sorting-dropdown{
+    margin-left: 8px;
+    margin-right: 40px; 
+    height: 25px;
+    width: 130px;  
+}
+.export-btn{
+    background-color: #6d84b8;
+    width: 80px; 
+    margin-right: 5px;  
+}
+.user-detail-data{
+    overflow-y: auto;
+    overflow-x: hidden; 
+    height: calc(100vh - 11.1rem) !important; 
+    margin-top: 5px;   
+}
+.listItemCss{
+    height: 35px; 
+    
+}
+.user-detail-header{
+    align-items: center; 
+    justify-content: center;
+    display: flex; 
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;  
+}
+.user-list{
+    cursor: pointer;
+    border-bottom: 0.1rem solid #2e3151; 
+    background-color: white;
+}
+.user-list-data{
+    align-items: center; 
+    justify-content: center;
+    display: flex;
+    overflow: hidden; 
+}
+.user-active{
+    background-color: rgb(146, 214, 146);
+    margin-top: 5px;
+}
+.user-action{
+    border-right: 0px black solid;
+    align-items: center; 
+    justify-content: center;
+    display: flex;
+}
+.action-col{
+    cursor: pointer;
+}
+.cancelIconCss{
+    float: inline-end; 
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: larger; 
+}
+
+.user-dtl-model-container{
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    height: calc(100vh - 8.9rem) !important;
+    margin-top: 3px;
+}
+.overview-model-container{
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    height: calc(100vh - 13.2rem) !important;
+    margin-top: 3px; 
+}
+
+.userDtlTxtCss{
+    font-weight: 600; 
+    font-size: 1.2rem;
+    text-decoration: underline;
+    padding-bottom: 10px;
+}
+.user-dtl-dropdown{
+    min-height:50px; 
+    max-height: 200px;
+    width:100%; 
+    overflow-y: auto;
+}
+.userDtlListCss{
+    position: sticky; 
+    top: 0; 
+    padding: 0px;
+    background: white;
+}
+.dropdown-searchbox-css{
+    box-shadow: 0 0 3px #aaa;
+    border: 1px solid #ccc;
+}
+.claimEligbTxtCss{
+    font-weight: 600; 
+    font-size: 1.2rem;
+    text-decoration: underline;
+}
+.footer-btn-css{
+    background-color: #282E89; 
+    color: white;
+    margin-right: 10px; 
+    width: 100px;
+}
+//edit or overview model
+
+.overviewIconCss{
+    cursor: pointer;
+    margin-right: 30px;
+    font-size:x-large;
+}
+.editCancelIconCss{
+    cursor: pointer;
+    margin-right: 10px; 
+    font-size: larger; 
+}
+.editIconCss{
+    cursor: pointer;
+    margin-right: 30px;
+    font-size: larger; 
+}
+.overview-nav{
+    padding-left: 10px;
+    padding-top: 10px; 
+    box-shadow: 2px 1px 5px #aaaaaa ; 
+    padding-bottom: 8px;  
+}
+.navLinkCss{
+    color: #2e3151;
+    font-weight: 500 !important;
+    cursor: pointer; 
+}
+.overview-dtl{
+    border-top: 1px solid  #e0e0e0; 
+    border-bottom: 1px solid  #e0e0e0; 
+}
+
+.activeLogUser{
+    font-size: 1.1rem; 
+    font-weight: 500; 
+    text-decoration: underline; 
+}
+.active-log-data{
+    padding: 0; 
+    margin-left: 0px; 
+}
+.activeLogHeader{
+    height: 40px; 
+    border-bottom: 0.1rem solid #2e3151; 
+    background-color:whitesmoke;  
+}
+.active-log-header-txt{
+    align-items: center; 
+    justify-content: center;
+    display: flex; 
+}
+.active-log-list-data{
+    cursor: pointer;
+    border-bottom: 0.1rem solid #2e3151;
+}
+.deleteBtnCss{
+    background-color: #282E89;
+    width: 100px;
+}

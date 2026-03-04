@@ -1,0 +1,163 @@
+<div>
+    <div class=" setting-header-bar  d-flex justify-content-between align-items-center">
+        <span style="padding-left: 8px;">Organization Profile</span>
+    </div>
+
+<div class="organizationP-data">
+
+    <div class="container mt-2">
+        <form [formGroup]="organizationForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+
+                <!-- Company Name -->
+                <div class="col-12 mb-3">
+
+                    <div class="row">
+
+                        <label for="companyName" class="form-label">Company Name</label>
+                        <div class="input-group mt-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text input-group-sm text-ishida prepend-label company-name-container"
+                                    >
+                                    <div *ngIf="uploadedImage && !imagePreview" class="uploaded-image">
+                                        <img [src]="uploadedImage" alt="Uploaded Image" class="img-container" />
+                                    </div>
+                                    <div *ngIf="imagePreview" class="image-preview">
+                                        <img [src]="imagePreview" alt="Selected Image" class="img-container" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group-prepend">
+                                <div class="input-group-text input-group-sm text-ishida prepend-label company-name-container">
+                                    <div class="file-input-container">
+                                        <label for="imageInput" class="custom-file-label">
+                                            <span><i class="bi bi-plus-lg"></i></span>
+                                        </label>
+                                        <input id="imageInput" type="file" (change)="onFileSelect($event)"
+                                            accept="image/*" class="custom-file-input" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input style="height: 40px; " [(ngModel)]="companyName" type="text" id="companyName"
+                                class="form-control form-control-lg" formControlName="companyName"
+                                placeholder="Enter company name" />
+                        </div>
+
+                    </div>
+                </div>
+
+                <label class="form-label org-dtl-txt">Company
+                    Details</label>
+                <!-- Company Address -->
+                <div class="col-12 mb-3">
+                    <label for="companyAddress" class="form-label">Street</label>
+                    <textarea id="companyAddress" [(ngModel)]="companyAddress" rows="1"
+                        class="form-control form-control-lg" formControlName="companyAddress"
+                        placeholder="Enter company address"></textarea>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="col-md-6 mb-3">
+                    <label for="phoneNo" class="form-label">Phone Number</label>
+                    <input type="tel" [(ngModel)]="phoneNo" id="phoneNo" class="form-control" formControlName="phoneNo"
+                        placeholder="Enter phone number" />
+                </div>
+
+                <!-- City -->
+                <div class="col-md-6 mb-3">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" [(ngModel)]="city" id="city" class="form-control" formControlName="city"
+                        placeholder="Enter city" />
+                </div>
+
+                <!-- State -->
+                <div class="col-md-4 mb-3">
+                    <label for="state" class="form-label">State</label>
+                    <input type="text" [(ngModel)]="state" id="state" class="form-control" formControlName="state"
+                        placeholder="Enter state" />
+                </div>
+
+                <!-- ZIP Code -->
+                <div class="col-md-4 mb-3">
+                    <label for="zipCode" class="form-label">ZIP Code</label>
+                    <input type="text" [(ngModel)]="zipcode" id="zipCode" class="form-control" formControlName="zipCode"
+                        (input)="onInput($event)" [ngClass]="{ 'inputAlert': inputAlert }"
+                        placeholder="Enter ZIP code" />
+                </div>
+
+                <!-- Country -->
+                <div class="col-md-4 mb-3">
+                    <label for="country" class="form-label">Country</label>
+                    <input type="text" [(ngModel)]="country" id="country" class="form-control" formControlName="country"
+                        placeholder="Enter country" />
+                </div>
+
+                <!-- Company Website -->
+                <div class="col-md-12 mb-3">
+                    <label for="companyWebsite" class="form-label">Company Website</label>
+                    <input type="url" [(ngModel)]="companyWebsite" id="companyWebsite" class="form-control"
+                        formControlName="companyWebsite" placeholder="Enter website URL" />
+                </div>
+
+                <label class="form-label org-dtl-txt">Other
+                    Details</label>
+
+                <!-- Primary Contact Email -->
+                <div class="col-md-12 mb-3">
+                    <label for="primaryContactEmail" class="form-label">Primary Contact Email</label>
+                    <input type="email" [(ngModel)]="primaryContactEmail" id="primaryContactEmail" class="form-control"
+                        formControlName="primaryContactEmail" placeholder="Enter primary contact email" />
+                </div>
+
+                <!-- Company Support Email -->
+                <div class="col-md-12 mb-3">
+                    <label for="companySupportEmail" class="form-label">Company Support Email</label>
+                    <input type="email" [(ngModel)]="companySupportEmail" id="companySupportEmail" class="form-control"
+                        formControlName="companySupportEmail" placeholder="Enter support email" />
+                </div>
+
+                <!-- Application Domain -->
+                <div class="col-md-12 mb-3">
+                    <label for="applicationDomain" class="form-label">Application Domain</label>
+                    <input type="text" [(ngModel)]="applicationDomain" id="applicationDomain" class="form-control"
+                        formControlName="applicationDomain" placeholder="Enter application domain" />
+                </div>
+
+                <label class="form-label org-dtl-txt">Regional
+                    Settings</label>
+
+
+                <!-- Base Currency -->
+                <div class="col-md-12 mb-3">
+                    <label for="baseCurrency" class="form-label">Base Currency</label>
+                    <input type="text" [(ngModel)]="baseCurrency" id="baseCurrency" class="form-control"
+                        formControlName="baseCurrency" placeholder="Enter base currency" />
+                </div>
+
+                <!-- Fiscal Year -->
+                <div class="col-md-12 mb-3">
+                    <label for="fiscalYear" class="form-label">Fiscal Year</label>
+                    <input type="text" [(ngModel)]="fiscalYear" id="fiscalYear" class="form-control"
+                        formControlName="fiscalYear" placeholder="Enter fiscal year" />
+                </div>
+
+                <!-- Date Format -->
+                <div class="col-md-12 mb-3">
+                    <label for="dateFormat" class="form-label">Date Format</label>
+                    <input type="text" [(ngModel)]="dateFormat" id="dateFormat" class="form-control"
+                        formControlName="dateFormat" placeholder="Enter date format (e.g., YYYY/MM/DD)" />
+                </div>
+            </div>
+
+            <div class="text-center mt-5" style="margin-bottom: 10px;">
+                <button type="submit" class="btn saveBtn"
+                    [disabled]="organizationForm.invalid">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>

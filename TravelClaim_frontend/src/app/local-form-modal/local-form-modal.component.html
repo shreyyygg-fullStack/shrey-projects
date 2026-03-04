@@ -1,0 +1,301 @@
+<div class="modal-container" *ngIf="showModal">
+  <div class="modal-content">
+    <h3>{{ modalTitle }} <i class="bi bi-x-lg" style="float: inline-end; cursor: pointer;font-size: large;"
+        (click)="closeModal()"></i>
+      <!-- <i class="bi bi-x-square" style="float: inline-end; cursor: pointer;font-size: larger;"
+        (click)="closeModal()"></i> -->
+    </h3>
+
+    <div class="row">
+      <div class="col-9">
+        <div class="d-flex bd-highlight ">
+
+          <div class="block p-2 flex-grow-1 bd-highlight" [ngClass]="{ 'selected': selectedOption === 'public' }"
+            (click)="selectOption('public')">
+            <a target="_blank">
+              <i class="bi bi-train-front-fill"></i>
+              <span style="font-size: 12px; font-weight: 500;">Public</span>
+            </a>
+          </div>
+          <div class="block p-2 flex-grow-1 bd-highlight" [ngClass]="{ 'selected': selectedOption === 'vehicle' }"
+            (click)="selectOption('vehicle')">
+            <a target="_blank">
+              <i class="bi bi-car-front-fill"></i>
+              <span style="font-size: 12px; font-weight: 500;">Own Vehicle</span>
+            </a>
+          </div>
+
+          <div class="total p-2 bd-highlight" style="background-color: #d4d9e6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+
+            <span style="font-size: 12px; font-weight: 500;">Grand Total: <br>{{grandTotal}}</span>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-3" style="padding-top: 10px;">
+
+        <!-- <div class="files">
+            <input #myInput type="file" maxFileSize="16777215" (change)="getFile($event)" accept="all"
+                class="form-control fileUploadCss rounded-0 border-0"  data-max-size="2048"
+                webkitdirectory multiple />
+  
+        </div> -->
+
+        <div class="custom-file-upload">
+          <label for="fileInput" class="upload-label">
+            <i class="bi bi-upload"></i>
+            <span>Upload Bills</span>
+          </label>
+          <input id="fileInput" #myInput type="file" maxFileSize="16777215" (change)="getFile($event)" accept="all"
+           multiple />
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-9">
+
+        <div style="height: calc(100vh - 20rem) ; overflow-y: auto;">
+
+          <div style="display: flex; position: relative;">
+            <!-- <div
+              style="width: 8px; background-color: #d4d9e6; position: absolute; top: 0; bottom: 0; left: 0; margin-left: 3px;">
+          
+              <div
+                style="width: 15px; height: 15px; background-color: rgb(235, 177, 95); border-radius: 50%; position: absolute; top: 0; left: -3px; margin-top: 40px;">
+              </div>
+             
+              <div
+                style="width: 15px; height: 15px; background-color: rgb(235, 177, 95); border-radius: 50%; position: absolute; bottom: 0; left: -3px;">
+              </div>
+            </div> -->
+
+            <form *ngIf="selectedOption === 'public'" [formGroup]="publicForm">
+              <table class="table">
+                <thead style="position: sticky; top: 0; z-index: 1; padding: 0;">
+                  <tr>
+                    <th class="ipgDetCssTable " *ngFor="let heading of conveyanceHeadings">{{ heading }}</th>
+                  </tr>
+                </thead>
+                <tbody formArrayName="publicRows">
+                  <tr *ngFor="let row of publicRows.controls; let i = index" [formGroupName]="i" (click)="selectRow1(i)"
+                    [class.selected-row]="i === selectedRowIndex1">
+
+                    <td><input type="date" class="form-control" formControlName="date" placeholder="Enter date"
+                        (input)="isDateInvalid(i)" [max]="maxDate" [title]=" dateValidationFlag[i] ? policy + dateValidationMsg[i] : '' "
+                        [ngClass]="{'invalid-input': dateValidationFlag[i]}" /></td>
+                    <td><input type="time" class="form-control" formControlName="fromTime"
+                        placeholder="Enter from time" /></td>
+                    <td><input type="time" class="form-control" formControlName="toTime" placeholder="Enter to time" />
+                    </td>
+                    <td><input type="text" class="form-control" formControlName="startingPlace"
+                        placeholder="Enter starting place" /></td>
+                    <td><input type="text" class="form-control" formControlName="destination"
+                        placeholder="Enter destination" /></td>
+                    <td><input type="text" class="form-control" formControlName="visitSiteName"
+                        placeholder="Enter site name" /></td>
+
+
+                    <!-- <td><input type="text" class="form-control" formControlName="conveyMode"
+                        placeholder="Enter convey mode" /></td> -->
+
+                        <td>
+                          <select class="form-select  form-control" style="width: 110px;" formControlName="conveyMode">
+                            <option value="" selected disabled>Select Mode</option>
+                            <option value="Cab">Cab</option>
+                            <option value="Auto">Auto</option>
+                            <option value="Bus">Bus</option>
+                            <option value="Shared Taxi">Shared Taxi</option>
+                            <option value="Train">Train</option>
+                            
+                          </select>
+                        </td>
+
+
+
+                    <td><input type="number" class="form-control" formControlName="distanceKm"
+                        (input)="isDistanceInvalid(i)" [ngClass]="{'invalid-input': distanceValidationFlag[i]}"
+                        [title]="distanceValidationFlag[i] ? policy +'Distance cannot exceed 200 km.' : ''"
+                        placeholder="Enter distance km" /></td>
+                    <td><input type="number" class="form-control" formControlName="totalAmount"
+                        (input)="calculateGrandTotal()" placeholder="Enter total amount" /></td>
+
+                  </tr>
+                  <tr>
+                    <td colspan="9">
+                      <i class="bi bi-plus" (click)="addRow()" style="cursor: pointer;margin-left: 10px;">Add Row</i>
+                      <i *ngIf="publicRows.length >  0 && selectedRowIndex1 !== null" class="bi bi-trash"
+                        (click)="deleteSelectedRow()" style="cursor: pointer;float: inline-end;">Delete Selected Row</i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+
+            <form *ngIf="selectedOption === 'vehicle'" [formGroup]="vehicleForm">
+              <table class="table">
+                <thead style="position: sticky; top: 0; z-index: 1; padding: 0;">
+                  <tr>
+                    <th class="ipgDetCssTable  " *ngFor="let heading of vehicleHeadings">{{ heading }}</th>
+                  </tr>
+                </thead>
+                <tbody formArrayName="vehicleRows">
+                  <tr *ngFor="let row of vehicleRows.controls; let i = index" [formGroupName]="i"
+                    (click)="selectRow2(i)" [class.selected-row]="i === selectedRowIndex2">
+
+                    <td><input type="date" class="form-control" formControlName="date" placeholder="Enter date"
+                        (input)="isDateInvalid(i)" [max]="maxDate" [title]=" dateValidationFlag[i] ? policy + dateValidationMsg[i] : '' "
+                        [ngClass]="{'invalid-input':dateValidationFlag[i]}" /></td>
+                    <td><input type="text" class="form-control" formControlName="visitSiteName"
+                        placeholder="Enter site name" /></td>
+                    <!-- <td><input type="text" class="form-control" formControlName="vehicleType"
+                        placeholder="Enter vehicle type" /></td> -->
+                    <td>
+                      <select class="form-select  form-control" style="width: 110px;"
+                        [ngClass]="{'invalid-input': vehicleTypeInvalid[i]}"
+                        [title]="vehicleTypeInvalid[i] ? policy +'LM-0 users can only use Two Wheeler.' : ''"
+                        (change)="validateOwnVehicleRow(i)" formControlName="vehicleType">
+                        <option value="" selected disabled>Select Vehicle</option>
+                        <option value="Two Wheeler">Two Wheeler</option>
+                        <option value="Four Wheeler">Four Wheeler</option>
+                      </select>
+                    </td>
+                    <td><input type="number" class="form-control" formControlName="rateKm" placeholder="Enter rate/km"
+                        readonly /></td>
+                    <td><input type="number" class="form-control" formControlName="openingKm"
+                        placeholder="Enter opening km" [ngClass]="{'invalid-input': openingKmInvalid[i]}"
+                        [title]="openingKmInvalid[i] ? policy +'Opening KM must be smaller than closing KM' : ''"
+                        (input)="validateOwnVehicleRow(i)" /></td>
+                    <td><input type="number" class="form-control" formControlName="closingKm"
+                        placeholder="Enter closing km" (input)="validateOwnVehicleRow(i)" /></td>
+                    <td><input type="number" class="form-control" formControlName="totalKm" placeholder="Enter total km"
+                        [ngClass]="{'invalid-input': totalDistanceInvalid[i]}"
+                        [title]="totalDistanceInvalid[i] ? policy +'Distance can not exceed 200km.' : ''" readonly /></td>
+                    <td><input type="number" class="form-control" formControlName="tollNother"
+                        placeholder="Enter toll & other" (input)="validateOwnVehicleRow(i)" /></td>
+                    <td><input type="number" class="form-control" formControlName="totalAmount"
+                        placeholder="Enter total amount" readonly /></td>
+
+                  </tr>
+                  <tr>
+                    <td colspan="9">
+                      <i class="bi bi-plus" (click)="addRow()" style="cursor: pointer;margin-left: 10px;">Add Row</i>
+                      <i *ngIf="vehicleRows.length > 0 && selectedRowIndex2 !== null" class="bi bi-trash"
+                        (click)="deleteSelectedRow()" style="cursor: pointer;float: inline-end;">Delete Selected Row</i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+            <!-- <form [formGroup]="currencyForm">
+                <tr>
+                  <td> <input type="date" class="form-control rounded-0 border-0" formControlName="date"
+                      (change)="getCurrencyValue()">Date</td>
+                  <td> <input type="number" class="form-control rounded-0 border-0" formControlName="usd"
+                      (keyup)="convertCurrency()">USD </td>
+                  <td> <input type="number" [value]="convertedInr" class="form-control rounded-0 border-0">Rs</td>
+                </tr>
+  
+              </form> -->
+          </div>
+        </div>
+
+
+        <div class="input-group mt-3">
+          <!-- <div class="input-group mt-4"> -->
+          <span class="input-group-text ipgDetCssTable" style="height: 60px;width: 130px;">Remarks</span>
+          <textarea class="form-control" aria-label="With textarea" style="height: 60px;resize: none" placeholder="Explain policy violations or claim related info."></textarea>
+          <!-- </div> -->
+          <!-- <div class="input-group mt-4" > -->
+          <span class="input-group-text ipgDetCssTable" style="height: 60px;width: 130px;">Purpose of Travel</span>
+          <textarea class="form-control" aria-label="With textarea" style="height: 60px;resize: none" placeholder="Travel Reason."></textarea>
+          <!-- </div> -->
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="container-fluid"
+          style="padding-left:10px ; height: calc(100vh - 13.5rem); overflow-y: auto;  flex-grow: 1;">
+
+          <div *ngFor="let file of selectedFilesArray; let i = index"
+            style="display: flex; justify-content:center; align-items:center;">
+
+            <span style="font-size: 16px; font-weight: 400;">{{i+1}}.</span>
+            <div (click)="selectFile(i,file)" [class.selectedFile]="file === selectedFile"
+              style="cursor: pointer; padding: 5px; margin: 5px;">
+
+              <div *ngIf="file.type.startsWith('image/')">
+                <img [src]="file.thumbnail"
+                  style="max-width: 200px; border: 1px solid gray; min-width: 200px; height: 200px;"
+                  alt="Image thumbnail">
+              </div>
+              <div *ngIf="file.type.startsWith('text/')">
+                <p>{{ file.snippet }}</p>
+              </div>
+              <div *ngIf="file.type.startsWith('video/')">
+                <video [src]="file.thumbnail"
+                  style="max-width: 200px;min-width: 200px; border: 1px solid gray;  height: 200px;" controls></video>
+              </div>
+              <div *ngIf="file.type === 'application/pdf'">
+                <img [src]="file.thumbnail"
+                  style="max-width: 200px;min-width: 200px; border: 1px solid gray;  height: 200px;"
+                  alt="PDF thumbnail">
+              </div>
+            </div>
+            <i class="bi bi-trash delete-icon" (click)="deleteFile(i, $event)"
+              style=" cursor: pointer; color: red; font-size: 18px;" title="Delete File"></i>
+          </div>
+        </div>
+      </div>
+
+
+      <div style="height: 40px;">
+        <button type="button" class="btn  btn-lg save " (click)="onSubmit()"
+          style="padding: 4px;width: 220px;background-color:#d4d9e6; margin-top: 10px;"><i class="bi bi-floppy-fill"
+            style="margin-right: 5px;"></i> Save & Submit</button>
+        <button type="button" class="btn  btn-lg save" (click)="closeModal()"
+          style="padding: 4px;width: 150px;background-color: #d4d9e6; margin-left: 30px; margin-top: 10px;">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Document Viewer -->
+    <div class="preview-container" *ngIf="selectedFile">
+      <div class="preview-content">
+
+        <h3>Preview ({{selectedFileIndex}}) <i class="bi bi-x-lg"
+            style="float: inline-end; cursor: pointer;position: sticky; z-index: 1; top: 0;"
+            (click)="closePreviewModal()"></i></h3>
+        <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;"
+          title="{{selectedFileName}}">{{selectedFileName}}</h6>
+
+        <div class="zoomable-content" *ngIf="selectedFile.type.startsWith('image/')">
+          <img [src]="selectedImageUrl" [ngStyle]="{'transform': 'scale(' + zoomLevel + ')'}"
+            style="max-width: 650px; max-height: 65vh;" alt="Image thumbnail">
+        </div>
+
+        <div class="zoomable-content" *ngIf="selectedFile.type.startsWith('video/')">
+          <video [src]="selectedVideoUrl" style="width: 200px;  max-height: 200px ;" controls></video>
+        </div>
+
+        <div *ngIf="selectedFile && selectedFile.type === 'application/pdf'">
+          <pdf-viewer [src]="selectedFileUrl" [render-text]="true" [show-all]="true" [zoom]="pdfZoomLevel" [show-borders]="true"
+            style="width: 100%; height: calc(100vh - 20rem) !important;"></pdf-viewer>
+        </div>
+
+        <div class="zoom-controls d-flex ">
+          <button class=" p-2 " (click)="zoomIn()" style="font-size:x-large;"><i class="bi bi-plus-circle"></i></button>
+          <button class=" p-2  " (click)="zoomOut()" style="font-size:x-large;"><i
+              class="bi bi-dash-circle"></i></button>
+          <button class=" p-2  " (click)="resetZoom()" style="font-size:large;">Reset</button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- <button type="button" class="btn btn-light btn-sm" (click)="closeModal()">Close Modal</button> -->
+
+  </div>
+</div>

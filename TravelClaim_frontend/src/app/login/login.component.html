@@ -1,0 +1,319 @@
+<div style="height: 100vh;  background-color: whitesmoke;" (contextmenu)="$event.preventDefault()"
+    (keydown)="disableInspect($event)">
+    <img style="margin-top: 25px; margin-left: 20px;" src="assets/brand/ishida.png">
+    <div class="container1">
+        <div class="block ">
+            <div>
+                <div class="login-container">
+                    <div class="login-box">
+                        <div class="avatar">
+                            <img class="user-icon" src="assets/brand/profile(1).png">
+                        </div>
+
+
+                        <!-- <div *ngIf="tokenExpired" class="alert alert-danger text-center">
+                            Link has expired. Redirecting to login...
+                          </div>
+                          
+                          <div *ngIf="!tokenExpired">
+                            <h2>Reset Your Password</h2>
+                            <form>
+                              <label>New Password</label>
+                              <input type="password" class="form-control">
+                              <label>Confirm Password</label>
+                              <input type="password" class="form-control">
+                              <button type="submit" class="btn btn-primary mt-3">Reset Password</button>
+                            </form>
+                          </div> -->
+
+
+
+                        <form *ngIf="login" [formGroup]="loginForm" (ngSubmit)="loginApp()">
+                            <h6 style="color: #282e89; text-align: start;">LOG IN TO IEXPENSE! </h6>
+
+                            <div class="form-group">
+                                <label class="icon-label">
+                                    <i class="bi bi-person-fill" style="font-size: 20px;"></i>
+                                </label>
+                                <input type="userId" id="userId" placeholder="User ID" name="userId"
+                                    formControlName="userId" required>
+
+                                @if (loginForm.get('userId')?.invalid && (loginForm.get('userId')?.touched ||
+                                loginForm.get('userId')?.dirty) && loginForm.get('userId')?.errors?.['required']) {
+                                <div class="invalid-input" placement="top" ngbTooltip="{{globalRequiredMsg}}">
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+                                </div>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label class="icon-label">
+                                    <i class="bi bi-key-fill" style="font-size: 20px;"></i>
+                                </label>
+                                <input type="password" id="password" placeholder="Password" name="password"
+                                    formControlName="password" required>
+
+                                <!-- @if (loginForm.get('password')?.invalid &&
+                                loginForm.get('password')?.errors?.['required'] && (loginForm.get('password')?.touched
+                                || loginForm.get('password')?.dirty))
+                                {
+                                <div class="invalid-input" style="margin-top: -6px" placement="top"
+                                    ngbTooltip="{{globalRequiredMsg}}">
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+                                </div>
+                                } -->
+
+                                <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)"
+                                    class="invalid-input" style="margin-top: -6px" placement="top"
+                                    [ngbTooltip]="generatePasswordTooltip(loginForm,'password')">
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+                                </div>
+
+                            </div>
+                            <div class="form-options">
+                                <a data-bs-toggle="modal" data-bs-target="#forgotPassword" style="cursor: pointer;"
+                                    (click)="openModal()">Forgot Password?</a>
+                            </div>
+                            <button type="submit" class="login-button" [disabled]="loginForm.invalid">LOGIN</button>
+                        </form>
+
+                        <form *ngIf="!login" [formGroup]="signupForm" (ngSubmit)="signUpApp()">
+                            <h6 *ngIf="signUptext" style="color: #282e89; text-align: start;">SIGN UP FOR IEXPENSE!
+                            </h6>
+                            <h6 *ngIf="setNewPasswordtext" style="color: #282e89; text-align: start;">SET NEW PASSWORD
+                                FOR IEXPENSE! </h6>
+
+                            <div class="form-group">
+                                <label class="icon-label">
+                                    <i class="bi bi-person-fill" style="font-size: 20px;"></i>
+                                </label>
+
+                                <input type="signupUserId" id="signupUserId" placeholder="User ID" name="signupUserId"
+                                    [(ngModel)]="userID" formControlName="signupUserId" readonly>
+
+                                @if (signupForm.get('signupUserId')?.invalid && (signupForm.get('signupUserId')?.touched
+                                ||
+                                signupForm.get('signupUserId')?.dirty) &&
+                                signupForm.get('signupUserId')?.errors?.['required']) {
+                                <div class="invalid-input" placement="top" ngbTooltip="{{globalRequiredMsg}}">
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+                                </div>
+                                }
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="icon-label">
+                                    <i class="bi bi-key-fill" style="font-size: 20px;"></i>
+                                </label>
+                                <input type="password" id="newPassword" placeholder="New Password" name="newPassword"
+                                    formControlName="newPassword" (input)="confirmPassword()" required>
+
+                                <!-- @if (signupForm.get('newPassword')?.invalid &&
+                                signupForm.get('newPassword')?.errors?.['required'] &&
+                                (signupForm.get('newPassword')?.touched || signupForm.get('newPassword')?.dirty)) {
+                                <div class="invalid-input" style="margin-top: -6px" placement="top"
+                                    ngbTooltip="{{globalRequiredMsg}}">
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+                                </div>
+                                } -->
+
+                                <div *ngIf="signupForm.get('newPassword')?.invalid && (signupForm.get('newPassword')?.touched || signupForm.get('newPassword')?.dirty)"
+                                    class="invalid-input" style="margin-top: -6px" placement="top"
+                                    [ngbTooltip]="generatePasswordTooltip(signupForm,'newPassword')">
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="icon-label">
+                                    <i class="bi bi-key-fill" style="font-size: 20px;"></i>
+                                </label>
+                                <input type="password" id="reTypePassword" placeholder="Re-enter new password"
+                                    name="reTypePassword" formControlName="reTypePassword" (input)="confirmPassword()"
+                                    required>
+
+                                @if (signupForm.get('reTypePassword')?.invalid &&
+                                signupForm.get('reTypePassword')?.errors?.['required'] &&
+                                (signupForm.get('reTypePassword')?.touched || signupForm.get('reTypePassword')?.dirty))
+                                {
+                                <div class="invalid-input" style="margin-top: -6px" placement="top"
+                                    ngbTooltip="{{globalRequiredMsg}}">
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+                                </div>
+                                }
+                            </div>
+
+                            <div *ngIf="!checkPassword1" class="match-password">
+                                <ul>
+                                    <li>Passwords do not match!</li>
+                                </ul>
+                            </div>
+                            <button *ngIf="signUptext" type="submit" class="login-button"
+                                [disabled]="signupForm.invalid">SIGN UP &
+                                LOGIN</button>
+
+                            <button *ngIf="setNewPasswordtext" type="submit" class="login-button"
+                                [disabled]="signupForm.invalid">SET PASSWORD & LOGIN</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Forgot Password Modal -->
+<div class="modal  modal-xl fade" id="forgotPassword" data-bs-backdrop="static" data-bs-keyboard="false"
+    [attr.aria-hidden]="isModalOpen ? 'false' : 'true'" [attr.inert]="isModalOpen ? null : 'true'">
+    <div class="modal-dialog modal-dialog-lg modal-dialog-centered">
+        <form [formGroup]="forgotPassEmail" style="margin-top: 0px;">
+            <div class="modal-content custom-modal">
+                <!-- Modal Header -->
+                <div class="modal-header bordered text-center">
+                    <h4 class="modal-title w-100">Forgot Your Password?</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        (click)="closeModal()"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <p class=" text-center" style="font-size: 14px;">Reset your password in 3 easy steps:</p>
+                    <div class="step-container">
+                        <div class="step"><span>1</span> Enter your registered email address below.</div>
+                        <div class="step"><span>2</span> Our system will send you a reset link to set your new password.
+                        </div>
+                        <div class="step"><span>3</span> The link will get expired in 5 mins.</div>
+                    </div>
+
+
+                    <!-- Email Input -->
+                    <div class="input-container">
+                        <label for="email">Registered Email Address</label>
+                        <input type="email" id="email" class="form-control mt-2" placeholder="Enter email address"
+                            formControlName="registeredEmail">
+
+                        @if (forgotPassEmail.get('registeredEmail')?.invalid &&
+                        forgotPassEmail.get('registeredEmail')?.errors?.['required'] &&
+                        (forgotPassEmail.get('registeredEmail')?.touched ||
+                        forgotPassEmail.get('registeredEmail')?.dirty))
+                        {
+                        <div class="invalid-input" style="margin-top: -30px" placement="top"
+                            ngbTooltip="{{globalRequiredMsg}}">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        }
+                    </div>
+
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer border-0 justify-content-center">
+                    <!-- Hidden Button to Open Modal -->
+                    <!-- <button #triggerModal type="button" class="btn btn-primary d-none" data-bs-toggle="modal"
+                        data-bs-target="#resetPasswordModal">
+                        Open Modal
+                    </button> -->
+
+                    <button type="button" class="btn btn-gradient " (click)="getNewPassword()" data-bs-dismiss="modal"
+                        [disabled]="forgotPassEmail.invalid">
+                        Send Link
+                    </button>
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal" (click)="closeModal()">
+                        Back to Login
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<!-- Reset Password Modal -->
+<!-- <div class="modal fade" id="resetPasswordModal" data-bs-backdrop="static" data-bs-keyboard="false"
+    [attr.aria-hidden]="isModalOpen ? 'false' : 'true'" [attr.inert]="isModalOpen ? null : 'true'">
+    <div class="modal-dialog modal-dialog-lg modal-dialog-centered">
+        <form [formGroup]="forgotPassword" style="margin-top: 0px;">
+            <div class="modal-content reset-modal">
+                <div class="modal-header bordered reset-header">
+                    <h4 class="modal-title w-100">Reset Password For : {{ resetUserID }}</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal()"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="reset-text text-center" style="font-size: 14px;">
+                        Enter the temporary password sent to your email, then set a new password.
+                    </p>
+
+                    <div class="reset-input-group">
+                        <label for="tempPassword">Temporary Password</label>
+                        <input type="password" id="tempPassword" class="reset-input mt-2"
+                            placeholder="Enter temporary password" formControlName="tempPassword"
+                            (input)="confirmPassword()" required>
+
+                        @if (forgotPassword.get('tempPassword')?.invalid &&
+                        forgotPassword.get('tempPassword')?.errors?.['required'] &&
+                        (forgotPassword.get('tempPassword')?.touched || forgotPassword.get('tempPassword')?.dirty))
+                        {
+                        <div class="invalid-input" style="margin-top: -30px" placement="top"
+                            ngbTooltip="{{globalRequiredMsg}}">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        }
+                    </div>
+
+                    <div class="reset-input-group">
+                        <label for="newPassword2">New Password</label>
+                        <input type="password" id="newPassword2" class="reset-input mt-2"
+                            placeholder="Enter new password" formControlName="newPassword2" (input)="confirmPassword()"
+                            required>
+
+                        @if (forgotPassword.get('newPassword2')?.invalid &&
+                        forgotPassword.get('newPassword2')?.errors?.['required'] &&
+                        (forgotPassword.get('newPassword2')?.touched || forgotPassword.get('newPassword2')?.dirty))
+                        {
+                        <div class="invalid-input" style="margin-top: -30px" placement="top"
+                            ngbTooltip="{{globalRequiredMsg}}">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        }
+                    </div>
+
+                    <div class="reset-input-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" class="reset-input mt-2"
+                            placeholder="Re-enter new password" formControlName="reTypePassword2"
+                            (input)="confirmPassword()" required>
+
+                        @if (forgotPassword.get('reTypePassword2')?.invalid &&
+                        forgotPassword.get('reTypePassword2')?.errors?.['required'] &&
+                        (forgotPassword.get('reTypePassword2')?.touched ||
+                        forgotPassword.get('reTypePassword2')?.dirty))
+                        {
+                        <div class="invalid-input" style="margin-top: -30px" placement="top"
+                            ngbTooltip="{{globalRequiredMsg}}">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div *ngIf="!checkPassword" class="match-password">
+                    <ul>
+                        <li>New Password and Confirm Password do not match!</li>
+                    </ul>
+                </div>
+
+                <div class="modal-footer reset-footer">
+                    <button class="btn btn-gradient" (click)="setNewPassword()" data-bs-dismiss="modal"
+                        [disabled]="forgotPassword.invalid">Reset
+                        Password</button>
+                    <button class="reset-btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div> -->

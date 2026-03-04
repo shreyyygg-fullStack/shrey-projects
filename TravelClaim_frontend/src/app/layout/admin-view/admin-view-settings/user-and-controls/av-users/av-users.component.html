@@ -1,0 +1,909 @@
+<div *ngIf="usersDetailsContainer">
+    <div style=" width: 100%;">
+        <div class=" setting-header-bar  d-flex justify-content-between align-items-center">
+            <span style="padding-left: 8px;">Users Details</span>
+        </div>
+
+        <div class=" d-flex align-items-inline filter-dropdown">
+
+            <div class="d-flex align-items-center justify-content-center">
+
+                <span class="filter-text">Filter:</span>
+
+                <select class="form-select form-control dropdown1Css" aria-label="Default select example">
+                    <option selected>All</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="Invited">Invited</option>
+                    <option value="notInvited">Yet To Invite</option>
+                    <option value="Deleted">Deleted</option>
+                </select>
+
+
+                <div *ngIf="moreFilter" class="dropdown" style="margin-left: 50px; ">
+                    <button class="form-control d-flex justify-content-between align-items-start dropdownBtnCss"
+                        type="button" data-bs-toggle="dropdown">
+                        More
+                        <i class="bi bi-caret-down-fill"></i>
+                    </button>
+                    <ul class="dropdown-menu" style="cursor: pointer;">
+
+
+                        <li class=" dropdown-item columnList">Mark as Active</li>
+                        <li class=" dropdown-item columnList">Mark as Inactive</li>
+                        <li class=" dropdown-item columnList" data-bs-toggle="modal" data-bs-target="#deleteUser"
+                            (click)="openModal()">Delete
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="container d-flex justify-content-end align-items-center">
+
+                <button type="button" class="btn btn-primary btn-sm btn-floating new-user-btn" (click)="newUser()">
+                    <i class="bi bi-plus-lg"></i> <span> New User</span>
+                </button>
+
+                <span class="sorting-text">Sorting:</span>
+
+                <select class="form-select form-control sorting-dropdown" aria-label="Default select example">
+                    <option selected>Emp ID</option>
+                    <option value="reportingTo"> Reporting To</option>
+                    <option value="department">Department</option>
+                    <option value="empGrade">Emp Grade</option>
+                </select>
+
+
+                <button type="button" class="btn btn-primary btn-sm btn-floating export-btn">
+                    <i class="bi bi-download"></i> <span style="margin-left: 5px;">Export</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="user-detail-data">
+        <div>
+            <ul style="padding:0; ">
+                <li class="row header listItemCss">
+                    <div class="col-2 user-detail-header" style="padding-left: 12px;">
+                        <label>Employee ID</label>
+                    </div>
+                    <div class="col-3 user-detail-header">
+                        <label> Employee Details</label>
+                    </div>
+                    <div class="col-2 user-detail-header">
+                        <label> EMP Role</label>
+                    </div>
+                    <div class="col-3 user-detail-header">
+                        <label> Submit To</label>
+                    </div>
+                    <div class="col-2 user-detail-header" style="border-right: 0px black solid;">
+                        <label> Action</label>
+                    </div>
+                </li>
+                <div style="margin-top: 4px;">
+                    <li *ngFor="let users of usersList" class="row user-list"
+                        [ngClass]="{ 'selected': selectedEmpId === users.EMP_ID}"
+                        (click)="selectedRow(users.EMP_ID, false)">
+                        <div class="col-2 user-list-data">
+                            <label class=" lbllistcss">{{users.EMP_ID}}</label>
+                        </div>
+                        <div class="col-3" style="overflow: hidden;">
+                            <div class=" d-flex align-items-inline">
+                                <label class=" lbllistcss" style="width: 100%;">{{users.FIRST_NAME}}
+                                    {{users.MIDDLE_NAME}}
+                                    {{users.LAST_NAME}}
+                                </label>
+                                <span class="badge user-active">Active</span>
+                            </div>
+                            <div>
+                                <label class=" lbllistcss mr-1 ml-1">
+                                    {{users.EMAIL_ADDRESS}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-2 user-list-data">
+                            <label class=" lbllistcss"> EMP Role</label>
+                        </div>
+                        <div class="col-3" style="overflow: hidden;">
+                            <label class=" lbllistcss"> {{users.REPORTING_TO}}</label>
+                            <div>
+                                <label class=" lbllistcss mr-1 ml-1">
+                                    Submit To Email
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-2 user-action">
+                            <div class="dropdown">
+                                <i class="bi bi-three-dots " type="button" data-bs-toggle="dropdown"
+                                    style="height: 100% !important;" aria-expanded="false"
+                                    (click)="handleButtonClick(users.EMP_ID)"></i>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item columnList action-col"
+                                            (click)="overviewSelectedUser(users)"><i class="bi bi-eyeglasses"></i>
+                                            Overview</a>
+                                    </li>
+                                    <li><a class="dropdown-item columnList action-col"
+                                            (click)="editSelectedUser(users)"><i class="bi bi-pencil-square"></i>
+                                            Edit</a>
+                                    </li>
+                                    <li *ngIf="users.INVITE == 0"><a class="dropdown-item columnList action-col"
+                                            (click)="inviteUser(users)"><i class="bi bi-envelope-plus"></i> Invite</a>
+                                    </li>
+                                    <li *ngIf="users.INVITE == 1"><a class="dropdown-item columnList action-col"
+                                            (click)="inviteUser(users)"><i class="bi bi-envelope-plus"></i>
+                                            Re-Invite</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+            </ul>
+        </div>
+
+
+    </div>
+</div>
+
+
+<!-- Add User Modal -->
+<div class="modal-container" *ngIf="newUserModal">
+    <div class="modal-details">
+        <div>
+            <div class="setting-header-bar  d-flex justify-content-between align-items-center">
+                <span style="padding-left: 8px;">New User</span>
+                <i class="bi bi-x-square cancel cancelIconCss" (click)="closeNewUserModal()"></i>
+            </div>
+        </div>
+
+        <div class="user-dtl-model-container">
+            <div class="row">
+                <div class="col-9">
+                    <div class="container1 mt-2">
+                        <form [formGroup]="newUserForm" (ngSubmit)="addUser()">
+                            <div class="row">
+                                <label class="userDtlTxtCss">
+                                    User
+                                    Details</label>
+                                <!-- Employee ID -->
+                                <div class="col-md-12 mb-3">
+                                    <label for="empId" class="form-label">Employee ID</label>
+                                    <input type="text" id="empId" class="form-control " style="width: 200px;"
+                                        formControlName="empId" placeholder="Enter employee Id">
+                                </div>
+
+                                <!-- First Name -->
+                                <div class="col-md-4 mb-3">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" id="firstName" class="form-control" formControlName="firstName"
+                                        placeholder="Enter first name" />
+                                </div>
+
+                                <!-- Middle Name -->
+                                <div class="col-md-4 mb-3">
+                                    <label for="middleName" class="form-label">Middle Name</label>
+                                    <input type="text" id="middleName" class="form-control" formControlName="middleName"
+                                        placeholder="Enter middle name" />
+                                </div>
+
+                                <!-- Last Name -->
+                                <div class="col-md-4 mb-3">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" id="lastName" class="form-control" formControlName="lastName"
+                                        placeholder="Enter last name" />
+                                </div>
+
+                                <!-- Email Address -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="emailAddress" class="form-label">Email Address</label>
+                                    <input type="email" id="emailAddress" class="form-control"
+                                        formControlName="emailAddress" placeholder="Enter email address" />
+                                </div>
+
+                                <!-- Mobile No. -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="mobileNo" class="form-label">Mobile No.</label>
+                                    <input type="text" id="mobileNo" class="form-control" formControlName="mobileNo"
+                                        placeholder="Enter mobile no." />
+                                </div>
+
+                                <!-- Employee Designation -->
+                                <div class="col-md-6 mb-3">
+                                    <!-- <label for="empDesignation" class="form-label">Employee Designation</label>
+                                    <input type="text" id="empDesignation" class="form-control"
+                                        formControlName="empDesignation" placeholder="Enter employee designation" /> -->
+
+                                    <label for="empDesignation" class="form-label">Employee Designation</label>
+
+
+                                    <div class="dropdown">
+                                        <button class="form-control d-flex justify-content-between align-items-start"
+                                            id="empDesignation" type="button" data-bs-toggle="dropdown"
+                                            (click)="designationDropdown()" style="width: 100%;">
+                                            {{ selectedDesignation || 'Select Designation' }}
+                                            <i class="bi bi-caret-down-fill"></i>
+                                        </button>
+                                        <ul class="dropdown-menu user-dtl-dropdown">
+                                            <li class="userDtlListCss">
+                                                <input type="search"
+                                                    class="form-control dropdown-item dropdown-searchbox-css"
+                                                    placeholder="Search designation..." [value]="desgSearchTerm"
+                                                    name="searchBox" title="search box" tabindex=0
+                                                    (input)="filterDesignations($event)" required />
+                                            </li>
+                                            <li *ngFor="let desg of filteredDesignations; let i = index"
+                                                (click)="selectDesignation(desg)"
+                                                [ngClass]="{ 'highlight': i === 0 && desgSearchTerm.length > 0 }"
+                                                style="cursor: pointer; background-color: #f9f9f9;">
+                                                <a class="dropdown-item columnList">
+                                                    {{ desg }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- Employee Department -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="empDepartment" class="form-label">Employee Department</label>
+                                    <div class="dropdown">
+                                        <button class="form-control d-flex justify-content-between align-items-start"
+                                            id="empDepartment" type="button" data-bs-toggle="dropdown"
+                                            (click)="departmentDropdown()" style="width: 100%;">
+
+                                            {{ selectedDepartment || 'Select Department' }}
+                                            <i class="bi bi-caret-down-fill"></i>
+                                        </button>
+                                        <ul class="dropdown-menu user-dtl-dropdown">
+                                            <li class="userDtlListCss">
+                                                <input type="search "
+                                                    class="form-control dropdown-item dropdown-searchbox-css"
+                                                    placeholder="Search department..." [value]="searchTerm"
+                                                    name="searchBox" title="search box" tabindex=0
+                                                    (input)="filterDepartments($event)" required />
+                                            </li>
+                                            <li *ngFor="let dept of filteredDepartments; let i = index"
+                                                (click)="selectDepartment(dept)"
+                                                [ngClass]="{ 'highlight': i === 0 && searchTerm.length > 0 }"
+                                                style="cursor: pointer; background-color: #f9f9f9;">
+                                                <a class="dropdown-item columnList">
+                                                    {{ dept }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Reporting To -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="reportingTo" class="form-label">Reporting To</label>
+                                    <input type="text" id="reportingTo" class="form-control"
+                                        formControlName="reportingTo" placeholder="Enter reporting to" />
+                                </div>
+
+                                <!-- Employee Location -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="empLocation" class="form-label">Employee Location</label>
+                                    <!-- <input type="text" id="empLocation" class="form-control"
+                                        formControlName="empLocation" placeholder="Enter employee location" /> -->
+                                    <div class="dropdown">
+                                        <button class="form-control d-flex justify-content-between align-items-start"
+                                            id="empLocation" type="button" data-bs-toggle="dropdown"
+                                            (click)="locationDropDown()" style="width: 100%;">
+                                            {{ selectedLocation ||'Select Location'}}
+                                            <i class="bi bi-caret-down-fill"></i>
+                                        </button>
+                                        <ul class="dropdown-menu user-dtl-dropdown">
+                                            <li class="userDtlListCss">
+                                                <input type="search"
+                                                    class="form-control dropdown-item dropdown-searchbox-css"
+                                                    placeholder="Search location..." [value]="locationSearchTerm"
+                                                    name="searchBox" title="search box" tabindex=0
+                                                    (input)="filterLocations($event)" required />
+                                            </li>
+                                            <li *ngFor="let location of filteredLocations; let i = index"
+                                                (click)="selectLocation(location)"
+                                                [ngClass]="{ 'highlight': i === 0 && locationSearchTerm.length > 0 }"
+                                                style="cursor: pointer; background-color: #f9f9f9;">
+                                                <a class="dropdown-item columnList">
+                                                    {{ location }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Employee DOJ Date -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="empDojDate" class="form-label">Employee DOJ Date</label>
+                                    <input type="text" id="empDojDate" class="form-control" formControlName="empDojDate"
+                                        placeholder="Enter employee doj date" />
+                                </div>
+
+                                <!-- Employee Status -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="empStatus" class="form-label">Employee Status</label>
+
+                                    <div class="dropdown">
+                                        <button class="form-control d-flex justify-content-between align-items-start"
+                                            id="empStatus" type="button" data-bs-toggle="dropdown"
+                                            (click)="emptStsDropDown()" style="width: 100%;">
+                                            {{ selectedEmptSts ||'Select Employment'}}
+                                            <i class="bi bi-caret-down-fill"></i>
+                                        </button>
+                                        <ul class="dropdown-menu user-dtl-dropdown">
+                                            <li class="userDtlListCss">
+                                                <input type="search"
+                                                    class="form-control dropdown-item dropdown-searchbox-css"
+                                                    placeholder="Search Employment..." [value]="emptStsSearchTerm"
+                                                    name="searchBox" title="search box" tabindex=0
+                                                    (input)="filterEmptSts($event)" required />
+                                            </li>
+                                            <li *ngFor="let empt of filteredEmptSts; let i = index"
+                                                (click)="selectEmptSts(empt)"
+                                                [ngClass]="{ 'highlight': i === 0 && emptStsSearchTerm.length > 0 }"
+                                                style="cursor: pointer; background-color: #f9f9f9;">
+                                                <a class="dropdown-item columnList">
+                                                    {{ empt }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+                                <label class="form-label claimEligbTxtCss">Claim Eligibility And Operations</label>
+
+                                <!-- Claim Eligibility -->
+                                <div class="col-md-12 mb-3">
+                                    <label for="empStatus" class="form-label">Claim Eligible</label>
+                                    <br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                            id="inlineRadio1" value="yes">
+                                        <label class="form-check-label" for="inlineRadio1">YES</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                            id="inlineRadio2" value="no">
+                                        <label class="form-check-label" for="inlineRadio2">NO</label>
+                                    </div>
+                                </div>
+
+                                <!-- Role -->
+                                <div class="col-md-12 mb-3">
+                                    <label for="empStatus" class="form-label">Role</label>
+                                    <br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions1"
+                                            id="inlineRadio3" value="approver">
+                                        <label class="form-check-label" for="inlineRadio3">Approver</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions1"
+                                            id="inlineRadio4" value="submitter">
+                                        <label class="form-check-label" for="inlineRadio4">Submitter</label>
+                                    </div>
+                                </div>
+
+                                <!-- Submit To -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="submitTo" class="form-label">Submit To</label>
+                                    <input type="text" id="submitTo" class="form-control"
+                                        placeholder="Enter submit to" />
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-5">
+                                <button type="submit" class="btn footer-btn-css" [disabled]="newUserForm.invalid">
+                                    Add
+                                </button>
+                                <button type="submit" class="btn footer-btn-css" (click)="closeNewUserModal()">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-3">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit User And Overview Modal -->
+<div class="modal-container" *ngIf="editUserModal || overviewUserModal">
+    <div class="modal-details">
+        <div *ngIf="editUserModal">
+            <div class="setting-header-bar  d-flex justify-content-between align-items-center">
+                <span style="padding-left: 8px;">Edit User</span>
+
+                <div style="float: inline-end;">
+                    <i class="bi bi-eyeglasses overviewIconCss" (click)="editUserModalTrue()" title="Overview"></i>
+                    <i class="bi bi-x-square cancel editCancelIconCss" (click)="closeEditNoverviewModal()"></i>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="overviewUserModal" style=" width: 100%;">
+            <div class="setting-header-bar  d-flex justify-content-between align-items-center">
+                <span style="padding-left: 8px;">Overview</span>
+                <div style="float: inline-end;">
+                    <i class="bi bi-pencil-square editIconCss" (click)="editUserModalTrue()" title="Edit"></i>
+                    <i class="bi bi-x-square cancel editCancelIconCss" (click)="closeEditNoverviewModal()"></i>
+                </div>
+            </div>
+            <ul class="nav nav-underline overview-nav">
+                <li class="nav-item">
+                    <a class="nav-link navLinkCss" [ngClass]="{'active': personalDetails}" aria-current="page"
+                        (click)="personalDetailsTab()">Personal
+                        Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navLinkCss" [ngClass]="{'active': activityLog}"
+                        (click)="activityLogTab()">Activity
+                        Log</a>
+                </li>
+            </ul>
+        </div>
+
+        <div *ngIf="editUserModal" class="user-dtl-model-container">
+            <div class="row">
+                <div class="col-9">
+                    <div class="container1 mt-2">
+                        <form [formGroup]="editUserForm" (ngSubmit)="editUser()">
+                            <div class="row">
+                                <label class="userDtlTxtCss">
+                                    User Details</label>
+                                <!-- Employee ID -->
+                                <div class="col-md-12 mb-3">
+                                    <label for="empId" class="form-label">Employee ID</label>
+                                    <input type="text" id="empId" class="form-control " style="width: 200px;"
+                                        [(ngModel)]="empId" formControlName="empId" placeholder="Enter employee Id"
+                                        readonly />
+                                </div>
+
+                                <!-- First Name -->
+                                <div class="col-md-4 mb-3">
+                                    <label for="firstName" class="form-label">First Name</label>
+
+                                    <input type="text" id="firstName" class="form-control" formControlName="firstName"
+                                        (input)="onInputChange($event)" [(ngModel)]="firstName"
+                                        placeholder="Enter first name" />
+                                </div>
+
+                                <!-- Middle Name -->
+                                <div class="col-md-4 mb-3">
+                                    <label for="middleName" class="form-label">Middle Name</label>
+
+                                    <input type="text" id="middleName" class="form-control" formControlName="middleName"
+                                        (input)="onInputChange($event)" [(ngModel)]="middleName"
+                                        placeholder="Enter middle name" />
+                                </div>
+
+                                <!-- Last Name -->
+                                <div class="col-md-4 mb-3">
+                                    <label for="lastName" class="form-label">Last Name</label>
+
+                                    <input type="text" id="lastName" class="form-control" formControlName="lastName"
+                                        (input)="onInputChange($event)" [(ngModel)]="lastName"
+                                        placeholder="Enter last name" />
+                                </div>
+
+                                <!-- Email Address -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="emailAddress" class="form-label">Email Address</label>
+
+                                    <input type="email" id="emailAddress" class="form-control"
+                                        formControlName="emailAddress" (input)="onInputChange($event)"
+                                        [(ngModel)]="emailAddress" placeholder="Enter email address" />
+                                </div>
+
+                                <!-- Mobile No. -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="mobileNo" class="form-label">Mobile No.</label>
+
+                                    <input type="text" id="mobileNo" class="form-control" formControlName="mobileNo"
+                                        (input)="onInputChange($event)" [(ngModel)]="mobileNo"
+                                        placeholder="Enter mobile no." />
+                                </div>
+
+                                <!-- Employee Designation -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="empDesignation" class="form-label">Employee Designation</label>
+
+                                    <!-- <input type="text" id="empDesignation" class="form-control"
+                                        formControlName="empDesignation" (input)="onInputChange($event)"
+                                        [(ngModel)]="empDesignation" placeholder="Enter employee designation" /> -->
+                                    <div class="dropdown">
+                                        <button class="form-control d-flex justify-content-between align-items-start"
+                                            id="empDesignation" type="button" data-bs-toggle="dropdown"
+                                            (click)="designationDropdown()" style="width: 100%;">
+                                            {{ selectedDesignation }}
+                                            <i class="bi bi-caret-down-fill"></i>
+                                        </button>
+                                        <ul class="dropdown-menu user-dtl-dropdown">
+                                            <li class="userDtlListCss">
+                                                <input type="search"
+                                                    class="form-control dropdown-item dropdown-searchbox-css"
+                                                    placeholder="Search department..." [value]="desgSearchTerm"
+                                                    name="searchBox" title="search box" tabindex=0
+                                                    (input)="filterDesignations($event)" required />
+                                            </li>
+                                            <li *ngFor="let desg of filteredDesignations; let i = index"
+                                                (click)="selectDesignation(desg)"
+                                                [ngClass]="{ 'highlight': i === 0 && desgSearchTerm.length > 0 }"
+                                                style="cursor: pointer; background-color: #f9f9f9;">
+                                                <a class="dropdown-item columnList">
+                                                    {{ desg }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Employee Department -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="empDepartment" class="form-label">Employee Department</label>
+                                    <div class="dropdown">
+                                        <button class="form-control d-flex justify-content-between align-items-start"
+                                            id="empDepartment" type="button" data-bs-toggle="dropdown"
+                                            (click)="departmentDropdown()" style="width: 100%;">
+                                            {{ selectedDepartment }}
+                                            <i class="bi bi-caret-down-fill"></i>
+                                        </button>
+                                        <ul class="dropdown-menu user-dtl-dropdown">
+                                            <li class="userDtlListCss">
+                                                <input type="search"
+                                                    class="form-control dropdown-item dropdown-searchbox-css"
+                                                    placeholder="Search department..." [value]="searchTerm"
+                                                    name="searchBox" title="search box" tabindex=0
+                                                    (input)="filterDepartments($event)" required />
+                                            </li>
+                                            <li *ngFor="let dept of filteredDepartments; let i = index"
+                                                (click)="selectDepartment(dept)"
+                                                [ngClass]="{ 'highlight': i === 0 && searchTerm.length > 0 }"
+                                                style="cursor: pointer; background-color: #f9f9f9;">
+                                                <a class="dropdown-item columnList">
+                                                    {{ dept }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Reporting To -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="reportingTo" class="form-label">Reporting To</label>
+
+                                    <input type="text" id="reportingTo" class="form-control"
+                                        formControlName="reportingTo" (input)="onInputChange($event)"
+                                        [(ngModel)]="reportingTo" placeholder="Enter reporting to" />
+                                </div>
+
+                                <!-- Employee Location -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="empLocation" class="form-label">Employee Location</label>
+
+                                    <div class="dropdown">
+                                        <button class="form-control d-flex justify-content-between align-items-start"
+                                            id="empLocation" type="button" data-bs-toggle="dropdown"
+                                            (click)="locationDropDown()" style="width: 100%;">
+                                            {{ selectedLocation }}
+                                            <i class="bi bi-caret-down-fill"></i>
+                                        </button>
+                                        <ul class="dropdown-menu user-dtl-dropdown">
+                                            <li class="userDtlListCss">
+                                                <input type="search"
+                                                    class="form-control dropdown-item dropdown-searchbox-css"
+                                                    placeholder="Search location..." [value]="locationSearchTerm"
+                                                    name="searchBox" title="search box" tabindex=0
+                                                    (input)="filterLocations($event)" required />
+                                            </li>
+                                            <li *ngFor="let location of filteredLocations; let i = index"
+                                                (click)="selectLocation(location)"
+                                                [ngClass]="{ 'highlight': i === 0 && locationSearchTerm.length > 0 }"
+                                                style="cursor: pointer; background-color: #f9f9f9;">
+                                                <a class="dropdown-item columnList">
+                                                    {{ location }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Employee DOJ Date -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="empDojDate" class="form-label">Employee DOJ Date</label>
+
+                                    <input type="text" id="empDojDate" class="form-control" formControlName="empDojDate"
+                                        (input)="onInputChange($event)" [(ngModel)]="empDojDate"
+                                        placeholder="Enter employee doj date" />
+                                </div>
+
+                                <!-- Employee Status -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="empStatus" class="form-label">Employee Status</label>
+
+
+                                    <div class="dropdown">
+                                        <button class="form-control d-flex justify-content-between align-items-start"
+                                            id="empStatus" type="button" data-bs-toggle="dropdown"
+                                            (click)="emptStsDropDown()" style="width: 100%;">
+                                            {{ selectedEmptSts}}
+                                            <i class="bi bi-caret-down-fill"></i>
+                                        </button>
+                                        <ul class="dropdown-menu user-dtl-dropdown">
+                                            <li class="userDtlListCss">
+                                                <input type="search"
+                                                    class="form-control dropdown-item dropdown-searchbox-css"
+                                                    placeholder="Search Employment..." [value]="emptStsSearchTerm"
+                                                    name="searchBox" title="search box" tabindex=0
+                                                    (input)="filterEmptSts($event)" required />
+                                            </li>
+                                            <li *ngFor="let empt of filteredEmptSts; let i = index"
+                                                (click)="selectEmptSts(empt)"
+                                                [ngClass]="{ 'highlight': i === 0 && emptStsSearchTerm.length > 0 }"
+                                                style="cursor: pointer; background-color: #f9f9f9;">
+                                                <a class="dropdown-item columnList">
+                                                    {{ empt }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <label class="form-label claimEligbTxtCss"><span>Claim
+                                        Eligibility And
+                                        Operations</span></label>
+
+
+                                <!-- Claim Eligibility -->
+                                <div class="col-md-12 mb-3">
+                                    <label for="empStatus" class="form-label">Claim Eligible</label>
+                                    <br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                            id="inlineRadio1" value="yes">
+                                        <label class="form-check-label" for="inlineRadio1">YES</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                            id="inlineRadio2" value="no">
+                                        <label class="form-check-label" for="inlineRadio2">NO</label>
+                                    </div>
+                                </div>
+
+                                <!-- Role -->
+                                <div class="col-md-12 mb-3">
+                                    <label for="empStatus" class="form-label">Role</label>
+                                    <br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions1"
+                                            id="inlineRadio3" value="approver">
+                                        <label class="form-check-label" for="inlineRadio3">Approver</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions1"
+                                            id="inlineRadio4" value="submitter">
+                                        <label class="form-check-label" for="inlineRadio4">Submitter</label>
+                                    </div>
+                                </div>
+
+                                <!-- Submit To -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="submitTo" class="form-label">Submit To</label>
+                                    <input type="text" id="submitTo" class="form-control"
+                                        placeholder="Enter submit to" />
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-5">
+
+                                <button type="submit" class="btn footer-btn-css" [disabled]="!isFormChanged">
+                                    Update
+                                </button>
+                                <button type="submit" class="btn footer-btn-css" (click)="closeEditNoverviewModal()">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="overviewUserModal " class="overview-model-container">
+            <div *ngIf="personalDetails" class="row">
+                <div class="col-9">
+                    <div class="container1 mt-2">
+
+                        <div class="row">
+                            <div class="user-card">
+                                <div class="user-header">
+                                    <div class="user-info">
+                                        <span>{{firstName}} {{middleName}} {{lastName}} </span>
+                                        <p class="role">{{selectedDesignation}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Employee ID -->
+                            <div class="col-md-12 mb-4">
+                                <div class=" detail overview-dtl" style="width: 200px;">
+                                    <span>Employee ID :</span>{{empId}}
+                                </div>
+                            </div>
+
+                            <!-- Email Address -->
+                            <div class="col-md-6 mb-4">
+
+                                <div class=" detail overview-dtl">
+                                    <span>Email Address :</span>{{emailAddress}}
+                                </div>
+                            </div>
+
+                            <!-- Mobile No. -->
+                            <div class="col-md-6 mb-4">
+                                <div class=" detail overview-dtl">
+                                    <span>Mobile No. :</span>{{mobileNo}}
+                                </div>
+                            </div>
+
+                            <!-- Employee Department -->
+                            <div class="col-md-6 mb-4">
+                                <div class=" detail overview-dtl">
+                                    <span>Employee Department :</span>{{selectedDepartment}}
+                                </div>
+                            </div>
+
+                            <!-- Reporting To -->
+                            <div class="col-md-6 mb-4">
+                                <div class=" detail overview-dtl">
+                                    <span>Reporting To :</span>{{reportingTo}}
+                                </div>
+                            </div>
+
+                            <!-- Employee Location -->
+                            <div class="col-md-6 mb-4">
+
+                                <div class=" detail overview-dtl">
+                                    <span>Employee Location :</span>{{selectedLocation}}
+                                </div>
+                            </div>
+
+                            <!-- Employee DOJ Date -->
+                            <div class="col-md-6 mb-4">
+                                <div class=" detail overview-dtl">
+                                    <span>Employee DOJ Date :</span>{{empDojDate}}
+                                </div>
+                            </div>
+
+                            <!-- Employee Status -->
+                            <div class="col-md-6 mb-4">
+                                <div class=" detail overview-dtl">
+                                    <span>Employee Status :</span>{{selectedEmptSts}}
+                                </div>
+                            </div>
+
+                            <label class="form-label mb-4 claimEligbTxtCss">
+                                <span>Claim
+                                    Eligibility And
+                                    Operations</span> </label>
+
+                            <!-- Claim Eligibility -->
+                            <div class="col-md-6 mb-4">
+                                <div class=" detail overview-dtl">
+                                    <span>Claim Eligible :</span>Yes
+                                </div>
+                            </div>
+
+                            <!-- Role -->
+                            <div class="col-md-6 mb-4">
+
+                                <div class=" detail overview-dtl">
+                                    <span>Role :</span>Submitter
+                                </div>
+                            </div>
+
+                            <!-- Submit To -->
+                            <div class="col-md-6 mb-4">
+
+                                <div class=" detail overview-dtl">
+                                    <span>Submit To :</span>{{reportingTo}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                </div>
+            </div>
+
+            <div *ngIf="activityLog" class="row">
+                <div class="col-12">
+                    <div class="container1 mt-2">
+
+                        <span class="activeLogUser">Activity done by {{firstName}}
+                            {{middleName}} {{lastName}}</span>
+
+                        <div class="mt-3">
+                            <ul class="active-log-data">
+                                <li class="row header activeLogHeader">
+                                    <div class="col-1 active-log-header-txt">
+                                        <label>SN</label>
+                                    </div>
+                                    <div class="col-2 active-log-header-txt">
+                                        <label> Date & Time</label>
+                                    </div>
+                                    <div class="col-2 active-log-header-txt">
+                                        <label> Claim ID</label>
+                                    </div>
+                                    <div class="col-4 active-log-header-txt">
+                                        <label> Particular / Remarks</label>
+                                    </div>
+                                    <div class="col-3 active-log-header-txt" style="border-right: 0px black solid;">
+                                        <label> Controller</label>
+                                    </div>
+                                </li>
+
+                                <li class="row active-log-list-data">
+                                    <div class="col-1 user-list-data">
+                                        <label class=" lbllistcss">1</label>
+                                    </div>
+                                    <div class="col-2 user-list-data">
+                                        <label class=" lbllistcss">2021-06-10 14:06:59</label>
+                                    </div>
+                                    <div class="col-2 user-list-data">
+                                        <label class=" lbllistcss"> ER-006</label>
+                                    </div>
+                                    <div class="col-4 user-list-data">
+                                        <label class=" lbllistcss"> Site Travel</label>
+                                    </div>
+                                    <div class="col-3 user-list-data" style="border-right: 0px black solid;">
+                                        <label>expenseController</label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-0">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Delete User Modal -->
+<div class="modal fade" id="deleteUser" data-bs-backdrop="static" data-bs-keyboard="false"
+    [attr.aria-hidden]="isModalOpen ? 'false' : 'true'" [attr.inert]="isModalOpen ? null : 'true'">
+    <div class="modal-dialog modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">DELETE USER ({{selectedEmpId}})</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="width: 30px;"
+                    (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                Do you really want to delete this User?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary deleteBtnCss" data-bs-dismiss="modal"
+                    (click)="deleteSelectedUser()">YES</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 100px;"
+                    (click)="closeModal()">NO</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Delete User Modal Ends -->

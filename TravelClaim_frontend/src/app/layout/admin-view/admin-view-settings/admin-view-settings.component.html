@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-2 adminview-setting">
+        <div class=" titleCss  d-flex justify-content-between align-items-center">
+            <span style="padding-left: 8px;"> Settings</span>
+        </div>
+
+        <div class="lGpadBott setting-data">
+
+            <li class=" lgifilList1Css  d-flex justify-content-between align-items-center"
+                style="list-style-type: none;" data-toggle="collapse" data-target="#collapseOne"
+                (click)="organizationTab()"> <span style="padding-left: 8px;">
+                    Organization</span>
+                <span class="badge badge-pill">
+                    <i class="bi arrowiconCss"
+                        [ngClass]="{'bi bi-caret-right-fill':!organization, 'bi bi-caret-up-fill':organization}"
+                        aria-hidden="true"></i>
+                </span>
+            </li>
+
+            <div *ngIf="organization">
+                <li class=" lgifilList1Css2 setting-sublist-item  d-flex justify-content-between align-items-center"
+                    (click)="navigateOganizationProfile()"
+                    [ngClass]="{'active':activeTab('/ii/admin-view/settings/organization-profile')}"> <span
+                        class="sublist-item-text">
+                        <i class="bi bi-dot"></i> Organization Profile </span></li>
+                <li class=" lgifilList1Css2 setting-sublist-item d-flex justify-content-between align-items-center">
+                    <span class="sublist-item-text"> <i class="bi bi-dot"></i> Domain </span>
+                </li>
+                <li class=" lgifilList1Css2 setting-sublist-item d-flex justify-content-between align-items-center">
+                    <span class="sublist-item-text">
+                        <i class="bi bi-dot"></i> Tags </span></li>
+                <li class=" lgifilList1Css3 setting-sublist-item d-flex justify-content-between align-items-center"
+                    (click)="navigatePolicy()" [ngClass]="{'active':activeTab('/ii/admin-view/settings/policy')}"> <span
+                        class="sublist-item-text">
+                        <i class="bi bi-dot"></i> Policy </span></li>
+
+            </div>
+            <li class=" lgifilList1Css setting-list-item d-flex justify-content-between align-items-center "
+                (click)="userAndControl()">
+                <span style="padding-left: 8px;"> User & Controls</span>
+                <span class="badge badge-pill">
+                    <i class="bi arrowiconCss"
+                        [ngClass]="{'bi bi-caret-right-fill':!userControl, 'bi bi-caret-up-fill':userControl}"
+                        aria-hidden="true"></i>
+                </span>
+            </li>
+            <div *ngIf="userControl">
+                <li class=" lgifilList1Css2 setting-sublist-item d-flex justify-content-between align-items-center"
+                    [ngClass]="{'active':activeTab('/ii/admin-view/settings/users')}" (click)="navigateUsers()"> <span
+                        class="sublist-item-text">
+                        <i class="bi bi-dot"></i> Users </span></li>
+                <li class=" lgifilList1Css2 setting-sublist-item d-flex justify-content-between align-items-center"
+                    [ngClass]="{'active':activeTab('/ii/admin-view/settings/global-setting')}"
+                    (click)="navigateGlobalSetting()"> <span class="sublist-item-text">
+                        <i class="bi bi-dot"></i> Global Setting </span></li>
+                <li class=" lgifilList1Css3 setting-sublist-item d-flex justify-content-between align-items-center">
+                    <span class="sublist-item-text"> <i class="bi bi-dot"></i> Roles and Department </span>
+                </li>
+            </div>
+
+            <li class=" lgifilList1Css setting-list-item d-flex justify-content-between align-items-center"> <span
+                    style="padding-left: 8px;"> Module</span>
+            </li>
+            <li class=" lgifilList1Css setting-list-item d-flex justify-content-between align-items-center"> <span
+                    style="padding-left: 8px;">
+                    Automation</span></li>
+        </div>
+    </div>
+
+    <div class="col-10" style="padding-left: 0;">
+
+        <router-outlet></router-outlet>
+
+
+
+
+
+    </div>
+
+</div>

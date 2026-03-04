@@ -1,0 +1,342 @@
+<div *ngIf="analytics">
+    <div class="d-flex align-items-center  gap-5 border-bottom nav-header-bar">
+        <span class="header-title titleTxtCss" >Analytics</span>
+        <select class="form-select headerBarDropDownCss" >
+            <option selected>Search reports</option>
+        </select>
+    </div>
+
+    <div class="row gy-4 mt-1">
+        <div class="col-12 colCss">
+            <div class="card shadow-sm border-light-subtle">
+                <div class="card-body">
+                    <span class=" mb-1 sub-header-title" >
+                        <i class="bi bi-file-earmark-text me-2"></i>EXPENSES
+                    </span>
+                    <p class=" mb-3" style="font-size: 1.1rem;">Know how much you've spent on business expenses
+                        by running analytics based on various parameters.</p>
+                    <div class="row row-cols-lg-4">
+                        <div class="col"> <span class="info" (click)="expenseDetailsTab()"><i
+                                    class="bi bi-star me-2 "></i> Expense Details </span></div>
+                        <div class="col "><span class="info"> <i class="bi bi-star me-2 "> </i> Expenses by
+                                Category</span> </div>
+                        <div class="col "> <span class="info"><i class="bi bi-star me-2 "> </i> Expenses by
+                                Attendee</span> </div>
+                        <div class="col "> <span class="info"> <i class="bi bi-star me-2 "></i> Expenses by Customer
+                            </span></div>
+                        <div class="col "> <span class="info"> <i class="bi bi-star me-2 "></i> Expenses by
+                                Project</span></div>
+                        <div class="col "> <span class="info"> <i class="bi bi-star me-2 "></i> Expenses by
+                                Merchant</span></div>
+                        <div class="col "> <span class="info"> <i class="bi bi-star me-2 "></i> Expenses by
+                                Currency</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 colCss">
+            <div class="card shadow-sm border-light-subtle">
+                <div class="card-body">
+                    <span class=" mb-1 sub-header-title">
+                        <i class="bi bi-folder2-open me-2"></i>REPORTS
+                    </span>
+                    <p class=" mb-3"  style="font-size: 1.1rem;">View statistics of the expense reports you've
+                        created and resolve the policy violations in your reports.</p>
+                    <div> <span class="info"> <i class="bi bi-star me-2 "></i> Expense Reports Details</span></div>
+                    <div> <span class="info"> <i class="bi bi-star me-2 "></i> Policy Violations </span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 colCss">
+            <div class="card shadow-sm border-light-subtle">
+                <div class="card-body">
+                    <span class=" mb-1 sub-header-title">
+                        <i class="bi bi-briefcase me-2"></i>TRIPS
+                    </span>
+                    <p class=" mb-3" style="font-size: 1.1rem;">Get a summary of the business trips you've
+                        undertaken and the statuses of your trips and trip reports.</p>
+                    <div> <span class=" info"><i class="bi bi-star me-2 "></i> Trip Details</span></div>
+                    <div> <span class=" info"> <i class="bi bi-star me-2 "></i> Trip Stage Summary</span></div>
+                    <div> <span class=" info"> <i class="bi bi-star me-2 "></i> Trip Summary by Report Status</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="expenseDetails" style="padding-left: 5px;">
+
+    <div class="mt-3">
+        <div class="mb-3">
+            <a class="text-decoration-none backAnlyticsText" (click)="backToAnalytics()"><i class="bi bi-chevron-left"> Back to all
+                    Analytics</i> </a>
+        </div>
+
+        <div class="report-header">
+            <div class="d-flex align-items-center">
+                <div style="border-right: 1px solid black;"> <i class="bi bi-list listIconCss"></i> </div>
+
+                <h6 class="mb-0 text-secondary report-header-titleCss"> EXPENSE : <span class="titleLabelCss">Expense Details</span></h6>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <div class="reportHeaderTxtCss"><i
+                        class="bi bi-clock"></i> Schedule Report</div>
+                <div class="reportHeaderTxtCss"> <i
+                        class="bi bi-printer"></i> Print</div>
+                <div class="dropdown exportDropdownCss">
+                    <span class="dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-download"></i> Export as
+                    </span>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item">PDF</a></li>
+                        <li><a class="dropdown-item">Excel</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3 d-flex align-items-center justify-content-between">
+            <div class="datetime-filter">
+                <i class="bi bi-funnel-fill filter-pill filterIconCss"></i>
+                <div class="filter-pill text-secondary dateFilterTxtCss">
+                    Expense Date: <span class="titleLabelCss" >07/04/2025 - 10/04/2025</span>
+                </div>
+                <a class="ms-2 text-primary text-decoration-none customizeCss" data-bs-target="#exampleModalToggle"
+                    data-bs-toggle="modal">Customize</a>
+            </div>
+           
+        </div>
+
+
+        <div class="table-responsive mt-4">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>REPORT</th>
+                        <th>USER NAME</th>
+                        <th>RECEIPT</th>
+                        <th>PAYMENT MODE</th>
+                        <th>CATEGORY</th>
+                        <th>EXPENSE DATE</th>
+                        <th>EXPENSE AMOUNT</th>
+                        <th>EXPENSE AMOUNT (FCY)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Trip to pune to attend business metting</td>
+                        <td>
+                            N Singh<br>
+                            <span class="email-text">nitesh0306gmail.com</span>
+                        </td>
+                        <td>-</td>
+                        <td>Cheque</td>
+                        <td>Fuel/Mileage Expenses</td>
+                        <td>10/04/2025</td>
+                        <td>Rs.7,890.00</td>
+                        <td>Rs.7,890.00</td>
+                    </tr>
+                    <tr>
+                        <td>Trip to pune to attend business metting</td>
+                        <td>
+                            N Singh<br>
+                            <span class="email-text">nitesh0306gmail.com</span>
+                        </td>
+                        <td>-</td>
+                        <td>Cheque</td>
+                        <td>Meals and Entertainment</td>
+                        <td>10/04/2025</td>
+                        <td>Rs.345.00</td>
+                        <td>Rs.345.00</td>
+                    </tr>
+                    <tr>
+                        <td>Trip to pune to attend business metting</td>
+                        <td>
+                            N Singh<br>
+                            <span class="email-text">nitesh0306gmail.com</span>
+                        </td>
+                        <td>-</td>
+                        <td>Cheque</td>
+                        <td>Automobile Expense</td>
+                        <td>10/04/2025</td>
+                        <td>Rs.4,444.00</td>
+                        <td>Rs.4,444.00</td>
+                    </tr>
+                    <tr>
+                        <td>Travel to pune</td>
+                        <td>
+                            S Singh<br>
+                            <span class="email-text">niteshsingh2011live.com</span>
+                        </td>
+                        <td><span class="receipt-icon" (click)="showFiles()"><i class="bi bi-file-earmark"></i> 3</span>
+                        </td>
+                        <td>Cash</td>
+                        <td>Meals and Entertainment</td>
+                        <td>07/04/2025</td>
+                        <td>Rs.802.00</td>
+                        <td>Rs.802.00</td>
+                    </tr>
+                    <tr >
+                        <td colspan="6" style="background-color: #f9f9f9; font-weight: 500;">Total</td>
+                        <td colspan="2" style="background-color: #f9f9f9; font-weight: 500;">Rs.13,481.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Customize Modal -->
+<div class="modal fade" id="exampleModalToggle" data-bs-backdrop="static" aria-hidden="true"
+    aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-lg ">
+        <div class="modal-content">
+            <div class="modal-header customizeHeaderCss">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel"><i class="bi bi-gear"></i> Customize <i
+                        class="bi bi-caret-right-fill"></i> Expense Deatils</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="btn btn-outline-primary "> <i class="bi bi-funnel"></i> Filters
+                </div>
+                <div class="btn btn-outline-light bg-light modeltxtCss"> <i
+                        class="bi bi-layout-text-window-reverse"></i> Show / Hide Columns</div>
+                <hr>
+                <h5>Date Range</h5>
+
+                <div class="d-flex align-items-center mb-4">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Expense Date</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+
+                    <select class="form-select" aria-label="Default select example">
+                        <optgroup label="Current">Current</optgroup>
+                        <option value="1">Today</option>
+                        <option value="2">This Week</option>
+                        <option value="3">This Month</option>
+                        <option value="4">This Quater</option>
+                        <option value="5">This Year</option>
+
+                        <optgroup label="Previous">Previous</optgroup>
+                        <option value="6">Yesterday</option>
+                        <option value="7">Previous Week</option>
+                        <option value="8">Previous Month</option>
+                        <option value="9">Previous Quater</option>
+                        <option value="10">Previous Year</option>
+
+                        <optgroup label="Custom">Custom</optgroup>
+                        <option value="custom" selected>Custom</option>
+
+                    </select>
+                    <input type="date" class="form-control">
+                    <input type="date" class="form-control">
+                </div>
+                <hr>
+                <h5>Group By</h5>
+                <span>Select the parameter</span>
+                <select class="form-select mt-2 mb-2" aria-label="Default select example" style="width: 200px;">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+                <hr>
+            </div>
+            <div class="modal-footer d-flex justify-content-start mt-4" style="background-color: #f9f9f9;">
+                <button class="btn btn-primary">Run Report</button>
+                <button class="btn " data-bs-dismiss="modal" style="background-color: white;">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Document Viewer -->
+<div class="preview-container" *ngIf="selectedFile">
+    <div class="preview-content">
+        <h3><i class="bi bi-x-lg preview-close-icon" 
+                (click)="closePreviewModal()"></i></h3>
+        <div class="row">
+            <div class="col-2">
+                <h5 style="text-align: center;">Attachments</h5>
+                <div class="file-thumbnail" >
+                    <div class="attachment" *ngFor="let file of fileThumbnail; let i = index">
+                        <span class="attachment-index">{{i+1}}.</span>
+
+                        <div style="margin-top: 10px;">
+                            <img class="fileCss" [src]="file" alt="PDF thumbnail">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-10">
+                <h5 style="text-align: center;">Selected Attachment</h5>
+                <div class="file-thumbnail">
+                    <div *ngIf="selectedFileUrl ">
+                        <pdf-viewer class="pdf-view" [src]="selectedFileUrl" [render-text]="true" [show-all]="true" [show-borders]="true"
+                            [zoom]="pdfZoomLevel"></pdf-viewer>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="zoom-controls d-flex justify-content-start">
+                        <button class="preview-button p-2 " (click)="zoomIn()" style="font-size:x-large;"><i
+                                class="bi bi-plus-circle"></i></button>
+                        <button class="preview-button p-2  " (click)="zoomOut()" style="font-size:x-large;"><i
+                                class="bi bi-dash-circle"></i></button>
+                        <button class="preview-button p-2  " (click)="resetZoom()"
+                            style="font-size:large;">Reset</button>
+                    </div>
+
+                    <div class=" d-flex  justify-content-end " style="margin-top: 20px;">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination pagination-lg">
+                                <li class="page-item" [class.disabled]="currentFileIndex === 0">
+                                    <a class="page-link" aria-label="Previous" (click)="goToPrevious()">
+                                        <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
+                                    </a>
+                                </li>
+
+                                <li class="page-item" *ngIf="pageStartIndex > 0">
+                                    <a class="page-link" (click)="goToPreviousPageGroup()">...</a>
+                                </li>
+
+                                <li *ngFor="let i of visiblePageIndexes" class="page-item"
+                                    [class.active]="i === currentFileIndex">
+                                    <a class="page-link" style="cursor: pointer;" (click)="setCurrentPdf(i)">
+                                        {{ i + 1 }}
+                                    </a>
+                                </li>
+
+                                <li class="page-item" *ngIf="pageStartIndex + pageWindowSize < pdfBlobUrls.length">
+                                    <a class="page-link" (click)="goToNextPageGroup()">...</a>
+                                </li>
+
+                                <li class="page-item" [class.disabled]="currentFileIndex === pdfBlobUrls.length - 1">
+                                    <a class="page-link" aria-label="Next" (click)="goToNext()">
+                                        <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+    </div>
+</div>

@@ -1,0 +1,169 @@
+@import './global-styles/variables';
+
+/* You can add global styles to this file, and also import other style files */
+$bootstrap-icons-font-src: url("bootstrap-icons/font/fonts/bootstrap-icons.woff2") format("woff2"), url("bootstrap-icons/font/fonts/bootstrap-icons.woff") format("woff");
+@import "bootstrap/scss/bootstrap.scss";
+@import "bootstrap-icons/font/bootstrap-icons.scss";
+
+
+
+
+html,
+body {
+  font-family: 'Inter';
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+  min-height: 100vh;
+  min-width: 100vh;
+  overflow: hidden !important;
+  font-size: 12px;
+  // font-weight: 600 !important;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url("./assets/fonts/Inter_18pt-SemiBold.ttf") format('truetype');
+  font-display: swap;
+}
+
+.home-tab{
+  background-color: $tab-background-color;
+}
+.nav-header-bar{
+ 
+  height: $header-bar-height;
+  background-color: $header-bar-background-color;
+  box-shadow: $header-bar-box-shadow;
+}
+.header-text {
+  font-weight: $heading-weight ;
+  font-size: $heading-1 ;
+}
+
+.home-header-bar{
+  width: $header-bar-width !important;
+  height: $header-bar-height;
+  display: flex; 
+  align-items: $header-align-item;
+  font-weight: $header-font-weight;
+  box-shadow: $header-bar-box-shadow;
+  background-color: $header-bar-background-color;
+  // line-height: 1.5px;
+}
+
+.header-title{
+  font-size: $heading;
+  color: #2e3151;
+  font-weight: $header-font-weight;
+  
+}
+.sub-header-title{
+  font-size: $heading-2;
+  color: #2e3151;
+  font-weight: $heading-weight;
+}
+.heading-1{
+  font-size:  $heading;
+  font-weight: $heading-weight;
+}
+.heading-2{
+  font-size:  $heading-2 !important;
+  font-weight: $heading-weight !important;
+}
+.heading-3{
+  font-size:  $heading-3;
+  font-weight: $heading-weight;
+}
+
+.header-button{
+  width: 100%; 
+  display: flex; 
+  align-items: $header-align-item;  
+  justify-content: center; 
+  padding-right: 20px;
+}
+.guide-tour{
+  padding-right: 3px;
+  color:#2e3151;
+  font-size: 1.1rem;
+}
+
+.card-shadow-css{
+  box-shadow: $card-box-shadow;
+}
+
+.quick-access-card-text{
+  font-weight: $heading-weight; 
+  font-size: $heading-2; 
+  color: $text-color;
+  margin-top: 10px;
+}
+.setting-header-bar{
+    background-color: $header-bar-background-color;
+    box-shadow: $header-bar-box-shadow;
+    width: $header-bar-width;
+    color: #2e3151;
+    height: $header-bar-height !important;
+    // overflow: hidden;
+    font-size: $heading;
+    font-weight: $header-font-weight;
+}
+
+
+
+//Guide Tour toltip
+  .introjs-tooltip {
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+    max-width: 320px !important;
+    min-width: 320px !important;
+    // font-family: 'Segoe UI', sans-serif;
+  }
+  
+  /* Header styling */
+
+  .introjs-tooltip-title {
+     font-weight:500 !important;
+    font-size: 14px !important;
+    color: black !important;
+    margin-bottom: 6px !important;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  }
+  
+  .introjs-tooltiptext {
+    color: #555;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  
+    font-size: 12px !important;
+    font-weight:normal !important;
+  }
+  
+  
+  
+  .introjs-button {
+    border-radius: 6px;
+    font-size: 12px !important;
+    font-weight:normal !important;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  
+    // font-weight: 500;
+    // background-color: #2b7bff !important;
+    border: none;
+    color: white;
+  }
+  .introjs-button:hover {
+    font-weight:lighter !important;
+    background-color: #6d84b8!important;
+    color: white !important;
+    font-weight: normal !important;
+  }
+  
+  .introjs-skipbutton {
+    // display: none !important;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+   
+  
+  }
+  
+

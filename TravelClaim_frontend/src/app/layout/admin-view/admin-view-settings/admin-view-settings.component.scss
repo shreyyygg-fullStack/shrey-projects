@@ -1,0 +1,102 @@
+.lGpadBott {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.lgifilList1Css {
+    cursor: pointer;
+    background-color:white;
+    color: #2e3151;
+    height: 45px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.0rem;
+    font-weight: 500;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 5px 0px;
+
+}
+
+.lgifilList1Css2 {
+    cursor: pointer;
+    background-color:white;
+    color: #2e3151;
+    height: 35px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.0rem;
+    font-weight: 500;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 0px;
+
+}
+
+.lgifilList1Css3 {
+    cursor: pointer;
+    background-color:white;
+    color: #2e3151;
+    height: 35px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.0rem;
+    font-weight: 500;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 5px 0px;
+
+}
+
+.lgifilList1Css2:hover{
+    text-decoration:underline;
+}
+
+.lgifilList1Css3:hover{
+    text-decoration:underline;
+}
+
+.titleCss {
+    width: 100%;
+    box-shadow: 2px 1px 5px #aaaaaa;
+    background-color: white;
+    color: #2e3151;
+    height: 40px !important;
+    overflow: hidden;
+    font-size: 1.25rem;
+    font-weight: 600;
+
+}
+.lgifilList1Css2.active {
+    // background-color: #6d84b8;
+    // color: white;
+    text-decoration: underline;
+  }
+
+  .lgifilList1Css3.active {
+    // background-color: #6d84b8;
+    // color: white;
+    text-decoration: underline;
+  }
+  .adminview-setting{
+    border-right: 5px solid rgba(17, 17, 26, 0.1);
+    height: calc(100vh - 5.0rem); 
+    padding-right: 0;
+    padding-left: 10px;
+  }
+  .setting-data{
+    overflow: auto; 
+    height: calc(100vh - 8.8rem) !important;
+  }
+  .arrowiconCss{
+    color: #2e3151; 
+    font-size: 1.0rem;
+  }
+  .setting-list-item{
+    margin-top: 5px; 
+    list-style-type: none;
+  }
+  .setting-sublist-item{
+    margin-top: 0px; 
+    list-style-type: none;
+  }
+  .sublist-item-text{
+    padding-left: 15px;
+  }

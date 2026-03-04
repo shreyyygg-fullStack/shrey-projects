@@ -1,0 +1,394 @@
+<div class="modal-container" *ngIf="showModal">
+    <div class="modal-content">
+
+        <h3 style="background-color: #e0e4ef;padding: 10px;border-radius: 0px;"> <i class="bi bi-x-lg"
+                style="float: inline-end; cursor: pointer;font-size: large; padding-top: 5px;"
+                (click)="closeModal()"></i>
+            <!-- <i class="bi bi-x-square" style="float: inline-end; cursor: pointer;font-size: larger;"
+  (click)="closeModal()"></i> -->
+
+            <ul class="nav nav-underline">
+                <li class="nav-item">
+                    <a class="nav-link active"><i class="bi bi-briefcase"></i> Claim
+                        Trip</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="modal" data-bs-target="#tripModal">New Trip</a>
+                </li>
+            </ul>
+        </h3>
+        <div style="padding: 6px;">
+            <div style="height: calc(100vh - 10rem); overflow-y: auto;padding: 4px;">
+                <div>
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Trip Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="e.g: Trip to New York"
+                                style="width: 300px;">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Travel Type <span class="text-danger">*</span></label> <br>
+                            <div class="btn-group w-70" role="group">
+                                <input type="radio" class="btn-check" name="travelType" id="domestic" autocomplete="off"
+                                    checked>
+                                <label class="btn  w-50" for="domestic">Domestic<br><small>You are
+                                        creating this request for a trip within your home country.</small></label>
+
+                                <input type="radio" class="btn-check" name="travelType" id="international"
+                                    autocomplete="off">
+                                <label class="btn  w-50" for="international">International<br><small>You
+                                        are creating this request for a trip outside your home country.</small></label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Business Purpose</label>
+                            <textarea class="form-control" rows="2" maxlength="250" placeholder="Max 250 characters"
+                                style="width: 600px;"></textarea>
+                        </div>
+
+                        <div class="form-section-title">Trip Itinerary</div>
+                        <div class="trip-section">
+                            <div class="form-section-title">Flight</div>
+
+                            <div style="background-color:#f1f1f1;padding: 8px;">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="tripType" id="oneWay">
+                                    <label class="form-check-label" for="oneWay">One Way</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="tripType" id="roundTrip" checked>
+                                    <label class="form-check-label" for="roundTrip">Round Trip</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="tripType" id="multiCity">
+                                    <label class="form-check-label" for="multiCity">Multi-city</label>
+                                </div>
+                            </div>
+
+
+                            <table class="table ">
+                                <thead>
+                                    <th class="text-danger"> Depart From *</th>
+                                    <th class="text-danger"> Arrive At *</th>
+                                    <th class="text-danger"> Departure Date *</th>
+                                    <th class="text-danger"> Return Date *</th>
+                                    <th> Description</th>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <td> <select class="form-select">
+                                            <option selected disabled>Select City</option>
+                                        </select></td>
+                                    <td> <select class="form-select">
+                                            <option selected disabled>Select City</option>
+                                        </select></td>
+                                    <td> <input type="date" class="form-control"></td>
+                                    <td> <input type="date" class="form-control"></td>
+                                    <td><input type="text" class="form-control" placeholder="Description"></td>
+
+                                </tbody>
+                            </table>
+
+                            <!-- <div class="row g-2 mb-2">
+                                <div class="col-md-3">
+                                    <label class="form-label">Depart From <span class="text-danger">*</span></label>
+                                    <select class="form-select">
+                                        <option selected disabled>Select City</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Arrive At <span class="text-danger">*</span></label>
+                                    <select class="form-select">
+                                        <option selected disabled>Select City</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Departure Date <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Return Date <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control">
+                                </div>
+                            </div> -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="  table ">
+                                        <thead>
+                                            <th> Departure Time</th>
+                                            <th> Return Time</th>
+                                        </thead>
+                                        <tbody class="table-group-divider"> 
+                                            <td> <input type="time" class="form-control"></td>
+                                            <td> <input type="time" class="form-control"></td>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- <div class="row g-2 mb-2">
+                                <div class="col-md-3">
+                                    <label class="form-label">Departure Time</label>
+                                    <input type="time" class="form-control">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Return Time</label>
+                                    <input type="time" class="form-control">
+                                </div>
+                              
+                            </div> -->
+
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="trip-section">
+                            <div class="form-section-title">Hotel</div>
+
+
+                            <table class="table ">
+                                <thead>
+                                    <th class="text-danger">Location *</th>
+                                    <th class="text-danger"> Check-In *</th>
+                                    <th class="text-danger"> Check-Out*</th>
+                                    <th> Description</th>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <td> <select class="form-select">
+                                            <option selected disabled>Select City</option>
+                                        </select></td>
+                                    <td> <input type="date" class="form-control"></td>
+                                    <td> <input type="date" class="form-control"></td>
+                                    <td><input type="text" class="form-control" placeholder="Description"></td>
+
+                                </tbody>
+                            </table>
+
+
+                            <!-- <div class="row g-2 mb-2">
+                                <div class="col-md-3">
+                                    <label class="form-label">Location <span class="text-danger">*</span></label>
+                                    <select class="form-select">
+                                        <option selected disabled>Select or type city</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Check-In <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Check-Out <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Description</label>
+                                    <input type="text" class="form-control" placeholder="Description">
+                                </div>
+                            </div> -->
+
+                            <a class="btn btn-link btn-sm">+ Add Hotel</a>
+                        </div>
+
+                        <div class="trip-section">
+                            <div class="form-section-title">Train</div>
+
+                            <div style="background-color:#f1f1f1;padding: 8px;">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="tripType1" id="oneWay1">
+                                    <label class="form-check-label" for="oneWay1">One Way</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="tripType1" id="roundTrip1"
+                                        checked>
+                                    <label class="form-check-label" for="roundTrip1">Round Trip</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="tripType1" id="multiCity1">
+                                    <label class="form-check-label" for="multiCity1">Multi-city</label>
+                                </div>
+                            </div>
+
+                            <table class="table ">
+                                <thead>
+                                    <th class="text-danger">Depart From *</th>
+                                    <th class="text-danger"> Arrive At *</th>
+                                    <th class="text-danger"> Departure Date *</th>
+                                    <th class="text-danger"> Return Date *</th>
+                                    <th>Description</th>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <td> <select class="form-select">
+                                            <option selected disabled>Select City</option>
+                                        </select></td>
+                                    <td> <select class="form-select">
+                                            <option selected disabled>Select City</option>
+                                        </select></td>
+                                    <td> <input type="date" class="form-control"></td>
+                                    <td> <input type="date" class="form-control"></td>
+                                    <td><input type="text" class="form-control" placeholder="Description"></td>
+
+                                </tbody>
+                            </table>
+
+                            <!-- <div class="row g-2 mb-2">
+                                <div class="col-md-3">
+                                    <label class="form-label">Depart From <span class="text-danger">*</span></label>
+                                    <select class="form-select">
+                                        <option selected disabled>Select City</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Arrive At <span class="text-danger">*</span></label>
+                                    <select class="form-select">
+                                        <option selected disabled>Select City</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Departure Date <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Return Date <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row g-2 mb-2">
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Description</label>
+                                    <input type="text" class="form-control" placeholder="Description">
+                                </div>
+                            </div> -->
+
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-outline-secondary btn-sm">+ Car Rental</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm">+ Bus</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm">+ Train</button>
+                        </div>
+
+                        <!-- <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-outline-secondary">Save as Draft</button>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Save and Submit</button>
+                                <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                            </div>
+                        </div> -->
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div
+            style="background-color: #e0e4ef; height: 100%;  display: flex; justify-content: space-between; align-items: center;">
+            <button type="button" class="btn  btn-light  "
+                style="width: 200px;font-size: 1.1rem;height: 28px;margin-left: 10px;"><i class="bi bi-floppy-fill"
+                    style="margin-right: 5px;"></i> Save as Draft</button>
+
+            <div style=" margin-right: 10px;">
+                <button type="button" class="btn  btn-light  " style="width: 200px;font-size: 1.1rem;height: 28px;"><i
+                        class="bi bi-upload" style="margin-right: 5px;"></i> Save and Submit</button>
+
+                <button type="button" class="btn  btn-light "
+                    style="width: 120px; margin-left: 30px; font-size: 1.1rem; height: 28px;">Cancel</button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<!-- New Trip Modal  -->
+<div class="modal fade" id="tripModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="tripModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-3 border-0 ">
+
+            <div class="modal-header border-bottom-0" style=" background-color: #f9f9f9;">
+                <h5 class="modal-title " id="tripModalLabel">New Trip</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label " style="font-size:1.0rem ; font-weight: 500;">Trip Name / ID *</label>
+                        <input type="text" class="form-control custom-input " placeholder="eg: Trip to New York">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label " style="font-size:1.0rem ; font-weight: 500;">Business Purpose</label>
+                        <textarea class="form-control custom-input" placeholder="Max 500 characters" rows="3"
+                            style="resize: none;"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Travel Type <span class="text-danger">*</span></label> <br>
+                        <div class="btn-group w-80" role="group">
+                            <input type="radio" class="btn-check" name="travelType" id="domestic1" autocomplete="off"
+                                checked>
+                            <label class="btn  w-50" for="domestic1">Domestic</label>
+
+                            <input type="radio" class="btn-check" name="travelType" id="international1"
+                                autocomplete="off">
+                            <label class="btn  w-50" for="international1">International </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label " style="font-size:1.0rem ; font-weight: 500;">Location</label>
+                        <div class="d-flex gap-2">
+                            <input type="text" class="form-control custom-input" placeholder="From">
+                            <input type="text" class="form-control custom-input" placeholder="To">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label " style="font-size:1.0rem ; font-weight: 500;">Duration</label>
+                        <div class="d-flex gap-2">
+                            <input type="date" class="form-control custom-input">
+                            <input type="date" class="form-control custom-input">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label " style="font-size:1.0rem ; font-weight: 500;">Advance Money</label>
+                        <div class="d-flex gap-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                    value="option1">
+                                <label class="form-check-label" for="inlineRadio1">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                    value="option2">
+                                <label class="form-check-label" for="inlineRadio2">No</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label " style="font-size:1.0rem ; font-weight: 500;">Advance Amount</label>
+                        <div class="d-flex gap-2">
+                            <input type="number" class="form-control custom-input">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="d-flex justify-content-start  modal-footer border-top-0" style=" background-color: #f9f9f9;">
+                <button type="button" class="btn save" style="width: 90px;background-color:#d4d9e6;">Request</button>
+                <button type="button" class="btn save" data-bs-dismiss="modal" aria-label="Close"
+                    style="width: 90px;background-color: #d4d9e6; margin-left: 10px;">Cancel</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>

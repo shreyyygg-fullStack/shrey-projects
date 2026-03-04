@@ -1,0 +1,292 @@
+
+.container6 {
+  margin-bottom: 20px;
+  margin-top: 8px;
+}
+
+.block {
+  width: 230px;
+  height: 120px;
+  margin: 6px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #d4d9e6;
+  transition: transform 0.3s ease;
+}
+
+.block:hover {
+  transform: scale(1.1);
+}
+
+.block a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-decoration: none;
+  color: #333;
+}
+
+.block i {
+  font-size: 3em;
+  margin-right: 10px;
+}
+
+.table {
+  width: 100%;
+  text-align: left;
+  background-color: #f9f9f9;
+}
+
+.accordion-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* Centers horizontally */
+  align-items: center;
+  /* Centers vertically */
+  gap: 0px;
+  /* Adds spacing between blocks */
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0px white;
+  /* Optional: Adds a subtle shadow */
+  // border: 1px solid #ccc;
+}
+
+.accordion-button::after {
+  content: none;
+}
+
+.accordion-button {
+  cursor: default;
+}
+
+.approval-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 5px 0px;
+  padding-bottom: 18px;
+  font-weight: 500;
+  font-size: 12px;
+  border-bottom: 0.1rem dashed rgb(151, 151, 151);
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.unreported-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  padding: 2px 0px;
+  font-weight: 500;
+  font-size: 12px;
+
+}
+
+
+.report-summary-section {
+  border: 1px solid #e0e6ed;
+  border-radius: 6px;
+  height: 300px;
+
+  .tab-header {
+    display: flex;
+    border-bottom: 1px solid #e2e6f0;
+    background-color: #e0e1e6;
+
+    .tab {
+      padding: 5px 15px;
+      text-align: left;
+      cursor: pointer;
+      // font-weight: 500;
+      // font-size: 1.1rem;
+      // color: #2e3151;
+      margin-bottom: 0px;
+      // box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+      span {
+        display: block;
+        font-weight: 400;
+        font-size: 1.1rem;
+        color: #106EBE;
+        padding-top: 0px;
+      }
+
+      &.active {
+        color: rgb(46, 49, 81);
+        font-weight: 600;
+        font-size: 1.1rem;
+        border-bottom: 2px solid #106EBE;
+        background-color: white;
+      }
+    }
+  }
+
+  .tab-content {
+    text-align: center;
+    padding: 30px 16px;
+    background-color: rgba(255, 255, 255, 0.829);
+    min-height: 220px;
+
+    p {
+      font-size: 1.0rem;
+      font-weight: 500;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    .new-report {
+      background-color: #f0f2f5;
+      border: 1px solid #408dfb;
+      color: #408dfb;
+      padding: 5px;
+      font-weight: 500;
+      font-size: 1.0rem;
+      cursor: pointer;
+      min-width: 100px;
+
+      &:hover {
+        background-color: #d2dded;
+      }
+    }
+  }
+}
+
+
+.py-2 {
+  padding-top: .5rem !important;
+  padding-bottom: .5rem !important;
+}
+
+.mb-2 {
+  margin-bottom: .5rem !important;
+}
+
+.border-bottom-dashed {
+  border-bottom: 1px dashed rgb(46, 49, 81);
+}
+
+.text-truncate {
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: black;
+}
+
+.btn-circle {
+  margin-top: 20px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 25px;
+}
+
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
+
+.btncust1 {
+  background-color: white;
+
+}
+
+.btncust2 {
+  background-color: white;
+
+}
+
+.btncust3 {
+  background-color: white;
+
+}
+
+.btncust4 {
+  background-color: white;
+
+}
+
+.titleTxtCss{
+  padding-left: 10px;
+}
+
+.tourIconCss{
+  cursor: pointer;
+  padding-right: 2px;
+}
+
+.home-container{
+  overflow-y: auto;
+  overflow-x: hidden; 
+  height: calc(100vh - 8.8rem) !important; 
+  width: 100%;
+}
+
+.pndTaskCss{
+  padding-left: 20px;
+  padding-top: 10px; 
+  padding-right: 10px;
+}
+.pndTaskCardCss{
+  padding:8px 15px; 
+  background-color: white; 
+}
+
+.pndTaskContentCss{
+  font-weight: 600;
+}
+
+.pending-tasks-icon{
+  font-size: 1.1rem; 
+  margin-right: 8px;
+}
+.quickAddCardCss{
+  padding: 0px 0px;
+  background-color: white
+}
+.custIcon1{
+  color: #7ab0fb;
+  font-size: 2rem;
+}
+.custIcon2{
+  color: orange;
+  font-size: 1.8rem;
+}
+.custIcon3{
+  color:green;
+  font-size: 2rem;
+}
+.custIcon4{
+  color: #7ee4df;
+  font-size: 2rem;
+}
+.recentTrip-container{
+  padding-left: 20px; 
+  padding-right: 10px;
+}

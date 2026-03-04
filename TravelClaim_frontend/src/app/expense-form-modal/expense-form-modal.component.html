@@ -1,0 +1,507 @@
+<div class="modal-container" *ngIf="showModal">
+    <div class="modal-content">
+        <h3>{{ modalTitle }} <i class="bi bi-x-lg" style="float: inline-end; cursor: pointer;font-size: large;"
+                (click)="closeModal()"></i>
+            <!-- <i class="bi bi-x-square" style="float: inline-end; cursor: pointer;font-size: larger;"
+          (click)="closeModal()"></i> -->
+        </h3>
+
+        <div class="row">
+            <div class="col-9">
+                <div class="d-flex bd-highlight ">
+
+                    <div class="block p-2 flex-grow-1 bd-highlight"
+                        [ngClass]="{ 'selected': selectedOption === 'domestic' }" (click)="selectOption('domestic')">
+                        <a target="_blank">
+                            <i class="bi bi-house-door-fill"></i>
+                            <span style="font-size: 12px; font-weight: 500;">Domestic</span>
+                        </a>
+                    </div>
+                    <div class="block p-2 flex-grow-1 bd-highlight"
+                        [ngClass]="{ 'selected': selectedOption === 'overseas' }" (click)="selectOption('overseas')">
+                        <a target="_blank">
+                            <i class="bi bi-airplane-fill"></i>
+                            <span style="font-size: 12px; font-weight: 500;">Overseas</span>
+                        </a>
+                    </div>
+
+                    <div class="total p-2 ">
+
+                        <span
+                            style="font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Grand
+                            Total: <br>{{grandTotalAmount}}</span>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3" style="padding-top: 10px;">
+
+                <!-- <div class="files">
+              <input #myInput type="file" maxFileSize="16777215" (change)="getFile($event)" accept="all"
+                  class="form-control fileUploadCss rounded-0 border-0"  data-max-size="2048"
+                  webkitdirectory multiple />
+    
+          </div> -->
+
+                <div class="custom-file-upload">
+                    <label for="fileInput" class="upload-label">
+                        <i class="bi bi-upload"></i>
+                        <span>Upload Bills</span>
+                    </label>
+                    <input id="fileInput" #myInput type="file" maxFileSize="16777215" (change)="getFile($event)"
+                        accept="all" multiple />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-9">
+
+                <div class="d-flex align-items-center justify-content-between"
+                    style="width: 100%; flex-wrap: wrap;margin-left: 0px; margin-top: 10px;">
+                    <div class="d-flex">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="tripType" id="oneWay" value="oneWay"
+                                [(ngModel)]="tripType">
+                            <label class="form-check-label" for="oneWay" style="font-size: 12px;">One Way</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="tripType" id="roundTrip"
+                                value="roundTrip" [(ngModel)]="tripType">
+                            <label class="form-check-label" for="roundTrip" style="font-size: 12px;">Round Trip</label>
+                        </div>
+                    </div>
+
+                    <div *ngIf="selectedOption === 'overseas'" class="d-flex" style="margin-right: 5px;">
+
+                        <div class="input-group">
+                            <span class="input-group-text " style="background-color: #d4d9e6;">Visited Country</span>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="input-group ms-2">
+                            <span class="input-group-text" style="background-color: #d4d9e6;">Currency Type</span>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <span class="input-group-text" style="background-color: #d4d9e6;">From Date</span>
+                            <input type="date" class="form-control" [disabled]="tripType === 'oneWay'">
+                        </div>
+                        <div class="input-group ms-2">
+                            <span class="input-group-text" style="background-color: #d4d9e6;">To Date</span>
+                            <input type="date" class="form-control" [disabled]="tripType === 'oneWay'">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="height: calc(100vh - 24rem) ; overflow-y: auto;overflow-x: hidden;margin-top: 10px;">
+
+                    <div style=" position: relative;">
+
+                        <form *ngIf="selectedOption === 'domestic'" [formGroup]="domesticExpenseForm">
+                            <div style="width: 100%; margin-bottom: 35px;">
+                                <h6>1. Expense Summary (Except Conveyance)</h6>
+
+                                <table class="table">
+                                    <thead style="position: sticky; top: 0; z-index: 1; padding: 0;">
+                                        <tr>
+                                            <th class="ipgDetCssTable " *ngFor="let heading of domesticExpense">
+                                                {{heading}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody formArrayName="domesticExpenseRows">
+                                        <tr *ngFor="let row of domesticExpenseRows.controls; let i = index"
+                                            [formGroupName]="i" (click)="selectRow1(i)"
+                                            [class.selected-row]="i === selectedRowIndex1">
+
+                                            <td><input type="date" class="form-control" formControlName="date"
+                                                    placeholder="Enter date"
+                                                    (input)="isDateInvalid(i,'domesticExpense')" [max]="maxDate"
+                                                    [title]=" dateValidationFlag[i] ? policy + dateValidationMsg[i] : '' "
+                                                    [ngClass]="{'invalid-input': dateValidationFlag[i]}" /></td>
+                                            <td><input type="time" class="form-control" formControlName="startTime"
+                                                    placeholder="Enter start time"
+                                                    (input)="validateDomesticExpenseRow(i,'startTime')" /></td>
+                                            <td><input type="time" class="form-control" formControlName="endTime"
+                                                    placeholder="Enter end time"
+                                                    (input)="validateDomesticExpenseRow(i, 'endTime')" /></td>
+                                            <td><input type="text" class="form-control" formControlName="startingPlace"
+                                                    placeholder="Enter starting place" /></td>
+
+
+                                            <!-- <td><input type="text" class="form-control"
+                                                    formControlName="destinationCity" placeholder="Enter city" /></td> -->
+
+                                            <td>
+                                                <select formControlName="destinationCity"
+                                                    class="form-select form-control"
+                                                    (change)="validateDomesticExpenseRow(i, 'destination')">
+                                                    <option value="" disabled selected>Select Destination</option>
+
+                                                    <ng-container *ngFor="let group of groupedCities">
+                                                        <optgroup [label]="group.level">
+                                                            <option *ngFor="let data of group.cities"
+                                                                [value]="data.city"
+                                                                [ngStyle]="{'background-color': cityColors[data.area] || 'white'}">
+                                                                {{ data.city }}
+                                                            </option>
+                                                        </optgroup>
+                                                    </ng-container>
+
+                                                </select>
+                                            </td>
+
+                                            <td><input type="text" class="form-control" formControlName="visitSiteName"
+                                                    placeholder="Enter site name" /></td>
+                                            <td><input type="number" class="form-control" formControlName="lodging"
+                                                    placeholder="Enter lodging"
+                                                    (input)="validateDomesticExpenseRow(i,'lodging')"
+                                                    [ngClass]="{'invalid': lodgingValidationFlag[i]}"
+                                                    [title]="lodgingValidationFlag[i] ? policy + lodgingValidationMsg[i] : ''" />
+                                            </td>
+                                            <td><input type="number" class="form-control" formControlName="da"
+                                                    placeholder="Enter DA"
+                                                    (input)="validateDomesticExpenseRow(i, 'daPrice')"
+                                                    [ngClass]="{'invalid': daValidationFlag[i]}"
+                                                    [title]="daValidationFlag[i] ? policy + daValidationMsg[i]: ''" />
+                                            </td>
+                                            <td><input type="number" class="form-control" formControlName="fa"
+                                                    placeholder="Enter FA"
+                                                    (input)="validateDomesticExpenseRow(i, 'faPrice')"
+                                                    [ngClass]="{'invalid': faValidationFlag[i]}"
+                                                    [title]="faValidationFlag[i] ? policy + faValidationMsg[i]:''" />
+                                            </td>
+                                            <td><input type="number" class="form-control" formControlName="other"
+                                                    placeholder="Enter other"
+                                                    (input)="validateDomesticExpenseRow(i,'others')"
+                                                    [ngClass]="{'invalid': othersFlag[i]}"
+                                                    [title]="othersFlag[i] ? policy + othersMsg[i] : ''" /></td>
+                                            <td><input type="number" class="form-control" formControlName="total"
+                                                    placeholder="Enter total amount" readonly /></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="11">
+                                                <i class="bi bi-plus" (click)="addRow('domestic','domesticExpense')"
+                                                    style="cursor: pointer;margin-left: 10px;">Add Row</i>
+                                                <i *ngIf="domesticExpenseRows.length > 0 && selectedRowIndex1 !== null"
+                                                    class="bi bi-trash"
+                                                    (click)="deleteSelectedRow('domestic','domesticExpense')"
+                                                    style="cursor: pointer;float: inline-end;">Delete Selected Row</i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+
+                        <form *ngIf="selectedOption === 'domestic'" [formGroup]="domesticConveyanceForm">
+                            <div style="width: 100%;">
+                                <h6>2. All Conveyance Expenses</h6>
+                                <table class="table">
+                                    <thead style="position: sticky; top: 0; z-index: 1; padding: 0;">
+                                        <tr>
+                                            <th class="ipgDetCssTable" *ngFor="let heading of domesticConveyance">
+                                                {{heading}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody formArrayName="domesticConveyanceRows">
+                                        <tr *ngFor="let row of domesticConveyanceRows.controls; let i = index"
+                                            [formGroupName]="i" (click)="selectRow2(i)"
+                                            [class.selected-row]="i === selectedRowIndex2">
+
+                                            <td><input type="date" class="form-control" formControlName="date"
+                                                    placeholder="Enter date"
+                                                    (input)="isDateInvalid(i,'domesticConveyance')" [max]="maxDate"
+                                                    [title]=" dateValidationFlag2[i] ? policy + dateValidationMsg2[i] : '' "
+                                                    [ngClass]="{'invalid-input': dateValidationFlag2[i]}" /></td>
+                                            <td><input type="time" class="form-control" formControlName="startTime"
+                                                    placeholder="Enter start time" /></td>
+                                            <td><input type="time" class="form-control" formControlName="endTime"
+                                                    placeholder="Enter end time" /></td>
+                                            <td><input type="text" class="form-control" formControlName="startingPlace"
+                                                    placeholder="Enter starting place" /></td>
+                                            <td><input type="text" class="form-control" formControlName="destination"
+                                                    placeholder="Enter destination" /></td>
+
+
+                                            <!-- <td><input type="text" class="form-control" formControlName="conveyMode"
+                                                    placeholder="Enter convey mode" /></td> -->
+
+
+                                            <td>
+                                                <select formControlName="conveyMode" class=" form-select form-control"
+                                                    (change)="validateConveyMode(i)"
+                                                    [ngClass]="{'invalid': conveyModeFlag[i]}"
+                                                    [title]="conveyModeFlag[i] ? policy + conveyModeMsg[i] : ''">
+                                                    <option value="" disabled selected>Select mode</option>
+                                                    <option value="Auto">Auto</option>
+                                                    <option value="Bus">Bus</option>
+                                                    <option value="Cab">Cab</option>
+                                                    <optgroup label="Own Vehicle">
+                                                        <option value="Two Wheeler">Two Wheeler</option>
+                                                        <option value="Four Wheeler">Four Wheeler</option>
+                                                    </optgroup>
+                                                    <option value="Shared Taxi">Shared Taxi</option>
+                                                </select>
+                                            </td>
+
+
+                                            <td><input type="number" class="form-control" formControlName="distanceKm"
+                                                    placeholder="Enter km" /></td>
+                                            <td><input type="number" class="form-control" formControlName="convAmt"
+                                                    (input)="calcDomesticConveyanceTotalAmt(i)"
+                                                    placeholder="Enter conv. amt" /></td>
+                                            <td><input type="number" class="form-control" formControlName="tollNother"
+                                                    (input)="calcDomesticConveyanceTotalAmt(i)"
+                                                    placeholder="Enter toll n other" /></td>
+                                            <td><input type="number" class="form-control" formControlName="trainExp"
+                                                    (input)="calcDomesticConveyanceTotalAmt(i)"
+                                                    placeholder="Enter train exp." /></td>
+                                            <td><input type="number" class="form-control" formControlName="airExp"
+                                                    (input)="calcDomesticConveyanceTotalAmt(i)"
+                                                    placeholder="Enter air exp." /></td>
+                                            <td><input type="number" class="form-control" formControlName="total"
+                                                    placeholder="Enter total amount" readonly /></td>
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="12">
+                                                <i class="bi bi-plus" (click)="addRow('domestic','domesticConveyance')"
+                                                    style="cursor: pointer;margin-left: 10px;">Add Row</i>
+                                                <i *ngIf="domesticConveyanceRows.length > 0 && selectedRowIndex2 !== null"
+                                                    class="bi bi-trash"
+                                                    (click)="deleteSelectedRow('domestic','domesticConveyance')"
+                                                    style="cursor: pointer;float: inline-end;">Delete Selected Row</i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+
+
+                        <form *ngIf="selectedOption === 'overseas'" [formGroup]="overseasExpenseForm">
+                            <div style="width: 100%; margin-bottom: 35px;">
+                                <h6>1. Expense Summary (Except Conveyance)</h6>
+
+                                <table class="table">
+                                    <thead style="position: sticky; top: 0; z-index: 1; padding: 0;">
+                                        <tr>
+                                            <th class="ipgDetCssTable " *ngFor="let heading of overseasExpense">
+                                                {{heading}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody formArrayName="overseasExpenseRows">
+                                        <tr *ngFor="let row of overseasExpenseRows.controls; let i = index"
+                                            [formGroupName]="i" (click)="selectRow3(i)"
+                                            [class.selected-row]="i === selectedRowIndex3">
+
+                                            <td><input type="date" class="form-control" formControlName="date"
+                                                    placeholder="Enter date"
+                                                    (input)="isDateInvalid(i,'overseasExpense')" [max]="maxDate"
+                                                    [title]=" dateValidationFlag[i] ? policy + dateValidationMsg[i] : '' "
+                                                    [ngClass]="{'invalid-input': dateValidationFlag[i]}" /></td>
+                                            <td><input type="time" class="form-control" formControlName="startTime"
+                                                    placeholder="Enter start time" /></td>
+                                            <td><input type="time" class="form-control" formControlName="endTime"
+                                                    placeholder="Enter end time" /></td>
+                                            <td><input type="text" class="form-control" formControlName="startingPlace"
+                                                    placeholder="Enter starting place" /></td>
+                                            <td><input type="text" class="form-control"
+                                                    formControlName="cityTravelledTo" placeholder="Enter city" /></td>
+                                            <td><input type="text" class="form-control" formControlName="visitSiteName"
+                                                    placeholder="Enter site name" /></td>
+                                            <td><input type="number" class="form-control" formControlName="exchangeRate"
+                                                    placeholder="Enter exchange rate" /></td>
+                                            <td><input type="number" class="form-control" formControlName="lodgingFC"
+                                                    placeholder="Enter lodging in foreign currency" /></td>
+                                            <td><input type="number" class="form-control" formControlName="lodgingINR"
+                                                    placeholder="Enter lodging in INR" /></td>
+                                            <td><input type="number" class="form-control" formControlName="faFC"
+                                                    placeholder="Enter fa in foreign currency" /></td>
+                                            <td><input type="number" class="form-control" formControlName="faINR"
+                                                    placeholder="Enter fa in INR" /></td>
+                                            <td><input type="number" class="form-control" formControlName="daINR"
+                                                    placeholder="Enter da in INR" /></td>
+                                            <td><input type="number" class="form-control" formControlName="totalINR"
+                                                    placeholder="Enter total amount" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="13">
+                                                <i class="bi bi-plus" (click)="addRow('overseas','overseasExpense')"
+                                                    style="cursor: pointer;margin-left: 10px;">Add Row</i>
+                                                <i *ngIf="overseasExpenseRows.length > 0 && selectedRowIndex3 !== null"
+                                                    class="bi bi-trash"
+                                                    (click)="deleteSelectedRow('overseas','overseasExpense')"
+                                                    style="cursor: pointer;float: inline-end;">Delete Selected Row</i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+
+                        <form *ngIf="selectedOption === 'overseas'" [formGroup]="overseasConveyanceForm">
+                            <div style="width: 100%;">
+                                <h6>2. All Conveyance Expenses</h6>
+                                <table class="table">
+                                    <thead style="position: sticky; top: 0; z-index: 1; padding: 0;">
+                                        <tr>
+                                            <th class="ipgDetCssTable" *ngFor="let heading of overseasConveyance">
+                                                {{heading}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody formArrayName="overseasConveyanceRows">
+                                        <tr *ngFor="let row of overseasConveyanceRows.controls; let i = index"
+                                            [formGroupName]="i" (click)="selectRow4(i)"
+                                            [class.selected-row]="i === selectedRowIndex4">
+
+                                            <td><input type="date" class="form-control" formControlName="date"
+                                                    placeholder="Enter date"
+                                                    (input)="isDateInvalid(i,'overseasConveyance')" [max]="maxDate"
+                                                    [title]=" dateValidationFlag2[i] ? dateValidationMsg2[i] : '' "
+                                                    [ngClass]="{'invalid-input': dateValidationFlag2[i]}" /></td>
+                                            <td><input type="time" class="form-control" formControlName="startTime"
+                                                    placeholder="Enter start time" /></td>
+                                            <td><input type="time" class="form-control" formControlName="endTime"
+                                                    placeholder="Enter end time" /></td>
+                                            <td><input type="text" class="form-control" formControlName="startingPlace"
+                                                    placeholder="Enter starting place" /></td>
+                                            <td><input type="text" class="form-control" formControlName="destination"
+                                                    placeholder="Enter destination" /></td>
+                                            <td><input type="number" class="form-control" formControlName="exchangeRate"
+                                                    placeholder="Enter exchange rate" /></td>
+                                            <td><input type="text" class="form-control" formControlName="conveyMode"
+                                                    placeholder="Enter conveyMode" /></td>
+                                            <td><input type="number" class="form-control" formControlName="convAmtFC"
+                                                    placeholder="Enter conv. amt in foreign currency" /></td>
+                                            <td><input type="number" class="form-control" formControlName="convAmtINR"
+                                                    placeholder="Enter conv. amt in INR" /></td>
+                                            <td><input type="number" class="form-control" formControlName="airExpFC"
+                                                    placeholder="Enter air exp. in foreign currency" /></td>
+                                            <td><input type="number" class="form-control" formControlName="airExpINR"
+                                                    placeholder="Enter air exp. in INR" /></td>
+                                            <td><input type="number" class="form-control" formControlName="totalINR"
+                                                    placeholder="Enter total amount" /></td>
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="12">
+                                                <i class="bi bi-plus" (click)="addRow('overseas','overseasConveyance')"
+                                                    style="cursor: pointer;margin-left: 10px;">Add Row</i>
+                                                <i *ngIf="overseasConveyanceRows.length > 0 && selectedRowIndex4 !== null"
+                                                    class="bi bi-trash"
+                                                    (click)="deleteSelectedRow('overseas','overseasConveyance')"
+                                                    style="cursor: pointer;float: inline-end;">Delete Selected Row</i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+                <div class="input-group mt-3">
+                    <!-- <div class="input-group mt-4"> -->
+                    <span class="input-group-text ipgDetCssTable" style="height: 60px;width: 130px;">Remarks</span>
+                    <textarea class="form-control" aria-label="With textarea" style="height: 60px;resize: none"
+                        placeholder="Explain policy violations or claim related info."></textarea>
+                    <!-- </div> -->
+                    <!-- <div class="input-group mt-4" > -->
+                    <span class="input-group-text ipgDetCssTable" style="height: 60px;width: 130px;">Purpose of
+                        Travel</span>
+                    <textarea class="form-control" aria-label="With textarea" style="height: 60px;resize: none"
+                        placeholder="Travel Reason."></textarea>
+                    <!-- </div> -->
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="container-fluid"
+                    style="padding-left:10px ; height: calc(100vh -  13.5rem); overflow-y: auto;  flex-grow: 1;">
+
+                    <div *ngFor="let file of selectedFilesArray; let i = index"
+                        style="display: flex; justify-content:center; align-items:center;">
+
+                        <span style="font-size: 16px; font-weight: 400;">{{i+1}}.</span>
+                        <div (click)="selectFile(i,file)" [class.selectedFile]="file === selectedFile"
+                            style="cursor: pointer; padding: 5px; margin: 5px;">
+
+                            <div *ngIf="file.type.startsWith('image/')">
+                                <img [src]="file.thumbnail"
+                                    style="max-width: 200px; border: 1px solid gray; min-width: 200px; height: 200px;"
+                                    alt="Image thumbnail">
+                            </div>
+                            <div *ngIf="file.type.startsWith('text/')">
+                                <p>{{ file.snippet }}</p>
+                            </div>
+                            <div *ngIf="file.type.startsWith('video/')">
+                                <video [src]="file.thumbnail"
+                                    style="max-width: 200px;min-width: 200px; border: 1px solid gray;  height: 200px;"
+                                    controls></video>
+                            </div>
+                            <div *ngIf="file.type === 'application/pdf'">
+                                <img [src]="file.thumbnail"
+                                    style="max-width: 200px;min-width: 200px; border: 1px solid gray;  height: 200px;"
+                                    alt="PDF thumbnail">
+                            </div>
+                        </div>
+                        <i class="bi bi-trash delete-icon" (click)="deleteFile(i, $event)"
+                            style=" cursor: pointer; color: red; font-size: 18px;" title="Delete File"></i>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div style="height: 40px; ">
+                <button type="button" class="btn  btn-lg save " (click)="printTableValues()"
+                    style="padding: 4px;width: 220px;background-color:#d4d9e6; margin-top: 10px;"><i
+                        class="bi bi-floppy-fill" style="margin-right: 5px;"></i> Save & Submit</button>
+                <button type="button" class="btn  btn-lg save" (click)="closeModal()"
+                    style="padding: 4px;width: 150px;background-color: #d4d9e6; margin-left: 30px; margin-top: 10px;">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Document Viewer -->
+        <div class="preview-container" *ngIf="selectedFile">
+            <div class="preview-content">
+
+                <h3>Preview ({{selectedFileIndex}}) <i class="bi bi-x-lg"
+                        style="float: inline-end; cursor: pointer;position: sticky; z-index: 1; top: 0;"
+                        (click)="closePreviewModal()"></i></h3>
+                <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;"
+                    title="{{selectedFileName}}">{{selectedFileName}}</h6>
+
+                <div class="zoomable-content" *ngIf="selectedFile.type.startsWith('image/')">
+                    <img [src]="selectedImageUrl" [ngStyle]="{'transform': 'scale(' + zoomLevel + ')'}"
+                        style="max-width: 650px; max-height: 65vh;" alt="Image thumbnail">
+                </div>
+
+                <div class="zoomable-content" *ngIf="selectedFile.type.startsWith('video/')">
+                    <video [src]="selectedVideoUrl" style="width: 200px;  max-height: 200px ;" controls></video>
+                </div>
+
+                <div *ngIf="selectedFile && selectedFile.type === 'application/pdf'">
+                    <pdf-viewer [src]="selectedFileUrl" [render-text]="true" [show-all]="true" [zoom]="pdfZoomLevel" [show-borders]="true"
+                        style="width: 100%; height: calc(100vh - 20rem) !important;"></pdf-viewer>
+                </div>
+
+                <div class="zoom-controls d-flex ">
+                    <button class=" p-2 " (click)="zoomIn()" style="font-size:x-large;"><i
+                            class="bi bi-plus-circle"></i></button>
+                    <button class=" p-2  " (click)="zoomOut()" style="font-size:x-large;"><i
+                            class="bi bi-dash-circle"></i></button>
+                    <button class=" p-2  " (click)="resetZoom()" style="font-size:large;">Reset</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
