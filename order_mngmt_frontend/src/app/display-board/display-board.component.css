@@ -1,0 +1,519 @@
+.breadcrumb {
+    margin-top: 2rem;
+    margin-bottom: initial;
+    padding: 5px 15px !important;
+    background-color:white;
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+
+
+  .nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+    /* Add border bottom */
+  }
+  
+  .nav-link {
+    color: #333;
+    /* Tab text color */
+    background-color: transparent;
+    /* Tab background color */
+    border: none;
+    /* Remove border */
+    border-radius: 0;
+    /* Remove border radius */
+  }
+  
+  .nav-link.active {
+  
+    /* background-color: #fff; */
+    /* Active tab background color */
+    border-bottom: 2px solid rgb(40, 46, 137);
+    /* Add bottom border to active tab */
+  }
+  
+  .nav-link:hover {
+    color: rgb(40, 46, 137);
+    /* Hover tab text color */
+  }
+
+  
+.lindent {
+  height: calc(100vh - 13rem) !important; 
+  overflow-y: scroll;
+  overflow-x: scroll;
+  behavior: 'smooth'
+}
+
+
+
+.with-margin {
+    margin-bottom: 5px;
+  }
+
+  .spacer5 {
+    height: 5px;
+  }
+
+  .pd {
+    padding-top: 20px; 
+  }
+
+  .ctfont {
+      font-size:13px;
+  }
+
+  .pdcol {
+   padding: 2px;
+  }
+
+ 
+
+.pdtop {
+  padding-top:5px;
+}
+
+#navbarserch input[type=text] {
+  width:278px !important;
+  
+}
+
+.btnbroder {
+  border:none;
+}
+
+
+
+
+.navsec {
+  background-color:#F5F5F5;
+
+}
+
+.fixwidlab {
+ max-width:300px;
+}
+
+.fixwidip {
+  max-width:320px !important;
+}
+
+
+
+
+
+.lblpdleft {
+  padding-left: initial;
+}
+
+.fgpad {
+  margin-bottom: 0rem;
+}
+
+.bgcs {
+ text-align: left;
+ width:200px;
+}
+
+.rightdrop {
+  float: right !important;
+}
+
+.pdfilterD {
+padding-right: 25px;
+}
+
+.listtitle {
+  background-color:#337ab7;
+  color: white;
+  max-height: 30px;
+  padding-top: 0px;
+}
+
+.btntitle {
+  position: relative;
+  min-width: 200px !important;
+  float: left;
+}
+
+
+
+
+ .list-group-item  {
+max-height: 40px;
+font-size: 15px;
+} 
+
+
+
+.labelpd {
+  padding-bottom: initial;
+}
+
+.card {
+  background-color: transparent;
+}
+
+.card-header {
+  max-height: 40px;
+}
+
+
+
+
+/* start new */
+
+.bdcpdicon {
+  padding-left: 5px;
+  padding-right: 10px;
+}
+
+
+.confludCss {
+  padding: initial;
+  
+} 
+
+.lGpadBott {
+  margin-bottom: 3px;
+}
+
+.lgifilListCss {
+  cursor: pointer;
+  /* background-color: rgb(84, 194, 16); */
+  color:  rgb(40, 46, 137);
+  max-height: 40px !important;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.lgifilList1Css {
+  cursor: pointer;
+  background-color: rgb(180,199,231);
+  color:  rgb(40, 46, 137);
+  max-height: 40px !important;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.indtbl li {
+  cursor: pointer;
+  max-height: 40px;
+}
+
+.indtbl li.selected {
+  background-color:rgb(230,230,250);
+}
+
+.indtbl .badge {
+  font-size:small; 
+  font-weight:500;
+  color:  rgb(40, 46, 137);
+  padding-right: 10px;
+}
+
+.indtbl {
+  width: max-content;
+  min-width: 100%;
+    overflow: auto;
+    text-overflow: ellipsis; 
+    white-space:nowrap;
+    cursor: pointer;
+  }
+
+.lgiexpandCss {
+  line-height: 1rem;
+  color:  rgb(40, 46, 137);
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 0.25rem 0.30rem;
+  background-color: white;
+
+}
+
+.ipgcss {
+  background-color:white;
+  outline: none;
+  font-size:small; 
+  font-weight:400;
+  min-height: 30px;
+  color:  rgb(40, 46, 137);
+   box-shadow:none !important;
+  border-bottom: transparent;
+}
+
+.ipgcss1 {
+  background-color: white;
+  color: rgb(40, 46, 137);
+  font-size: 0.8rem;
+  font-weight: 400;
+  border-bottom-width: 2px;
+  outline: none;
+  box-shadow: none !important;
+}
+
+.ipgappcss {
+  background-color: white;
+  border-left-width: 5px;
+  border-left-color: rgb(40, 46, 137);
+}
+
+
+.crdhedCss {
+  background-color:transparent;
+  color:  rgb(40, 46, 137);
+  border-width: 2px;
+  border-color: rgb(40, 46, 137);
+  font-size:small; 
+  font-weight:500;
+
+}
+
+.cadbodyCss {
+  padding-top: 2px;
+  padding-bottom: 2px;  
+  padding-left: initial;
+  padding-right: initial;
+
+}
+
+.ipgDetCss {
+  width: 170px;
+  font-size: 0.8rem;
+  font-weight: 400;
+  max-height: 30px;
+  color:  rgb(40, 46, 137);
+  background-color:rgb(230,230,250);
+  border-bottom: transparent;
+}
+
+.ipgDetCss1 {
+  width: 170px;
+  font-size: 0.8rem;
+  font-weight: 400;
+  /* max-height: 35px; */
+  color:  rgb(40, 46, 137);
+  background-color:rgb(230,230,250);
+}
+
+.pdleft {
+  padding-left: initial;
+  
+  max-height: calc(100vh - 23rem);
+  overflow-y: auto;
+}
+
+.tabCarbodyCss {
+  padding-top: 2px;
+  padding-left: initial;
+  padding-right: initial;
+
+ 
+}
+
+.scrollable-menu {
+  height: auto;
+  max-height: 200px;
+  overflow-x: hidden;
+}
+
+.crdhedDetailCss {
+
+  background-color:transparent;
+  color:  rgb(40, 46, 137);
+  border-width: 2px;
+  border-color: rgb(40, 46, 137);
+
+  font-size:small; 
+  font-weight:500; 
+}
+
+.navlCss {
+  padding-top: 4px;
+  min-width: 200px;
+  text-align: center;
+  height: 25px;
+  font-size:small; 
+  font-weight:500;
+}
+
+.btntitlecss {
+  padding-top: 5px;
+  padding-left: initial;
+  color: rgb(40, 46, 137);
+  outline: none;
+  box-shadow:none !important;
+}
+
+
+
+.ipgcsstitle {
+  background-color:transparent;
+  outline: none;
+  box-shadow:none !important;
+  border-top: 0px;
+  color: rgb(40, 46, 137);
+  font-size:small; 
+  font-weight:500;
+}
+
+
+
+
+
+.scrollCard {
+   max-height: calc(100vh - 18rem); 
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+  behavior: 'smooth'
+} 
+
+.ipgcsstitle1 {
+  background-color:transparent;
+  outline: none;
+  box-shadow:none !important;
+  border-bottom-width: 2px;
+  border-bottom-color: rgb(40, 46, 137);
+  border-top: 0px;
+  color: rgb(40, 46, 137);
+  font-size:small; 
+  font-weight:500;
+}
+
+.crdboderCss {
+  border-top-width: 2px;
+  border-top-color: rgb(40, 46, 137);
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+}
+
+.btngroupcss1 {
+  color:rgb(40, 46, 137);
+}
+
+.lbllistcss {
+  overflow: hidden;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  cursor: pointer;
+}
+
+
+.rpcss {
+  padding-right: 3%;
+}
+
+.footerupdate {
+  height:40px;
+  max-height: 40px;
+  position: fixed;
+  bottom: 2px;
+  text-align: center;
+  border-top: rgb(230, 230, 250);
+  border-top-style:inset;
+  background-color:white;
+}
+
+
+
+
+.modal .modal-dialog-aside{
+  width: 550px; max-width:80%; height: calc(100vh - 0rem); margin:0;transform: translate(0); transition: transform .2s;
+}
+
+.modal .modal-dialog-aside .modal-content{  height: calc(100vh - 0rem); border:0; border-radius: 0;}
+.modal .modal-dialog-aside .modal-content .modal-body{ overflow-y: auto }
+.modal.fixed-left .modal-dialog-aside{ margin-left:auto;  transform: translateX(100%); }
+.modal.fixed-right .modal-dialog-aside{ margin-right:auto; transform: translateX(-100%); }
+.modal.show .modal-dialog-aside{ transform: translateX(0);  }
+
+
+
+.navlinkcss {
+  font-size: 12px;
+  font-weight:500;
+  background-color:transparent;
+  color:#2E3192;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+ 
+  border-color: transparent;
+  background-color: transparent;
+  border-bottom:  solid #2E3192;
+  color:#2E3192;
+  font-size: 12px;
+  font-weight:500;
+  /* margin: 0px 0px -1px; */
+}
+
+.nav-link:hover {
+  border-color: transparent;
+}
+
+.nav-tabs {
+  background-color:transparent;
+  position: relative;
+  color:#282e89 !important;
+  /* box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px; */
+  border-bottom: transparent;
+ }
+
+ 
+ .jumbo {
+  height:577px;
+  padding-top: 250px;
+  background-color: transparent;
+  color:rgb(40, 46, 137);
+}
+
+
+.ipgAppCss {
+  width: inherit;
+}
+
+.btn-transparent-order-type {
+  height: 29px;
+  width: -webkit-fill-available;
+  border-color: rgb(40, 46, 137);
+  border-radius:0px !important;
+  font-size: 0.8rem !important;
+  font-weight: 400;
+  outline: none;
+  box-shadow: none !important;
+  overflow: hidden ;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-color:transparent;
+  color: rgb(40, 46, 137);
+}
+
+.btn-color-order-type {
+  background-color:rgb(40, 46, 137);
+  color: white;
+}
+
+.hover-button{
+  position: absolute;
+  left: 400px;
+  top:1px;
+  height: 26px;
+  width: 105px;
+  background-color: rgba(46,49,146,1);
+  border-radius: 5px;
+}
+
+.scrollCard {
+  height: calc(100vh - 22.5rem);
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

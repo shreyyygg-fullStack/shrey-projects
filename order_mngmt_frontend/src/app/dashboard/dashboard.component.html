@@ -1,0 +1,1994 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb border bg-transparent shadow-sm">
+    <li class="breadcrumb-item active"  style="color:rgb(40, 46, 137); cursor: pointer;"
+    aria-current="page"
+    (click)="homeRouterInit()">
+    Home
+    </li>
+    <li class="breadcrumb-item active"  style="color:rgb(40, 46, 137); cursor: pointer;"
+    aria-current="page"
+    (click)="dashboardRouterInit()">
+     <u>Dashboard</u>
+    </li>
+  </ol>
+</nav>
+
+
+<div class="container-fluid confludCss">
+  <div class="row">
+    <div class="col-md-4" style="padding-right: 5px;">
+      <div id="listExpand">
+
+        <ul class="list-group">
+          <div *ngIf="titleFgFlag1">
+            <div class="input-group input-group-sm">
+              <input class="form-control ipgcsstitle rounded-0 border-0" value="FRONT SALES"
+                aria-describedby="basic-addon2" readonly>
+            </div>
+          </div>
+
+          <div class="lGpadBott" *ngIf="snfDropDwFlag" (click)="snfSignalInit()">
+            <li class="list-group-item lgifilListCss rounded-0 d-flex justify-content-between align-items-center"
+              data-toggle="collapse" data-target="#collapseOne" >
+              Specification Not Finalized
+              <span class="badge badge-pill">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down':snfDownFlag, 'fa-angle-up':!snfDownFlag}" style="color: rgb(40, 46, 137);"></i>
+
+              </span>
+            </li>
+          </div>
+
+
+          <div class="lGpadBott" *ngIf="apDropDwFlag">
+            <li class="list-group-item lgifilListCss rounded-0 d-flex justify-content-between align-items-center"
+              data-toggle="collapse" data-target="#collapseOne" (click)="apSignalInit()">
+              Advance Pending
+              <span class="badge badge-pill">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down':apDownFlag, 'fa-angle-up':!apDownFlag}" style="color: rgb(40, 46, 137);" aria-hidden="true"></i>
+
+              </span>
+            </li>
+          </div>
+
+          <div class="lGpadBott" *ngIf="lpDropDwFlag">
+            <li class="list-group-item lgifilListCss rounded-0 d-flex justify-content-between align-items-center"
+              data-toggle="collapse" data-target="#collapseOne" (click)="lpSignalInit()">
+              Letter of Credit Pending
+              <span class="badge badge-pill">
+                <i class="fa fa-2x"  [ngClass]="{'fa-angle-down':lcpDownFlag, 'fa-angle-up':!lcpDownFlag}" style="color: rgb(40, 46, 137);" aria-hidden="true"></i>
+
+              </span>
+            </li>
+          </div>
+
+          <div class="lGpadBott" *ngIf="bpDropDwFlag">
+            <li class="list-group-item lgifilListCss rounded-0 d-flex justify-content-between align-items-center"
+              data-toggle="collapse" data-target="#collapseOne" (click)="bpSignalInit()">
+              Before Shipment Pending
+              <span class="badge badge-pill">
+                <i class="fa fa-2x"  [ngClass]="{'fa-angle-down':bspDownFlag, 'fa-angle-up':!bspDownFlag}" style="color: rgb(40, 46, 137);" aria-hidden="true"></i>
+
+              </span>
+            </li>
+          </div>
+
+          <div class="lGpadBott" *ngIf="outDropDwFlag">
+            <li class="list-group-item lgifilListCss rounded-0 d-flex justify-content-between align-items-center"
+              data-toggle="collapse" data-target="#collapseOne" (click)="outSignalInit()">
+              Outstanding
+              <span class="badge badge-pill">
+                <i class="fa fa-2x"  [ngClass]="{'fa-angle-down':otDownFlag, 'fa-angle-up':!otDownFlag}" style="color: rgb(40, 46, 137);" aria-hidden="true"></i>
+
+              </span>
+            </li>
+          </div>
+
+          <div *ngIf="titleFgFlag2">
+            <div class="input-group input-group-sm">
+              <input class="form-control ipgcsstitle rounded-0 border-0 " value="BACK OFFICE"
+                aria-describedby="basic-addon2" readonly>
+            </div>
+          </div>
+
+          <div class="lGpadBott" *ngIf="pnsDropDwFlag">
+            <li class="list-group-item lgifilList1Css rounded-0 d-flex justify-content-between align-items-center"
+              data-toggle="collapse" data-target="#collapseOne" (click)="pnsSignalInit()">
+              Production Not Started
+              <span class="badge badge-pill">
+                <i class="fa fa-2x"  [ngClass]="{'fa-angle-down':pnsDownFlag, 'fa-angle-up':!pnsDownFlag}" style="color: rgb(40, 46, 137);" aria-hidden="true"></i>
+
+              </span>
+            </li>
+          </div>
+
+          <div class="lGpadBott" *ngIf="lcpDropDwFlag">
+            <li class="list-group-item lgifilList1Css rounded-0 d-flex justify-content-between align-items-center"
+              data-toggle="collapse" data-target="#collapseOne" (click)="lcpSignalInit()">
+              Lc Check Pending
+              <span class="badge badge-pill">
+                <i class="fa fa-2x"  [ngClass]="{'fa-angle-down':lpDownFlag, 'fa-angle-up':!lpDownFlag}" style="color: rgb(40, 46, 137);" aria-hidden="true"></i>
+
+              </span>
+            </li>
+          </div>
+
+          <div class="lGpadBott" *ngIf="pexfpDropDwFlag">
+            <li class="list-group-item lgifilList1Css rounded-0 d-flex justify-content-between align-items-center"
+              data-toggle="collapse" data-target="#collapseOne" (click)="pexfpSignalInit()">
+              P-exf Pending
+              <span class="badge badge-pill">
+                <i class="fa fa-2x"  [ngClass]="{'fa-angle-down':pexfDownFlag, 'fa-angle-up':!pexfDownFlag}" style="color: rgb(40, 46, 137);" aria-hidden="true"></i>
+
+              </span>
+            </li>
+          </div>
+
+          <div class="lGpadBott" *ngIf="fexfpDropDwFlag">
+            <li class="list-group-item lgifilList1Css rounded-0 d-flex justify-content-between align-items-center"
+              data-toggle="collapse" data-target="#collapseOne" (click)="fexfpSignalInit()">
+              F-exf Pending
+              <span class="badge badge-pill">
+                <i class="fa fa-2x"  [ngClass]="{'fa-angle-down':fexfDownFlag, 'fa-angle-up':!fexfDownFlag}" style="color: rgb(40, 46, 137);" aria-hidden="true"></i>
+
+              </span>
+            </li>
+          </div>
+
+          <div class="lGpadBott" *ngIf="sspDropDwFlag">
+            <li class="list-group-item lgifilList1Css rounded-0 d-flex justify-content-between align-items-center"
+              data-toggle="collapse" data-target="#collapseOne" (click)="sspSignalInit()">
+              Shipping Schedule Pending
+              <span class="badge badge-pill">
+                <i class="fa fa-2x"  [ngClass]="{'fa-angle-down':sspDownFlag, 'fa-angle-up':!sspDownFlag}" style="color: rgb(40, 46, 137);" aria-hidden="true"></i>
+
+              </span>
+            </li>
+          </div>
+
+          <div class="lGpadBott" *ngIf="sapDropDwFlag">
+            <li class="list-group-item lgifilList1Css rounded-0 d-flex justify-content-between align-items-center"
+              data-toggle="collapse" data-target="#collapseOne" (click)="sapSignalInit()">
+              Shipping Advice Pending
+              <span class="badge badge-pill">
+                <i class="fa fa-2x"  [ngClass]="{'fa-angle-down':sapDownFlag, 'fa-angle-up':!sapDownFlag}" style="color: rgb(40, 46, 137);" aria-hidden="true"></i>
+
+              </span>
+            </li>
+          </div>
+        </ul>
+
+
+        <div *ngIf="collapseExpandFlag" id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#listExpand">
+
+          <div class="input-group input-group-sm">
+
+            <div class="input-group input-group-md">
+
+              <input
+                type="text"
+                value="{{ipFilTitleText}}"
+                class="form-control rounded-0 ipgSerchFilterCss"
+                style="background-color:transparent;color: rgb(40, 46, 137);"
+                aria-label="Small"
+                aria-describedby="button-addon1"
+                readonly
+              />
+              <input
+              type="text"
+              value="{{selectInfoCount}}"
+              class="form-control rounded-0 ipgSerchFilterCss"
+              style="text-align: center;color: rgb(40, 46, 137);"
+              aria-label="Small"
+              aria-describedby="button-addon1"
+              readonly
+            />
+               <div class="input-group-append input-group-md ">
+                <select class="custom-select dropdwfilter rounded-0 border-right" id="inputGroupSelect02"
+                (change)="onChangeSigFilter($event.target.value)" aria-label="Small">
+                  <option value="1" >Blue Signal</option>
+                  <option value="2" >Yellow Signal</option>
+                </select>
+               </div>
+            </div>
+
+          </div>
+          <div class="lindent" >
+
+            <ul class="list-group indtbl">
+              <li class="list-group-item lgiexpandCss rounded-0" *ngFor="let indentlist of indents"
+                [class.selected]="indentlist === selectedIndent" (click)="onSelect(indentlist)">
+
+                <label class="small lbllistcss  ml-1"  style="margin-right: 170px;">{{indentlist.indent_sheet_num}}</label>
+                <label class="small lbllistcss mr-1 ml-1">{{indentlist.sos_summary | uppercase }}</label>
+                <div>
+                  <label class="small lbllistcss mr-1 ml-1">
+                    {{indentlist.user_acnt_name}}
+                  </label>
+                </div>
+
+
+              </li>
+
+            </ul>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8"  style="padding-left:initial" *ngIf="chartFlag">
+
+      <!--  Init graph-->
+      <div class="input-group input-group-sm">
+        <input class="form-control ipgcsstitle rounded-0 border-0" value="FILTERING CONDITION BARCHART"
+          aria-describedby="basic-addon2" readonly>
+      </div>
+      <div class="card crdboderCss rounded-0">
+        <div class="card-body cadbodyCss" style="background-color: white;">
+          <canvas baseChart height="45vh" width="80vw"
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [colors]="barChartColors"
+          [chartType]="barChartType"
+           >
+          </canvas>
+        </div>
+
+
+      </div>
+
+
+
+    </div>
+    <!-- Indent Detail fixed form-->
+    <div class="col-md-8 " style="padding-left:initial" *ngIf="indentAllFormDetail">
+
+      <div class="input-group input-group-sm">
+        <input class="form-control ipgcsstitle rounded-0 border-0" value="GENERAL DETAILS"
+          aria-describedby="basic-addon2" readonly>
+      </div>
+
+      <div class="card crdboderCss  rounded-0">
+
+        <div class="card-body cadbodyCss">
+
+          <div class="input-group input-group-sm ">
+            <div class="input-group-prepend">
+              <span  class="input-group-text  ipgDetCss rounded-0" aria-describedby="inputGroup-sizing-sm" aria-label="Small" id="inputGroup-sizing-sm">INDENT SHEET NO.</span>
+            </div>
+            <input type="text" readonly value="{{indentsheetnum}}" class="form-control rounded-0 ipgcss"
+              aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+            <div class="input-group-append ">
+              <span class="input-group-text ipgDetCss rounded-0" aria-describedby="inputGroup-sizing-sm" style="border-right: transparent;" aria-label="Small" id="inputGroup-sizing-sm">INDENT ISSUE DATE</span>
+
+            </div>
+            <input type="text" readonly value="{{indentissuedate }}" class="form-control rounded-0 ipgcss"
+              aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+          </div>
+
+          <div class="input-group input-group-sm ">
+            <div class="input-group-prepend">
+              <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">SOS SUMMARY</span>
+            </div>
+            <input type="text" readonly value="{{sossummary}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+              aria-describedby="inputGroup-sizing-sm">
+
+          </div>
+
+          <div class="input-group input-group-sm ">
+            <div class="input-group-prepend">
+              <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CONTRACT ACNT NAME</span>
+            </div>
+            <input type="text" readonly value="{{contractacntname}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+              aria-describedby="inputGroup-sizing-sm">
+
+          </div>
+
+          <div class="input-group input-group-sm ">
+            <div class="input-group-prepend">
+              <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CRM OPT NO.</span>
+            </div>
+            <input type="text" readonly value="{{crmoptnum}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+              aria-describedby="inputGroup-sizing-sm">
+            <div class="input-group-append ">
+              <span class="input-group-text ipgDetCss rounded-0" style="border-right: transparent;" id="inputGroup-sizing-sm">ORDER TYPE</span>
+
+            </div>
+            <input type="text" readonly value="{{ordertype}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+              aria-describedby="inputGroup-sizing-sm">
+          </div>
+
+          <div class="input-group input-group-sm ">
+            <div class="input-group-prepend">
+              <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">SALES1</span>
+            </div>
+            <input type="text" readonly value="{{sales1}}" class="form-control rounded-0 ipgcss1" aria-label="Small"
+              aria-describedby="inputGroup-sizing-sm">
+            <div class="input-group-append ">
+              <span class="input-group-text ipgDetCss1 rounded-0" style="border-right: transparent;" id="inputGroup-sizing-sm">SALES2</span>
+
+            </div>
+            <input type="text" readonly value="{{sales2}}" class="form-control rounded-0 ipgcss1" aria-label="Small"
+              aria-describedby="inputGroup-sizing-sm">
+          </div>
+
+
+        </div>
+
+      </div>
+
+      <!-- Indent detail tab Form-->
+
+
+      <div class="input-group input-group-sm" style="cursor: pointer;">
+        <input class="form-control ipgcsstitle rounded-0 border-0" value="{{tabtitlebtn}}"
+          aria-describedby="basic-addon2" readonly>
+
+
+        <div class="pull-right">
+
+
+
+          <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+            <button class="btn  icobtn rounded-0" type="button" (click)="onClickLeftMov()">
+              <i class="fa fa-angle-left fa-2x" style="color:rgb(40, 46, 137);" aria-hidden="true"></i>
+            </button>
+
+            <div class="btn-group btngroupcss1" role="group">
+              <a class="nav-link navlCss dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">{{dropDwTitle}}</a>
+              <div class="dropdown-menu scrollable-menu rounded-0 dropmenucss" aria-labelledby="dropdown01">
+
+                <li *ngFor="let dselecttype of dselectType" (click)="selectDetailValue(dselecttype.value)">
+                  <a class="dropdown-item">{{dselecttype.viewValue}}</a>
+
+                </li>
+
+              </div>
+            </div>
+
+            <button class="btn  icobtn rounded-0" type="button" (click)="onClickRightMov()">
+              <i class="fa fa-angle-right fa-2x" style="color:rgb(40, 46, 137);" aria-hidden="true"></i>
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card  crdboderCss  rounded-0">
+
+
+
+
+
+        <div *ngIf="poDFlag">
+
+          <div class="card-body  tabCarbodyCss">
+            <div class="scrollCard">
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CUSTOMER PO NO.</span>
+                </div>
+                <input type="text" readonly value="{{customerponum}}" class="form-control rounded-0 ipgcss"
+                  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CUSTOMER PO DATE</span>
+                </div>
+                <input type="text" readonly value="{{customerpodate }}" class="form-control rounded-0 ipgcss"
+                  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">SP CUR</span>
+                </div>
+                <input type="text" readonly value="{{spcur}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                  aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">TP CUR</span>
+                </div>
+                <input type="text" readonly value="{{tpcur}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                  aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">LP</span>
+                </div>
+                <input type="text" readonly value="{{lptotal| number}}" class="form-control rounded-0 ipgcss" aria-label="Small"  *ngIf='isNumber(lptotal)'
+                  aria-describedby="inputGroup-sizing-sm">
+                <input type="text" readonly value="{{lptotal}}" class="form-control rounded-0 ipgcss" aria-label="Small"  *ngIf='!isNumber(lptotal)'
+                  aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">SP</span>
+                </div>
+                <input type="text" readonly value="{{sptotal|number}}" class="form-control rounded-0 ipgcss" aria-label="Small"  *ngIf='isNumber(sptotal)'
+                  aria-describedby="inputGroup-sizing-sm">
+                <input type="text" readonly value="{{sptotal}}" class="form-control rounded-0 ipgcss" aria-label="Small"  *ngIf='!isNumber(sptotal)'
+                  aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">TP1</span>
+                </div>
+                <input type="text" readonly value="{{tp1|number}}" class="form-control rounded-0 ipgcss" aria-label="Small"   *ngIf='isNumber(tp1)'
+                  aria-describedby="inputGroup-sizing-sm">
+                <input type="text" readonly value="{{tp1}}" class="form-control rounded-0 ipgcss" aria-label="Small"   *ngIf='!isNumber(tp1)'
+                  aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">TP2</span>
+                </div>
+                <input type="text" readonly value="{{tp2|number}}" class="form-control rounded-0 ipgcss" aria-label="Small" *ngIf='isNumber(tp2)'
+                  aria-describedby="inputGroup-sizing-sm">
+                <input type="text" readonly value="{{tp2}}" class="form-control rounded-0 ipgcss" aria-label="Small" *ngIf='!isNumber(tp2)'
+                  aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">IIGM INR</span>
+                </div>
+                <input type="text" readonly value="{{iigm|number}}" class="form-control rounded-0 ipgcss" aria-label="Small" *ngIf='isNumber(iigm)'
+                  aria-describedby="inputGroup-sizing-sm">
+                <input type="text" readonly value="{{iigm}}" class="form-control rounded-0 ipgcss" aria-label="Small" *ngIf='!isNumber(iigm)'
+                  aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">PCK & FWD</span>
+                </div>
+                <input type="text" readonly value="{{pckandfwdamnt}}" class="form-control rounded-0 ipgcss"
+                  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">DMST FRT</span>
+                </div>
+                <input type="text" readonly value="{{domesticfreightamnt}}" class="form-control rounded-0 ipgcss"
+                  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">INST/COM</span>
+                </div>
+                <input type="text" readonly value="{{instorcomamnt}}" class="form-control rounded-0 ipgcss"
+                  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">SGST%</span>
+                </div>
+                <input type="text" readonly value="{{sgstpc}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                  aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">SGST AMOUNT</span>
+                </div>
+                <input type="text" readonly value="{{sgstamount|number}}" class="form-control rounded-0 ipgcss" *ngIf='isNumber(sgstamount)'
+                  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                <input type="text" readonly value="{{sgstamount}}" class="form-control rounded-0 ipgcss" *ngIf='!isNumber(sgstamount)'
+                  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CGST%</span>
+                </div>
+                <input type="text" readonly value="{{cgstpc}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                  aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CGST AMOUNT</span>
+                </div>
+                <input type="text" readonly value="{{cgstamount | number}}" class="form-control rounded-0 ipgcss"  *ngIf='isNumber(cgstamount)'
+                  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                <input type="text" readonly value="{{cgstamount}}" class="form-control rounded-0 ipgcss"  *ngIf='!isNumber(cgstamount)'
+                  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">IGST%</span>
+                </div>
+                <input type="text" readonly value="{{igstpc}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                  aria-describedby="inputGroup-sizing-sm">
+
+              </div>
+
+              <div class="input-group input-group-sm ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">IGST AMOUNT</span>
+                </div>
+                <input type="text" readonly value="{{igstamount|number}}" class="form-control rounded-0 ipgcss1" *ngIf='isNumber(igstamount)'
+                  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                <input type="text" readonly value="{{igstamount}}" class="form-control rounded-0 ipgcss1" *ngIf='!isNumber(igstamount)'
+                  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+              </div>
+
+          </div>
+        </div>
+        </div>
+
+
+        <!-- Account Details-->
+
+        <div *ngIf="accountDFlag">
+          <div class="card-body tabCarbodyCss">
+            <div class="scrollCard">
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNTR ADDRESS</span>
+              </div>
+              <input type="text" readonly value="{{cntraddress}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNTR CONTACT</span>
+              </div>
+              <input type="text" readonly value="{{cntrcontactperson}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNTR EMAIL</span>
+              </div>
+              <input type="text" readonly value="{{cntremail}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNTR CODE</span>
+              </div>
+              <input type="text" readonly value="{{cntrcode}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNTR COUNTRY</span>
+              </div>
+              <input type="text" readonly value="{{cntrcountry}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNTR GST IN</span>
+              </div>
+              <input type="text" readonly value="{{cntrgstcode}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNTR TEL</span>
+              </div>
+              <input type="text" readonly value="{{cntrtel}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">USER ACCOUNT NAME</span>
+              </div>
+              <input type="text" readonly value="{{useracntname}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">UA ADDRESS</span>
+              </div>
+              <input type="text" readonly value="{{uaaddress}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">UA CONTACT</span>
+              </div>
+              <input type="text" readonly value="{{uacontactperson}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">UA EMAIL</span>
+              </div>
+              <input type="text" readonly value="{{uaemail}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">UA CODE</span>
+              </div>
+              <input type="text" readonly value="{{uacode}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">UA COUNTRY</span>
+              </div>
+              <input type="text" readonly value="{{uacountry}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">UA GST IN</span>
+              </div>
+              <input type="text" readonly value="{{uagstcode}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">UA TEL</span>
+              </div>
+              <input type="text" readonly value="{{uatel}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">KEY ACCOUNT FLAG</span>
+              </div>
+              <input type="text" readonly value="{{keyaccountflag}}" class="form-control rounded-0 ipgcss1"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+
+          </div>
+        </div>
+        </div>
+
+        <div *ngIf="paymentDFlag">
+          <div class="card-body tabCarbodyCss">
+            <div class="scrollCard">
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">PAYMENT TERMS</span>
+              </div>
+              <input type="text" readonly value="{{pmttrms}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ADV TYPE</span>
+              </div>
+              <input type="text" readonly value="{{advtype}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ADV %</span>
+              </div>
+              <input type="text" readonly value="{{advpc}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ADV AMOUNT</span>
+              </div>
+              <input type="text" readonly value="{{advamount|number}}" class="form-control rounded-0 ipgcss" aria-label="Small" *ngIf='isNumber(advamount)'
+                aria-describedby="inputGroup-sizing-sm">
+              <input type="text" readonly value="{{advamount}}" class="form-control rounded-0 ipgcss" aria-label="Small" *ngIf='!isNumber(advamount)'
+                aria-describedby="inputGroup-sizing-sm">
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ADV DATE</span>
+              </div>
+              <input type="text" readonly value="{{advdate }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">BSH TYPE</span>
+              </div>
+              <input type="text" readonly value="{{bshtype}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">BSH %</span>
+              </div>
+              <input type="text" readonly value="{{bshpc}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">BSH AMOUNT</span>
+              </div>
+              <input type="text" readonly value="{{bshamount|number}}" class="form-control rounded-0 ipgcss" aria-label="Small"  *ngIf='isNumber(bshamount)'
+                aria-describedby="inputGroup-sizing-sm">
+              <input type="text" readonly value="{{bshamount}}" class="form-control rounded-0 ipgcss" aria-label="Small"  *ngIf='!isNumber(bshamount)'
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">BSH DATE</span>
+              </div>
+              <input type="text" readonly value="{{bshdate }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ASH TYPE</span>
+              </div>
+              <input type="text" readonly value="{{ashtype}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ASH %</span>
+              </div>
+              <input type="text" readonly value="{{ashpc}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ASH AMOUNT</span>
+              </div>
+              <input type="text" readonly value="{{ashamount|number}}" class="form-control rounded-0 ipgcss" aria-label="Small"  *ngIf='isNumber(ashamount)'
+                aria-describedby="inputGroup-sizing-sm">
+              <input type="text" readonly value="{{ashamount}}" class="form-control rounded-0 ipgcss" aria-label="Small"  *ngIf='!isNumber(ashamount)'
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">ASH DATE</span>
+              </div>
+              <input type="text" readonly value="{{ashdate }}" class="form-control rounded-0 ipgcss1"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+          </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="thirdparDFlag">
+          <div class="card-body tabCarbodyCss">
+            <div class="scrollCard">
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">3P COM CURRENCY</span>
+              </div>
+              <input type="text" readonly value="{{thirdpcomcur}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">3P COM AMOUNT</span>
+              </div>
+              <input type="text" readonly value="{{thirdpcomamnt|number}}" class="form-control rounded-0 ipgcss"  *ngIf='isNumber(thirdpcomamnt)'
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+              <input type="text" readonly value="{{thirdpcomamnt}}" class="form-control rounded-0 ipgcss"  *ngIf='!isNumber(thirdpcomamnt)'
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">3P COM PAID BY</span>
+              </div>
+              <input type="text" readonly value="{{thirdpcompaidby}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">COM ACNT NAME</span>
+              </div>
+              <input type="text" readonly value="{{comacntname}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">COM ACNT ADDRESS</span>
+              </div>
+              <input type="text" readonly value="{{comaddress}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">COM CONTACT</span>
+              </div>
+              <input type="text" readonly value="{{comcontactperson}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">COM EMAIL</span>
+              </div>
+              <input type="text" readonly value="{{comemail}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">COM CODE</span>
+              </div>
+              <input type="text" readonly value="{{comcode}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">COM COUNTRY</span>
+              </div>
+              <input type="text" readonly value="{{comcountry}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">COM GST IN</span>
+              </div>
+              <input type="text" readonly value="{{comgstcode}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">COM TEL</span>
+              </div>
+              <input type="text" readonly value="{{comtel}}" class="form-control rounded-0 ipgcss1" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+          </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="applicationDFlag">
+          <div class="card-body tabCarbodyCss">
+            <div class="scrollCard">
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CUSTOMER APP CODE</span>
+              </div>
+              <input type="text" readonly value="{{csutomerapplicationcode}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">APPLICATION TYPE</span>
+              </div>
+              <input type="text" readonly value="{{customerapplicationtype}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">CUSTOMER APP DESC</span>
+              </div>
+              <input type="text" readonly value="{{customerappdesc}}" class="form-control rounded-0 ipgcss1"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+
+
+          </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="shpinstoneDFlag">
+          <div class="card-body tabCarbodyCss">
+            <div class="scrollCard">
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">REQUEST ETD USER</span>
+              </div>
+              <input type="text" readonly value="{{reqetdbycustomer }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">REQUEST ETA USER</span>
+              </div>
+              <input type="text" readonly value="{{reqetabycustomer }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">REQ ETD FACTORY</span>
+              </div>
+              <input type="text" readonly value="{{reqetdtoij }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">REQ ETA FACTORY</span>
+              </div>
+              <input type="text" readonly value="{{reqetatoij }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">TRADE TERMS</span>
+              </div>
+              <input type="text" readonly value="{{trdtrmswithcustomer}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">TRADE TERMS FACTORY</span>
+              </div>
+              <input type="text" readonly value="{{trdtrmswithij}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">DEST PORT</span>
+              </div>
+              <input type="text" readonly value="{{destportbycustomer}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">DEST PORT FACTORY</span>
+              </div>
+              <input type="text" readonly value="{{destporttoij}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">MOT</span>
+              </div>
+              <input type="text" readonly value="{{mot}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">MOT TO FACTORY</span>
+              </div>
+              <input type="text" readonly value="{{mottoij}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">FREIGHT</span>
+              </div>
+              <input type="text" readonly value="{{freight1}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">FREIGHT TO FACTORY</span>
+              </div>
+              <input type="text" readonly value="{{freight2}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">COO</span>
+              </div>
+              <input type="text" readonly value="{{coo}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">EPA</span>
+              </div>
+              <input type="text" readonly value="{{epa}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">IP</span>
+              </div>
+              <input type="text" readonly value="{{ip}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">FREE DTNT PRD(DAYS)</span>
+              </div>
+              <input type="text" readonly value="{{freedetentionperiod|number}}" class="form-control rounded-0 ipgcss1"  *ngIf='isNumber(freedetentionperiod)'
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+              <input type="text" readonly value="{{freedetentionperiod}}" class="form-control rounded-0 ipgcss1"  *ngIf='!isNumber(freedetentionperiod)'
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="shpinsttwoDFlag">
+          <div class="card-body tabCarbodyCss">
+            <div class="scrollCard">
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNS ACCOUNT NAME</span>
+              </div>
+              <input type="text" readonly value="{{consigneeacntname}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNS ADDRESS</span>
+              </div>
+              <input type="text" readonly value="{{cnsaddress}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNS CONTACT</span>
+              </div>
+              <input type="text" readonly value="{{cnscontactperson}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNS EMAIL</span>
+              </div>
+              <input type="text" readonly value="{{cnsemail}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNS CODE</span>
+              </div>
+              <input type="text" readonly value="{{cnscode}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNS COUNTRY</span>
+              </div>
+              <input type="text" readonly value="{{cnscountry}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNS GST IN</span>
+              </div>
+              <input type="text" readonly value="{{cnsgstcode}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNS TEL</span>
+              </div>
+              <input type="text" readonly value="{{cnstel}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CNS IEC CODE</span>
+              </div>
+              <input type="text" readonly value="{{cnsieccode}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">BANK NAME ON CARD</span>
+              </div>
+              <input type="text" readonly value="{{banknameoncad}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">BANK TEL</span>
+              </div>
+              <input type="text" readonly value="{{banktel}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">BANK ADDRESS</span>
+              </div>
+              <input type="text" readonly value="{{bankaddress}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">NTF ACCOUNT NAME</span>
+              </div>
+              <input type="text" readonly value="{{notifyacntname}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">NTF ADDRESS</span>
+              </div>
+              <input type="text" readonly value="{{ntfaddress}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">NTF CONTACT</span>
+              </div>
+              <input type="text" readonly value="{{ntfcontactperson}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">NTF EMAIL</span>
+              </div>
+              <input type="text" readonly value="{{ntfemail}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">NTF CODE</span>
+              </div>
+              <input type="text" readonly value="{{ntfcode}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">NTF COUNTRY</span>
+              </div>
+              <input type="text" readonly value="{{ntfcountry}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">NTF GST IN</span>
+              </div>
+              <input type="text" readonly value="{{ntfgstcode}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">NTF TEL</span>
+              </div>
+              <input type="text" readonly value="{{ntftel}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">FOB FOWARDER</span>
+              </div>
+              <input type="text" readonly value="{{fobfowarder}}" class="form-control rounded-0 ipgcss1"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="indremarkDFlag">
+          <div class="card-body tabCarbodyCss">
+            <div class="scrollCard">
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">PRODUCTION START</span>
+              </div>
+              <input type="text" readonly value="{{productionstart}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ATCH PO</span>
+              </div>
+              <input type="text" readonly value="{{customerposheet}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ATCH PI</span>
+              </div>
+              <input type="text" readonly value="{{customerpi}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ATCH SR</span>
+              </div>
+              <input type="text" readonly value="{{customersrsheet}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ATCH DWG</span>
+              </div>
+              <input type="text" readonly value="{{othdrawing}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ATCH TEST REPORT</span>
+              </div>
+              <input type="text" readonly value="{{othtestreport}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ATCH LC DRFT</span>
+              </div>
+              <input type="text" readonly value="{{othlcdraft}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ATCH OTH1</span>
+              </div>
+              <input type="text" readonly value="{{othdoc1}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ATCH OTH2</span>
+              </div>
+              <input type="text" readonly value="{{othdoc2}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">REMARKS</span>
+              </div>
+              <input type="text" readonly value="{{remarks1}}" class="form-control rounded-0 ipgcss1" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <div *ngIf="proformaDFlag">
+          <div class="card-body tabCarbodyCss">
+            <div class="scrollCard">
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">PI NO</span>
+              </div>
+              <input type="text" readonly value="{{pino}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">PI DATE</span>
+              </div>
+              <input type="text" readonly value="{{pidate }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">IIPO NO.</span>
+              </div>
+              <input type="text" readonly value="{{iipono}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">IIPO DATE</span>
+              </div>
+              <input type="text" readonly value="{{iipodate }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">IJ PROJECT NO.</span>
+              </div>
+              <input type="text" readonly value="{{ijprjno}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">OC DATE</span>
+              </div>
+              <input type="text" readonly value="{{ocdate }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">SA DATE</span>
+              </div>
+              <input type="text" readonly value="{{sadate }}" class="form-control rounded-0 ipgcss1"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="lcDFlag">
+          <div class="card-body tabCarbodyCss">
+            <div class="scrollCard">
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">LC CHECK DATE BY IJ</span>
+              </div>
+              <input type="text" readonly value="{{lcchkdateij }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">LC LAST REV DATE</span>
+              </div>
+              <input type="text" readonly value="{{lclastrevisiondate }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">LC OPEN DATE</span>
+              </div>
+              <input type="text" readonly value="{{lcopendate }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">LC SHP DATE</span>
+              </div>
+              <input type="text" readonly value="{{latestshipmentdate }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">LC EXPIRY DATE</span>
+              </div>
+              <input type="text" readonly value="{{lcexpirydate }}" class="form-control rounded-0 ipgcss1"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="exfactoryDFlag">
+          <div class="card-body tabCarbodyCss">
+            <div class="scrollCard">
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">EXF1</span>
+              </div>
+              <input type="text" readonly value="{{exf1 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">EXF1 STATUS</span>
+              </div>
+              <input type="text" readonly value="{{exf1sts}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">EXF IJ ANNT1</span>
+              </div>
+              <input type="text" readonly value="{{exfaccouncement1 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">EXF2</span>
+              </div>
+              <input type="text" readonly value="{{exf2 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">EXF2 STATUS</span>
+              </div>
+              <input type="text" readonly value="{{exf2sts}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">EXF IJ ANNT2</span>
+              </div>
+              <input type="text" readonly value="{{exfaccouncement2 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">EXF3</span>
+              </div>
+              <input type="text" readonly value="{{exf3 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">EXF3 STATUS</span>
+              </div>
+              <input type="text" readonly value="{{exf3sts}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">EXF IJ ANNT3</span>
+              </div>
+              <input type="text" readonly value="{{exfaccouncement3 }}" class="form-control rounded-0 ipgcss1"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="shpadvDFlag">
+          <div class="card-body tabCarbodyCss">
+            <div class="scrollCard">
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">INVOICE NO.1</span>
+              </div>
+              <input type="text" readonly value="{{invoiceno1}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">INVOICE DATE1</span>
+              </div>
+              <input type="text" readonly value="{{invoicedate1 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ETD1</span>
+              </div>
+              <input type="text" readonly value="{{etd1 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ETA1</span>
+              </div>
+              <input type="text" readonly value="{{eta1 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">MODE1</span>
+              </div>
+              <input type="text" readonly value="{{mode1}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">FROM1</span>
+              </div>
+              <input type="text" readonly value="{{from1}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">VESSEL1</span>
+              </div>
+              <input type="text" readonly value="{{vessel1}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">AWB/BL NO1.</span>
+              </div>
+              <input type="text" readonly value="{{awborblno1}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">INVOICE NO.2</span>
+              </div>
+              <input type="text" readonly value="{{invoiceno2}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">INVOICE DATE2</span>
+              </div>
+              <input type="text" readonly value="{{invoicedate2 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ETD2</span>
+              </div>
+              <input type="text" readonly value="{{etd2 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ETA2</span>
+              </div>
+              <input type="text" readonly value="{{eta2 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">MODE2</span>
+              </div>
+              <input type="text" readonly value="{{mode2}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">FROM2</span>
+              </div>
+              <input type="text" readonly value="{{from2}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">VESSEL2</span>
+              </div>
+              <input type="text" readonly value="{{vessel2}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">AWB/BL NO2.</span>
+              </div>
+              <input type="text" readonly value="{{awborblno2}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">INVOICE NO.3</span>
+              </div>
+              <input type="text" readonly value="{{invoiceno3}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">INVOICE DATE3</span>
+              </div>
+              <input type="text" readonly value="{{invoicedate3 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ETD3</span>
+              </div>
+              <input type="text" readonly value="{{etd3 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">ETA3</span>
+              </div>
+              <input type="text" readonly value="{{eta3 }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">MODE3</span>
+              </div>
+              <input type="text" readonly value="{{mode3}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">FROM3</span>
+              </div>
+              <input type="text" readonly value="{{from3}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">VESSEL3</span>
+              </div>
+              <input type="text" readonly value="{{vessel3}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">AWB/BL NO3.</span>
+              </div>
+              <input type="text" readonly value="{{awborblno3}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">EWAY BILL RQD</span>
+              </div>
+              <input type="text" readonly value="{{ewaybillreq}}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">EWAY BILL NO.</span>
+              </div>
+              <input type="text" readonly value="{{ewaybillno}}" class="form-control rounded-0 ipgcss1"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="salesadDFlag">
+          <div class="card-body tabCarbodyCss">
+            <div class="scrollCard">
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">REMARKS</span>
+              </div>
+              <input type="text" readonly value="{{remarks2}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">COM MONTH</span>
+              </div>
+              <input type="text" readonly value="{{commonth }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">CHECKED ON</span>
+              </div>
+              <input type="text" readonly value="{{checkedon }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">FOR</span>
+              </div>
+              <input type="text" readonly value="{{forinfo}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">NEXT CHECK</span>
+              </div>
+              <input type="text" readonly value="{{nextcheck }}" class="form-control rounded-0 ipgcss"
+                aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss rounded-0" id="inputGroup-sizing-sm">PAYMENT STATUS</span>
+              </div>
+              <input type="text" readonly value="{{pmtsts}}" class="form-control rounded-0 ipgcss" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+
+            <div class="input-group input-group-sm ">
+              <div class="input-group-prepend">
+                <span class="input-group-text ipgDetCss1 rounded-0" id="inputGroup-sizing-sm">DELIVERY STATUS</span>
+              </div>
+              <input type="text" readonly value="{{delsts}}" class="form-control rounded-0 ipgcss1" aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- end div detail form-->
+      </div>
+
+
+
+    </div>
+
+  </div>
+
+
+</div>

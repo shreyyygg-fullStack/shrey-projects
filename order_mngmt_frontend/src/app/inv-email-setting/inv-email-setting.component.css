@@ -1,0 +1,179 @@
+.breadcrumb {
+    margin-top: 2rem;
+    margin-bottom: initial;
+    padding: 5px 15px !important;
+    background-color: white;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+.nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+    /* Add border bottom */
+}
+
+.nav-link {
+    color: #333;
+    /* Tab text color */
+    background-color: transparent;
+    /* Tab background color */
+    border: none;
+    /* Remove border */
+    border-radius: 0;
+    /* Remove border radius */
+}
+
+.nav-link.active {
+
+    background-color: #fff;
+    /* Active tab background color */
+    border-bottom: 2px solid rgb(40, 46, 137);
+    /* Add bottom border to active tab */
+}
+
+.nav-link:hover {
+    color: rgb(40, 46, 137);
+    /* Hover tab text color */
+}
+
+
+.navlinkcss {
+    font-size: 12px;
+    font-weight: 500;
+    background-color: transparent;
+    color: #2E3192;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+
+    border-color: transparent;
+    background-color: transparent;
+    border-bottom: solid #2E3192;
+    color: #2E3192;
+    font-size: 12px;
+    font-weight: 500;
+    /* margin: 0px 0px -1px; */
+}
+
+.nav-link:hover {
+    border-color: transparent;
+}
+
+.nav-tabs {
+    background-color: transparent;
+    position: relative;
+    color: #282e89 !important;
+    /* box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px; */
+    border-bottom: transparent;
+}
+
+.email-sender {
+    width: 98%;
+    height: calc(100vh - 15rem);
+    margin: 20px auto;
+    /* background-color: #fff; */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+.on-off-button {
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.on-off-button.on {
+    background-color: #f1f1f1;
+    color: black;
+}
+
+.on-off-button.off {
+    background-color: #f1f1f1;
+    color: black;
+}
+
+.on-off-button.active {
+    background-color: #282E89;
+    color: white;
+    outline: none;
+}
+
+.btncss {
+    /* background-color:#f3f2ed7c;  */
+    background-color: #ffffff;
+    color: #2E3192;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+
+    outline: none;
+    box-shadow: none;
+}
+
+
+
+.btncss:hover {
+    background-color: #2E3192;
+    color: #ffffff;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    outline: none;
+    box-shadow: none;
+}
+
+
+.city-label {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.city-label.selected {
+    background-color: #2E3192 !important;
+    /* Bootstrap primary */
+    color: white !important;
+    font-weight: bold;
+}
+
+.form-control.is-invalid {
+    background-image: none;
+}
+
+.custom-select.is-invalid {
+    background-image: none;
+}
+
+.warning {
+    color: #dc3545;
+}
+
+.invalid-tooltip {
+    position: absolute !important;
+    top: 0px !important;
+    right: 5px !important;
+    z-index: 5;
+    color: #dc3545;
+    background: transparent;
+}
+
+.invalid-input {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    z-index: 5;
+}
+
+.invalid-select {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    z-index: 5;
+}
+
+input:focus {
+  outline: none; /* Remove default outline */
+  
+  box-shadow: 0 0 0px rgba(0, 0, 0, 0.5); /* Add a subtle shadow */
+}

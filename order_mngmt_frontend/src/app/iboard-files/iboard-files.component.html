@@ -1,0 +1,349 @@
+<!-- nav bar -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb border bg-transparent shadow-sm">
+        <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+            (click)="homeRouterInit()">
+            Home
+        </li>
+        <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+            (click)="iboardFilesInit()">
+            <u>IBoard Files</u>
+        </li>
+    </ol>
+</nav>
+<!-- nav bar ends -->
+
+<!-- tab bar -->
+<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin:0px 10px 5px 10px;">
+
+    <li class="nav-item navlinkcss">
+        <a class="nav-link  navlinkcss" routerLink="/ii/iboard-planning" id="global-setting" data-toggle="tab"
+            role="tab" aria-selected="false">IBoard Planning</a>
+    </li>
+    <li class="nav-item navlinkcss">
+        <a class="nav-link  navlinkcss" routerLink="/ii/daily-planning" id="global-setting" data-toggle="tab" role="tab"
+            aria-selected="false">Daily Planning</a>
+    </li>
+    <!-- <li class="nav-item navlinkcss">
+        <a class="nav-link navlinkcss" routerLink="/ii/iboard-setting" id="global-setting" data-toggle="tab" role="tab"
+            aria-selected="false">IBoard Setting</a>
+    </li> -->
+    <li class="nav-item navlinkcss">
+        <a class="nav-link active navlinkcss" routerLink="/ii/iboard-files" id="global-setting" data-toggle="tab"
+            role="tab" aria-selected="false">IBoard Files</a>
+    </li>
+
+</ul>
+<!-- tab bar ends -->
+
+<div class="mt-2">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card rounded-0" style="max-width: 100%; padding:0.5rem 0.5rem;background-color: white;">
+
+                    <!-- date filter -->
+                    <div class="card-body bg-started content-center"
+                        style="background-color: white ;padding-bottom: initial; padding-top:0px;padding-left:4px;">
+                        <div class="form-check form-check-inline" style="margin-top: -19px;">
+                            <span class="ishida-color " style="font-size: 0.8rem;font-weight: 500;">Filter by
+                                Date</span>
+                            <div class="custom-control custom-switch mb-3 "
+                                style=" padding-top: 20px;padding-left:48px;">
+                                <input type="checkbox" class="custom-control-input" id="filterToggle"
+                                    [(ngModel)]="rangeDateFlag" name="filterToggle" (change)="toggle()">
+                                <label class="custom-control-label" for="filterToggle"></label>
+                            </div>
+                        </div>
+
+                        <hr class="mt-1">
+                        <form>
+                            <div class="row" style="padding-left:17px;">
+                                <div class="form-check form-check-inline" style="margin-right:auto;">
+                                    <div class="form-group form-check form-check-inline">
+                                        <div class="input-group input-group-sm ">
+                                            <label class="col-form-label mr-2"
+                                                style="font-size: 0.8rem;font-weight: 400;" for="selectDate">From
+                                                Date</label>
+                                            <input class="form-control ipgcss1 rounded-0 "
+                                                [ngClass]="{'text-danger':error}" [(ngModel)]="rfromDate"
+                                                name="rfromDate" placeholder="yyyy-mm-dd"
+                                                [minDate]="{year: Year[5].value, month: 1, day: 1}"
+                                                [maxDate]="{year: Year[1].value, month: 12, day: 31}" ngbDatepicker
+                                                #d1="ngbDatepicker" (ngModelChange)="fetchIndentByDate()"
+                                                style="color:#212529;" aria-describedby="inputGroup-sizing-sm" readonly>
+                                            <div class="input-group-append">
+                                                <button style="min-height: 26px; height: fit-content;margin-left: 1px;"
+                                                    (click)="d1.toggle()" type="button" [disabled]="!rangeDateFlag">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="input-group input-group-sm ml-2">
+                                            <label for="" class=" mr-2 col-form-label"
+                                                style="font-size: 0.8rem;font-weight: 400;" for="selectDate">To
+                                                Date</label>
+                                            <input class="form-control ipgcss1 rounded-0 " [(ngModel)]="rtoDate"
+                                                name="rtoDate" placeholder="yyyy-mm-dd"
+                                                [minDate]="{year: Year[5].value, month: 1, day: 1}"
+                                                [maxDate]="{year: Year[1].value, month: 12, day: 31}" ngbDatepicker
+                                                style="color:#212529;" #d2="ngbDatepicker"
+                                                (ngModelChange)="fetchIndentByDate()" readonly>
+                                            <div class="input-group-append">
+                                                <button style="min-height: 26px; height: fit-content;margin-left: 1px;"
+                                                    (click)="d2.toggle()" type="button" [disabled]="!rangeDateFlag">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- date filter ends -->
+                            </div>
+                        </form>
+
+                        <!-- search bar  -->
+                        <div class="col-12" style="background-color: whitesmoke; height: 35px; padding:0px;">
+                            <div class="row">
+                                <div class="col-8 ml-0" style="margin-top:3px;">
+                                    <div class="input-group input-group-sm mb-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text ipgcss2 rounded-0" style=" height: 25px;">
+                                                <i class="fa fa-fw fa-search"></i>
+                                            </div>
+                                            <input type="search" class="form-control ipgcss1 rounded-0"
+                                                placeholder="Search... " maxlength="{{searchMaxLength}}"
+                                                [(ngModel)]="searchText" style="width:550px;"
+                                                (input)="globalSearchKeyUp()" title="search box" required>
+
+                                            <form [formGroup]="indentsPriorityForm">
+                                                <div class="input-group-append input-group-md">
+                                                    <select class="custom-select dropdwfilter rounded-0 border-right"
+                                                        aria-label="Small" style=" height: 30px;"
+                                                        formControlName="indentsPriority" (change)="onChange($event)">
+                                                        <option value="All">All</option>
+                                                        <option value="High Priority">High Priority</option>
+                                                        <option value="Medium Priority">Medium Priority</option>
+                                                        <option value="Low Priority">Low Priority</option>
+                                                    </select>
+                                                </div>
+                                            </form>
+
+                                            <div *ngIf="allIndentFlag" class="input-group-append"
+                                                style="margin-top:1px; padding-left: 2px;">
+                                                <span class="badge rounded-0"
+                                                    style="font-size: 12px;font-weight: 500;border: none;outline: none;height: 26px;   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;color: silver; background-color: #FFFFFF ; padding-top: 7px; width: 49px;"><i
+                                                        class="fa fa-list mr-1"></i>{{indentsLength}}</span>
+                                            </div>
+                                            <div *ngIf="highIndentFlag" class="input-group-append"
+                                                style="margin-top:1px; padding-left: 2px;">
+                                                <span class="badge rounded-0"
+                                                    style="font-size: 12px;font-weight: 500;border: none;outline: none;height: 26px;   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;color: silver; background-color: #FFFFFF ; padding-top: 7px; width: 49px;"><i
+                                                        class="fa fa-list mr-1"></i>{{highPriorityDataLength}}</span>
+                                            </div>
+                                            <div *ngIf="medIndentFlag" class="input-group-append"
+                                                style="margin-top:1px; padding-left: 2px;">
+                                                <span class="badge rounded-0"
+                                                    style="font-size: 12px;font-weight: 500;border: none;outline: none;height: 26px;   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;color: silver; background-color: #FFFFFF ; padding-top: 7px; width: 49px;"><i
+                                                        class="fa fa-list mr-1"></i>{{medPriorityDataLength}}</span>
+                                            </div>
+                                            <div *ngIf="lowIndentFlag" class="input-group-append"
+                                                style="margin-top:1px; padding-left: 2px;">
+                                                <span class="badge rounded-0"
+                                                    style="font-size: 12px;font-weight: 500;border: none;outline: none;height: 26px;   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;color: silver; background-color: #FFFFFF ; padding-top: 7px; width: 49px;"><i
+                                                        class="fa fa-list mr-1"></i>{{lowPriorityDataLength}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- search bar ends -->
+
+                                <!-- export  to excel button -->
+                                <div class="col-4 mt-2">
+                                    <a style="cursor: pointer;" class="float-right mr-4 ishida-color"
+                                        (click)="exportCSV()"
+                                        style="font-size: 0.8rem;font-weight: 500; cursor: pointer;">
+                                        EXPORT TO CSV
+                                    </a>
+                                </div>
+                                <!-- export  to excel button ends -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Priority wise indent data table -->
+<div class="row mt-2">
+    <div class="col">
+        <div class="card" style="max-width: 100%">
+            <div class="card-header bg-started content-center" style="padding:initial">
+                <div class='table-res scroll mr-5'>
+                    <table class="table table-sm table-hover table-striped table-res"
+                        style="margin-bottom:0; border: none;">
+                        <thead class="header" style="background:#282e89; color:white;  border: none;">
+                            <tr class="text-center">
+                                <ng-container>
+                                    <th>INDENT SHEET NO.</th>
+                                    <th>INDENT ISSUE DATE</th>
+                                    <th>SOS SUMMARY</th>
+                                    <th>CONTRACT ACNT NAME</th>
+                                    <th>ORDER TYPE</th>
+                                    <th>SALES NAME</th>
+                                    <th>REGION</th>
+                                    <th>IIPO NO.</th>
+                                    <th>VD-INVOICE</th>
+                                    <th>VD-EXF</th>
+                                    <th>VD-EXF STATUS</th>
+                                    <th>VD-ETD</th>
+                                    <th>PROD. EXF DATE</th>
+                                    <th>PROD. EXF STATUS</th>
+                                    <th>DEL STATUS</th>
+                                    <th>PMT STATUS</th>
+                                    <th>FOR INFO</th>
+                                    <th>REMARKS</th>
+                                </ng-container>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngIf="indentsLength == 0 && allIndentFlag">
+                                <td colspan="16">
+                                    <div class="jumbotron jumbotron-fluid"
+                                        style="height: calc(100vh - 25rem); padding-left:0px; padding-top:0px;">
+                                        <p class="lead text-ishida">THERE ARE NO INDENTS!</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="highPriorityDataLength == 0 && highIndentFlag">
+                                <td colspan="16">
+                                    <div class="jumbotron jumbotron-fluid"
+                                        style="height: calc(100vh - 25rem); padding-left:0px; padding-top:0px;">
+                                        <p class="lead text-ishida">THERE ARE NO INDENTS!</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="medPriorityDataLength == 0 && medIndentFlag">
+                                <td colspan="16">
+                                    <div class="jumbotron jumbotron-fluid"
+                                        style="height: calc(100vh - 25rem); padding-left:0px; padding-top:0px;">
+                                        <p class="lead text-ishida">THERE ARE NO INDENTS!</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="lowPriorityDataLength == 0 && lowIndentFlag">
+                                <td colspan="16">
+                                    <div class="jumbotron jumbotron-fluid"
+                                        style="height: calc(100vh - 25rem); padding-left:0px; padding-top:0px;">
+                                        <p class="lead text-ishida">THERE ARE NO INDENTS!</p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <ng-container *ngIf="indentsLength > 0 && allIndentFlag">
+                                <tr *ngFor="let indentlist of indents">
+                                    <td>{{indentlist.indent_sheet_num}} </td>
+                                    <td>{{indentlist.indent_issue_date}} </td>
+                                    <td>{{indentlist.sos_summary}} </td>
+                                    <td>{{indentlist.contract_acnt_name}} </td>
+                                    <td>{{indentlist.order_type}} </td>
+                                    <td>{{indentlist.sales1_name}} </td>
+                                    <td>{{indentlist.region}} </td>
+                                    <td>{{indentlist.iipo_no}} </td>
+                                    <td>{{indentlist.invoice_no1}} </td>
+                                    <td>{{indentlist.exf1}} </td>
+                                    <td>{{indentlist.exf1_sts}} </td>
+                                    <td>{{indentlist.etd1}} </td>
+                                    <td>{{indentlist.prod_date}} </td>
+                                    <td>{{indentlist.prod_sts}} </td>
+                                    <td>{{indentlist.del_sts}} </td>
+                                    <td>{{indentlist.pmt_sts}} </td>
+                                    <td>{{indentlist.for_info}} </td>
+                                    <td>{{indentlist.remark1}} </td>
+                                </tr>
+                            </ng-container>
+
+                            <ng-container *ngIf="highPriorityDataLength > 0 && highIndentFlag">
+                                <tr *ngFor="let indentlist of highPriorityData">
+                                    <td>{{indentlist.indent_sheet_num}} </td>
+                                    <td>{{indentlist.indent_issue_date}} </td>
+                                    <td>{{indentlist.sos_summary}} </td>
+                                    <td>{{indentlist.contract_acnt_name}} </td>
+                                    <td>{{indentlist.order_type}} </td>
+                                    <td>{{indentlist.sales1_name}} </td>
+                                    <td>{{indentlist.region}} </td>
+                                    <td>{{indentlist.iipo_no}} </td>
+                                    <td>{{indentlist.invoice_no1}} </td>
+                                    <td>{{indentlist.exf1}} </td>
+                                    <td>{{indentlist.exf1_sts}} </td>
+                                    <td>{{indentlist.etd1}} </td>
+                                    <td>{{indentlist.prod_date}} </td>
+                                    <td>{{indentlist.prod_sts}} </td>
+                                    <td>{{indentlist.del_sts}} </td>
+                                    <td>{{indentlist.pmt_sts}} </td>
+                                    <td>{{indentlist.for_info}} </td>
+                                    <td>{{indentlist.remark1}} </td>
+                                </tr>
+                            </ng-container>
+
+                            <ng-container *ngIf="medPriorityDataLength > 0 && medIndentFlag">
+                                <tr *ngFor="let indentlist of medPriorityData">
+                                    <td>{{indentlist.indent_sheet_num}} </td>
+                                    <td>{{indentlist.indent_issue_date}} </td>
+                                    <td>{{indentlist.sos_summary}} </td>
+                                    <td>{{indentlist.contract_acnt_name}} </td>
+                                    <td>{{indentlist.order_type}} </td>
+                                    <td>{{indentlist.sales1_name}} </td>
+                                    <td>{{indentlist.region}} </td>
+                                    <td>{{indentlist.iipo_no}} </td>
+                                    <td>{{indentlist.invoice_no1}} </td>
+                                    <td>{{indentlist.exf1}} </td>
+                                    <td>{{indentlist.exf1_sts}} </td>
+                                    <td>{{indentlist.etd1}} </td>
+                                    <td>{{indentlist.prod_date}} </td>
+                                    <td>{{indentlist.prod_sts}} </td>
+                                    <td>{{indentlist.del_sts}} </td>
+                                    <td>{{indentlist.pmt_sts}} </td>
+                                    <td>{{indentlist.for_info}} </td>
+                                    <td>{{indentlist.remark1}} </td>
+                                </tr>
+                            </ng-container>
+
+                            <ng-container *ngIf="lowPriorityDataLength > 0 && lowIndentFlag">
+                                <tr *ngFor="let indentlist of lowPriorityData">
+                                    <td>{{indentlist.indent_sheet_num}} </td>
+                                    <td>{{indentlist.indent_issue_date}} </td>
+                                    <td>{{indentlist.sos_summary}} </td>
+                                    <td>{{indentlist.contract_acnt_name}} </td>
+                                    <td>{{indentlist.order_type}} </td>
+                                    <td>{{indentlist.sales1_name}} </td>
+                                    <td>{{indentlist.region}} </td>
+                                    <td>{{indentlist.iipo_no}} </td>
+                                    <td>{{indentlist.invoice_no1}} </td>
+                                    <td>{{indentlist.exf1}} </td>
+                                    <td>{{indentlist.exf1_sts}} </td>
+                                    <td>{{indentlist.etd1}} </td>
+                                    <td>{{indentlist.prod_date}} </td>
+                                    <td>{{indentlist.prod_sts}} </td>
+                                    <td>{{indentlist.del_sts}} </td>
+                                    <td>{{indentlist.pmt_sts}} </td>
+                                    <td>{{indentlist.for_info}} </td>
+                                    <td>{{indentlist.remark1}} </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Priority wise indent data table ends -->

@@ -1,0 +1,1497 @@
+package controller;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import config.DBGetQuery;
+import config.DbIndentUpdateQuery;
+import config.JwtTokenDetail;
+import config.Log4j2;
+import config.Logs;
+import model.IndentUpdateRequest;
+import model.IndentUpdateResponse;
+import service.IndentService;
+import model.ApiResultResponse;
+import model.FileDownload;
+
+@RestController
+public class IndentManagement {
+
+	JwtTokenDetail user = JwtTokenDetail.getInstance();
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	IndentService indService;
+
+	String strDateFormat = "yyyy-MM-dd E HH:mm:ss.SSS";
+	String formattedDate;
+
+	JwtTokenDetail jwttokendetail = JwtTokenDetail.getInstance();
+	DbIndentUpdateQuery updateQuery = new DbIndentUpdateQuery();
+	DBGetQuery dbGetQuery = new DBGetQuery();
+	Logs logs = new Logs();
+	ApplicationLogs applicationLogs = new ApplicationLogs();
+	public String defdate_fmt = "0000-00-00";
+
+	private static final String GET_ALLINDENTLIST = "/indent";
+	private static final String GET_OPENINDENTLIST = "/OpenIndent";
+	private static final String GET_CLOSEDINDENTLIST = "/ClosedIndent";
+	private static final String GET_CANCELLEDINDENTLIST = "/CancelledIndent";
+	private static final String GET_ALLINDENTLISTASC = "/indentASC/{indentType}";
+	private static final String GET_ALLINDENTSUBLIST = "/indentSubDetail/{indentno}";
+	private static final String GET_UPDATEPIDATA = "/updatePIData";
+	private static final String GET_UPDATEIIPODATA = "/updateIIPOData";
+	private static final String GET_UPDATEIIOCDATA = "/updateIIOCData";
+	private static final String GET_UPDATEOCDATA = "/updateOCData";
+	private static final String GET_UPDATEIIEXFDATA = "/updateIIEXFData";
+	private static final String GET_UPDATEBGDATA = "/updateBGData";
+	private static final String GET_UPDATEINVDATA = "/updateINVData";
+	private static final String GET_INSERTINVDATA = "/insertINVData";
+	private static final String GET_DELETEINVDATA = "/deleteINVData";
+	private static final String GET_UPDATEEXFDATA = "/updateEXFData";
+	private static final String GET_UPDATELCDATA = "/updateLCData";
+	private static final String GET_UPDATECOMDATA = "/updateCOMData";
+	private static final String GET_UPDATESHPINVDATA = "/updateSHPorINVData";
+	private static final String GET_UPDATENEXTACTIONDATA = "/updateNextActionData";
+
+	private static final String GET_INVOICEINDENTLIST = "/getInvIndentData/{indentno}";
+	private static final String GET_INDENTLISTFROMINVOICE ="/getIndentListFromInvoice";
+	private static final String GET_INDENT_DETAILS = "/getIndentDetails";
+	
+	
+	private static final String GET_PAYMENTINDENTLIST = "/getPaymentIndentData/{indentno}";    // fetch payment data. 
+	private static final String PAYMENT_DATA = "/PaymentData";	   // insertion or update payment data
+	private static final String DELETE_PAYMENT_DATA = "/DeletePaymentData";  // delete payment data 
+
+	@RequestMapping(method = RequestMethod.POST, value = GET_INDENT_DETAILS, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Map<String, Object>> updateUser(FileDownload obj, HttpServletRequest req,
+			HttpServletResponse res) {
+		String sql = "select * from master_data where  indent_sheet_num =?";
+		List<Map<String, Object>> data = new ArrayList<>();
+		try {
+			data = jdbcTemplate.queryForList(sql, obj.getIndent_sheet_num());
+			if (data.isEmpty()) {
+				Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + logs.getEmptyIndentDetailLog());
+			} else {
+				Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + logs.getNonEmptyIndentDetailLog());
+
+			}
+		} catch (Exception e) {
+			Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + e);
+		}
+		return data;
+	}
+
+	@RequestMapping(GET_ALLINDENTLIST)
+	public @ResponseBody List<Object> getIndent(HttpServletRequest req, HttpServletResponse res) {
+		List<Object> AllIndentList = indService.getAllIndentList();
+		getCurrentTimeUsingDate();
+
+		if (AllIndentList.isEmpty()) {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getEmptyIndentDetailLog());
+		} else {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getNonEmptyIndentDetailLog());
+		}
+		return AllIndentList;
+	}
+	
+	@RequestMapping(GET_OPENINDENTLIST)
+	public @ResponseBody List<Object> getOpenIndent(HttpServletRequest req, HttpServletResponse res) {
+		List<Object> AllIndentList = indService.getOpenIndentList();
+		getCurrentTimeUsingDate();
+
+		if (AllIndentList.isEmpty()) {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getEmptyIndentDetailLog());
+		} else {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getNonEmptyIndentDetailLog());
+		}
+		return AllIndentList;
+	}
+	
+	@RequestMapping(GET_CLOSEDINDENTLIST)
+	public @ResponseBody List<Object> getClosedIndent(HttpServletRequest req, HttpServletResponse res) {
+		List<Object> AllIndentList = indService.getClosedIndentList();
+		getCurrentTimeUsingDate();
+
+		if (AllIndentList.isEmpty()) {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getEmptyIndentDetailLog());
+		} else {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getNonEmptyIndentDetailLog());
+		}
+		return AllIndentList;
+	}
+	
+	@RequestMapping(GET_CANCELLEDINDENTLIST)
+	public @ResponseBody List<Object> getCancelledIndent(HttpServletRequest req, HttpServletResponse res) {
+		List<Object> AllIndentList = indService.getCancelledIndentList();
+		getCurrentTimeUsingDate();
+
+		if (AllIndentList.isEmpty()) {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getEmptyIndentDetailLog());
+		} else {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getNonEmptyIndentDetailLog());
+		}
+		return AllIndentList;
+	}
+
+	@RequestMapping(GET_ALLINDENTLISTASC)
+	public @ResponseBody List<Object> getIndentASC(@PathVariable("indentType") String indentType, HttpServletRequest req, HttpServletResponse res) {
+		List<Object> AllIndentList = indService.getAllIndentListASC(indentType);
+		getCurrentTimeUsingDate();
+
+		if (AllIndentList.isEmpty()) {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getEmptyIndentDetailLog());
+		} else {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getNonEmptyIndentDetailLog());
+		}
+		return AllIndentList;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = GET_ALLINDENTSUBLIST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Object> GET_ALLINDENTSUBLIST(@PathVariable String indentno, HttpServletRequest req,
+			HttpServletResponse res) {
+
+		String sql = dbGetQuery.getIndentSubDetail();
+		Object[] params = new Object[] { indentno };
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
+		List<Object> indentSubDetail = new ArrayList<>(rows);
+		getCurrentTimeUsingDate();
+
+		if (indentSubDetail.isEmpty()) {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getEmptyIndentSubDetail());
+
+		} else {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getIndentSubDetailLoaded());
+		}
+		return indentSubDetail;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = GET_INVOICEINDENTLIST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Object> GET_INVOICEINDENTLIST(@PathVariable String indentno, HttpServletRequest req,
+			HttpServletResponse res) {
+
+		String sql = updateQuery.getInvewbIndentData();
+		Object[] params = new Object[] { indentno };
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
+		List<Object> invoiceDetail = new ArrayList<>(rows);
+		getCurrentTimeUsingDate();
+
+		if (invoiceDetail.isEmpty()) {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getEmptyIndentInvoiceDetail());
+		} else {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getIndentInvoiceDetailLoaded());
+		}
+		return invoiceDetail;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = GET_PAYMENTINDENTLIST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Object> GET_PAYMENTINDENTLIST(@PathVariable String indentno, HttpServletRequest req,
+			HttpServletResponse res) {
+
+		String sql = updateQuery.getAllPaymentData();
+		Object[] params = new Object[] { indentno };
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
+		List<Object> paymentDetail = new ArrayList<>(rows);
+		getCurrentTimeUsingDate();
+
+		if (paymentDetail.isEmpty()) {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getEmptyIndentPaymentDetail());
+		} else {
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getIndentPaymentDetailLoaded());
+		}
+		return paymentDetail;
+	}
+
+
+	@RequestMapping(method = RequestMethod.POST, value = GET_UPDATEPIDATA, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody IndentUpdateResponse getUpdatePIData1(IndentUpdateRequest indentupdateres,
+			HttpServletRequest req, HttpServletResponse res) {
+
+		IndentUpdateResponse indentupdateresp = new IndentUpdateResponse();
+		getCurrentTimeUsingDate();
+
+		if (indentupdateres.getPi_no().equals("null") || StringUtils.isEmpty(indentupdateres.getPi_no())) {
+			indentupdateres.setPi_no(null);
+		}
+
+		if (indentupdateres.getPi_date().equals("null") || StringUtils.isEmpty(indentupdateres.getPi_date())) {
+			indentupdateres.setPi_date(null);
+		}
+
+		String sql = updateQuery.getUpdatePIData();
+		try {
+			if (jdbcTemplate.update(sql, new Object[] { indentupdateres.getPi_no(), indentupdateres.getPi_date(),
+					indentupdateres.getIndent_sheet_num() }) == 1) {
+				indentupdateresp.setAffectedRows(1);
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentupdateres.getIndent_sheet_num(), "PI Information Updated",
+						IndentManagement.class.getName());
+			} else {
+
+			}
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getUpdatePIDataLog());
+		} catch (Exception e) {
+			Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + e);
+		}
+
+		return indentupdateresp;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = GET_UPDATEIIPODATA, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody IndentUpdateResponse getUpdateIIPOData(IndentUpdateRequest indentupdateres,
+			HttpServletRequest req, HttpServletResponse res) {
+
+		IndentUpdateResponse indentupdateresp = new IndentUpdateResponse();
+		getCurrentTimeUsingDate();
+
+		if (indentupdateres.getIipo_no().equals("null")) {
+			indentupdateres.setIipo_no(null);
+		}
+
+		if (indentupdateres.getIipo_date().equals("null") || StringUtils.isEmpty(indentupdateres.getIipo_date())) {
+			indentupdateres.setIipo_date(null);
+		}
+
+		String sql = updateQuery.getUpdateIIPOData();
+		try {
+			if (jdbcTemplate.update(sql, new Object[] { indentupdateres.getIipo_no(), indentupdateres.getIipo_date(),
+					indentupdateres.getIndent_sheet_num() }) == 1) {
+				indentupdateresp.setAffectedRows(1);
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentupdateres.getIndent_sheet_num(), "II-PO Information Updated",
+						IndentManagement.class.getName());
+			} else {
+
+			}
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getUpdateIIPODataLog());
+		} catch (Exception e) {
+			Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + e);
+		}
+
+		return indentupdateresp;
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, path = GET_UPDATEIIOCDATA, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ApiResultResponse updateIIOCData(
+			@ModelAttribute("IndentUpdateRequest") IndentUpdateRequest indentUpdateRequest, HttpServletRequest req,
+			HttpServletResponse res) {
+
+		ApiResultResponse apiResponse = new ApiResultResponse();
+
+		if (indentUpdateRequest.getJob_no().equals("") || indentUpdateRequest.getJob_no().equals("null")) {
+			indentUpdateRequest.setJob_no(null);
+		}
+		if (indentUpdateRequest.getPrd_ord_date().equals("") || indentUpdateRequest.getPrd_ord_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getPrd_ord_date())) {
+			indentUpdateRequest.setPrd_ord_date(null);
+		}
+		if (indentUpdateRequest.getOc_no().equals("") || indentUpdateRequest.getOc_no().equals("null")) {
+			indentUpdateRequest.setOc_no(null);
+		}
+		if (indentUpdateRequest.getOc_date().equals("") || indentUpdateRequest.getOc_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getOc_date())) {
+			indentUpdateRequest.setOc_date(null);
+		}
+		if (indentUpdateRequest.getIndent_sheet_num().equals("")
+				|| indentUpdateRequest.getIndent_sheet_num().equals("null")) {
+			indentUpdateRequest.setIndent_sheet_num(null);
+		}
+
+		try {
+			String sql = updateQuery.getUpdateIIOCData();
+
+			int affectdRows = jdbcTemplate.update(sql,
+					new Object[] { indentUpdateRequest.getJob_no(), indentUpdateRequest.getPrd_ord_date(),
+							indentUpdateRequest.getOc_no(), indentUpdateRequest.getOc_date(),
+							indentUpdateRequest.getIndent_sheet_num() });
+
+			if (affectdRows == 1) {
+				apiResponse.setAffectedRows(1);
+				apiResponse.setMessage("II-OC Updated successfully.");
+				Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentUpdateRequest.getIndent_sheet_num(), "II-OC Information Updated",
+						IndentManagement.class.getName());
+			}
+		} catch (Exception e) {
+			apiResponse.setMessage("Failed to update into database.");
+			Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+			return apiResponse;
+		}
+		return apiResponse;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = GET_UPDATEOCDATA, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody IndentUpdateResponse getUpdateOCData(IndentUpdateRequest indentupdateres,
+			HttpServletRequest req, HttpServletResponse res) {
+
+		IndentUpdateResponse indentupdateresp = new IndentUpdateResponse();
+		getCurrentTimeUsingDate();
+
+		if (indentupdateres.getIj_project_num().equals("null")
+				|| StringUtils.isEmpty(indentupdateres.getIj_project_num())) {
+			indentupdateres.setIj_project_num(null);
+		}
+
+		if (indentupdateres.getOc_date().equals("null") || StringUtils.isEmpty(indentupdateres.getOc_date())) {
+			indentupdateres.setOc_date(null);
+		}
+
+		String sql = updateQuery.getUpdateOCData();
+		try {
+			if (jdbcTemplate.update(sql, new Object[] { indentupdateres.getIj_project_num(),
+					indentupdateres.getOc_date(), indentupdateres.getIndent_sheet_num() }) == 1) {
+				indentupdateresp.setAffectedRows(1);
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentupdateres.getIndent_sheet_num(), "VD-OC Information Updated",
+						IndentManagement.class.getName());
+			}
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getUpdateOCDataLog());
+		} catch (Exception e) {
+			Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + e);
+		}
+
+		return indentupdateresp;
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = GET_UPDATEEXFDATA, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody IndentUpdateResponse getUpdateEXFData(IndentUpdateRequest indentupdateres,
+			HttpServletRequest req, HttpServletResponse res) {
+
+		IndentUpdateResponse indentupdateresp = new IndentUpdateResponse();
+		getCurrentTimeUsingDate();
+
+		if (indentupdateres.getDel_sts().equals("null") || StringUtils.isEmpty(indentupdateres.getDel_sts())) {
+			indentupdateres.setDel_sts(null);
+		}
+
+		if (indentupdateres.getExf1().equals("null") || StringUtils.isEmpty(indentupdateres.getExf1())) {
+			indentupdateres.setExf1(null);
+		}
+
+		if (indentupdateres.getExf2().equals("null") || StringUtils.isEmpty(indentupdateres.getExf2())) {
+			indentupdateres.setExf2(null);
+		}
+
+		if (indentupdateres.getExf3().equals("null") || StringUtils.isEmpty(indentupdateres.getExf3())) {
+			indentupdateres.setExf3(null);
+		}
+
+		if (indentupdateres.getExf1_sts().equals("null") || StringUtils.isEmpty(indentupdateres.getExf1_sts())) {
+			indentupdateres.setExf1_sts(null);
+		}
+
+		if (indentupdateres.getExf2_sts().equals("null") || StringUtils.isEmpty(indentupdateres.getExf2_sts())) {
+			indentupdateres.setExf2_sts(null);
+		}
+
+		if (indentupdateres.getExf3_sts().equals("null") || StringUtils.isEmpty(indentupdateres.getExf3_sts())) {
+			indentupdateres.setExf3_sts(null);
+		}
+
+		if (indentupdateres.getExf_ij_accment1().equals("null")
+				|| StringUtils.isEmpty(indentupdateres.getExf_ij_accment1())) {
+			indentupdateres.setExf_ij_accment1(null);
+		}
+
+		if (indentupdateres.getExf_ij_accment2().equals("null")
+				|| StringUtils.isEmpty(indentupdateres.getExf_ij_accment2())) {
+			indentupdateres.setExf_ij_accment2(null);
+		}
+
+		if (indentupdateres.getExf_ij_accment3().equals("null")
+				|| StringUtils.isEmpty(indentupdateres.getExf_ij_accment3())) {
+			indentupdateres.setExf_ij_accment3(null);
+		}
+
+		String sql = updateQuery.getUpdateEXFData();
+		try {
+			if (jdbcTemplate.update(sql, new Object[] { indentupdateres.getExf1(), indentupdateres.getExf1_sts(),
+					indentupdateres.getExf_ij_accment1(), indentupdateres.getExf2(), indentupdateres.getExf2_sts(),
+					indentupdateres.getExf_ij_accment2(), indentupdateres.getExf3(), indentupdateres.getExf3_sts(),
+					indentupdateres.getExf_ij_accment3(), indentupdateres.getDel_sts(),
+					indentupdateres.getIndent_sheet_num() }) == 1) {
+				indentupdateresp.setAffectedRows(1);
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentupdateres.getIndent_sheet_num(), "VD-EXF Information Updated",
+						IndentManagement.class.getName());
+			}
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getUpdateEXFDataLog());
+		} catch (Exception e) {
+			Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + e);
+		}
+
+		return indentupdateresp;
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, path = GET_UPDATEIIEXFDATA, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ApiResultResponse updateIIEXFData(
+			@ModelAttribute("IndentUpdateRequest") IndentUpdateRequest indentUpdateRequest, HttpServletRequest req,
+			HttpServletResponse res) {
+
+		ApiResultResponse apiResponse = new ApiResultResponse();
+
+		if (indentUpdateRequest.getDel_sts().equals("") || indentUpdateRequest.getDel_sts().equals("null")) {
+			indentUpdateRequest.setDel_sts(null);
+		}
+		if (indentUpdateRequest.getExf1_date().equals("") || indentUpdateRequest.getExf1_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getExf1_date())) {
+			indentUpdateRequest.setExf1_date(null);
+		}
+		if (indentUpdateRequest.getExf1_sts().equals("") || indentUpdateRequest.getExf1_sts().equals("null")) {
+			indentUpdateRequest.setExf1_sts(null);
+		}
+		if (indentUpdateRequest.getExf1_annc_date().equals("") || indentUpdateRequest.getExf1_annc_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getExf1_annc_date())) {
+			indentUpdateRequest.setExf1_annc_date(null);
+		}
+		if (indentUpdateRequest.getExf2_date().equals("") || indentUpdateRequest.getExf2_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getExf2_date())) {
+			indentUpdateRequest.setExf2_date(null);
+		}
+		if (indentUpdateRequest.getExf2_sts().equals("") || indentUpdateRequest.getExf2_sts().equals("null")) {
+			indentUpdateRequest.setExf2_sts(null);
+		}
+		if (indentUpdateRequest.getExf2_annc_date().equals("") || indentUpdateRequest.getExf2_annc_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getExf2_annc_date())) {
+			indentUpdateRequest.setExf2_annc_date(null);
+		}
+		if (indentUpdateRequest.getExf3_date().equals("") || indentUpdateRequest.getExf3_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getExf3_date())) {
+			indentUpdateRequest.setExf3_date(null);
+		}
+		if (indentUpdateRequest.getExf3_sts().equals("") || indentUpdateRequest.getExf3_sts().equals("null")) {
+			indentUpdateRequest.setExf3_sts(null);
+		}
+		if (indentUpdateRequest.getExf3_annc_date().equals("") || indentUpdateRequest.getExf3_annc_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getExf3_annc_date())) {
+			indentUpdateRequest.setExf3_annc_date(null);
+		}
+		if (indentUpdateRequest.getIndent_sheet_num().equals("")
+				|| indentUpdateRequest.getIndent_sheet_num().equals("null")) {
+			indentUpdateRequest.setIndent_sheet_num(null);
+		}
+
+		try {
+			String sql = updateQuery.getUpdateIIEXFData();
+			String sql2 = updateQuery.getQueryUpdateDelStatusOfMaster();
+
+			int affectdRows = jdbcTemplate.update(sql,
+					new Object[] { indentUpdateRequest.getDel_sts(), indentUpdateRequest.getExf1_date(),
+							indentUpdateRequest.getExf1_sts(), indentUpdateRequest.getExf1_annc_date(),
+							indentUpdateRequest.getExf2_date(), indentUpdateRequest.getExf2_sts(),
+							indentUpdateRequest.getExf2_annc_date(), indentUpdateRequest.getExf3_date(),
+							indentUpdateRequest.getExf3_sts(), indentUpdateRequest.getExf3_annc_date(),
+							indentUpdateRequest.getIndent_sheet_num() });
+			int affetedRows2 = jdbcTemplate.update(sql2, new Object[] { indentUpdateRequest.getDel_sts(), indentUpdateRequest.getIndent_sheet_num() });
+
+			if (affectdRows == 1 && affetedRows2 ==1) {
+				apiResponse.setAffectedRows(1);
+				apiResponse.setMessage("II-EXF Updated successfully.");
+				Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentUpdateRequest.getIndent_sheet_num(), "II-EXF Information Updated",
+						IndentManagement.class.getName());
+
+			}
+		} catch (Exception e) {
+			apiResponse.setMessage("Failed to update into database.");
+			Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+			return apiResponse;
+		}
+		return apiResponse;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, path = GET_UPDATEBGDATA, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ApiResultResponse updateBGData(
+			@ModelAttribute("IndentUpdateRequest") IndentUpdateRequest indentUpdateRequest, HttpServletRequest req,
+			HttpServletResponse res) {
+		ApiResultResponse apiResponse = new ApiResultResponse();
+
+		if (indentUpdateRequest.getAbg_request_anct_date().equals("")
+				|| indentUpdateRequest.getAbg_request_anct_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getAbg_request_anct_date())) {
+			indentUpdateRequest.setAbg_request_anct_date(null);
+		}
+		if (indentUpdateRequest.getAbg_issuance_date().equals("")
+				|| indentUpdateRequest.getAbg_issuance_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getAbg_issuance_date())) {
+			indentUpdateRequest.setAbg_issuance_date(null);
+		}
+		if (indentUpdateRequest.getAbg_final_submission_draft_date().equals("")
+				|| indentUpdateRequest.getAbg_final_submission_draft_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getAbg_final_submission_draft_date())) {
+			indentUpdateRequest.setAbg_final_submission_draft_date(null);
+		}
+		if (indentUpdateRequest.getAbg_final_submission_bg_date().equals("")
+				|| indentUpdateRequest.getAbg_final_submission_bg_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getAbg_final_submission_bg_date())) {
+			indentUpdateRequest.setAbg_final_submission_bg_date(null);
+		}
+		if (indentUpdateRequest.getPbg_request_anct_date().equals("")
+				|| indentUpdateRequest.getPbg_request_anct_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getPbg_request_anct_date())) {
+			indentUpdateRequest.setPbg_request_anct_date(null);
+		}
+		if (indentUpdateRequest.getPbg_issuance_date().equals("")
+				|| indentUpdateRequest.getPbg_issuance_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getPbg_issuance_date())) {
+			indentUpdateRequest.setPbg_issuance_date(null);
+		}
+		if (indentUpdateRequest.getPbg_final_submission_draft_date().equals("")
+				|| indentUpdateRequest.getPbg_final_submission_draft_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getPbg_final_submission_draft_date())) {
+			indentUpdateRequest.setPbg_final_submission_draft_date(null);
+		}
+		if (indentUpdateRequest.getPbg_final_submission_bg_date().equals("")
+				|| indentUpdateRequest.getPbg_final_submission_bg_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getPbg_final_submission_bg_date())) {
+			indentUpdateRequest.setPbg_final_submission_bg_date(null);
+		}
+
+		if (indentUpdateRequest.getIndent_sheet_num().equals("")
+				|| indentUpdateRequest.getIndent_sheet_num().equals("null")) {
+			indentUpdateRequest.setIndent_sheet_num(null);
+		}
+
+		try {
+			String sql = updateQuery.getUpdateBGData();
+
+			int affectdRows = jdbcTemplate.update(sql, new Object[] { indentUpdateRequest.getAbg_request_anct_date(),
+					indentUpdateRequest.getAbg_issuance_date(),
+					indentUpdateRequest.getAbg_final_submission_draft_date(),
+					indentUpdateRequest.getAbg_final_submission_bg_date(),
+					indentUpdateRequest.getPbg_request_anct_date(), indentUpdateRequest.getPbg_issuance_date(),
+					indentUpdateRequest.getPbg_final_submission_draft_date(),
+					indentUpdateRequest.getPbg_final_submission_bg_date(), indentUpdateRequest.getIndent_sheet_num() });
+
+			if (affectdRows == 1) {
+				apiResponse.setAffectedRows(1);
+				apiResponse.setMessage("II-EXF Updated successfully.");
+				Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentUpdateRequest.getIndent_sheet_num(), "BG Information Updated",
+						IndentManagement.class.getName());
+			}
+		} catch (Exception e) {
+			apiResponse.setMessage("Failed to update into database.");
+			Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+			return apiResponse;
+		}
+		return apiResponse;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, path = GET_INSERTINVDATA, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ApiResultResponse insertINVData(
+			@ModelAttribute("IndentUpdateRequest") IndentUpdateRequest indentUpdateRequest, HttpServletRequest req,
+			HttpServletResponse res) {
+		ApiResultResponse apiResponse = new ApiResultResponse();
+
+		if (indentUpdateRequest.getInv_request_anct_date().equals("")
+				|| indentUpdateRequest.getInv_request_anct_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getInv_request_anct_date())) {
+			indentUpdateRequest.setInv_request_anct_date(null);
+		}
+		if (indentUpdateRequest.getInv_issuance_date().equals("")
+				|| indentUpdateRequest.getInv_issuance_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getInv_issuance_date())) {
+			indentUpdateRequest.setInv_issuance_date(null);
+		}
+		if (indentUpdateRequest.getInv_no().equals("") || indentUpdateRequest.getInv_no().equals("null")) {
+			indentUpdateRequest.setInv_no(null);
+		}
+		if (indentUpdateRequest.getEwb_no().equals("") || indentUpdateRequest.getEwb_no().equals("null")) {
+			indentUpdateRequest.setEwb_no(null);
+		}
+		if (indentUpdateRequest.getEwb_issuance_date().equals("")
+				|| indentUpdateRequest.getEwb_issuance_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getEwb_issuance_date())) {
+			indentUpdateRequest.setEwb_issuance_date(null);
+		}
+		if (indentUpdateRequest.getTransportation_method().equals("")
+				|| indentUpdateRequest.getTransportation_method().equals("null")) {
+			indentUpdateRequest.setTransportation_method(null);
+		}
+		if (indentUpdateRequest.getDispatch_date().equals("") || indentUpdateRequest.getDispatch_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getDispatch_date())) {
+			indentUpdateRequest.setDispatch_date(null);
+		}
+		if (indentUpdateRequest.getDispatch_from_indent().equals("")
+				|| indentUpdateRequest.getDispatch_from_indent().equals("null")) {
+			indentUpdateRequest.setDispatch_from_indent(null);
+		}
+		if (indentUpdateRequest.getDispatch_from_origin().equals("")
+				|| indentUpdateRequest.getDispatch_from_origin().equals("null")) {
+			indentUpdateRequest.setDispatch_from_origin(null);
+		}
+		if (indentUpdateRequest.getDispatch_to_indent().equals("")
+				|| indentUpdateRequest.getDispatch_to_indent().equals("null")) {
+			indentUpdateRequest.setDispatch_to_indent(null);
+		}
+		if (indentUpdateRequest.getDispatch_to_destination().equals("")
+				|| indentUpdateRequest.getDispatch_to_destination().equals("null")) {
+			indentUpdateRequest.setDispatch_to_destination(null);
+		}
+		if (indentUpdateRequest.getIndent_sheet_num().equals("")
+				|| indentUpdateRequest.getIndent_sheet_num().equals("null")) {
+			indentUpdateRequest.setIndent_sheet_num(null);
+		}
+		if (indentUpdateRequest.getInvoice_id().equals("") || indentUpdateRequest.getInvoice_id().equals("null")) {
+			indentUpdateRequest.setInvoice_id(null);
+		}
+		if (indentUpdateRequest.getMachine_sn().equals("") || indentUpdateRequest.getMachine_sn().equals("null")) {
+			indentUpdateRequest.setMachine_sn(null);
+		}
+
+		try {
+			String sql = updateQuery.getInsertINVData();
+			int affectdRows = jdbcTemplate.update(sql,
+					new Object[] { indentUpdateRequest.getInvoice_id(), indentUpdateRequest.getIndent_sheet_num(),
+							indentUpdateRequest.getInv_request_anct_date(), indentUpdateRequest.getInv_issuance_date(),
+							indentUpdateRequest.getInv_no(), indentUpdateRequest.getEwb_no(),
+							indentUpdateRequest.getEwb_issuance_date(), indentUpdateRequest.getTransportation_method(),
+							indentUpdateRequest.getDispatch_date(), indentUpdateRequest.getDispatch_from_indent(),
+							indentUpdateRequest.getDispatch_from_origin(), indentUpdateRequest.getDispatch_to_indent(),
+							indentUpdateRequest.getDispatch_to_destination(), indentUpdateRequest.getMachine_sn() });
+			if (affectdRows == 1) {
+				apiResponse.setAffectedRows(1);
+				apiResponse.setMessage("INV/eWB Inserted successfully.");
+				Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentUpdateRequest.getIndent_sheet_num(), "INV/eWB Information Updated",
+						IndentManagement.class.getName());
+			}
+		} catch (DuplicateKeyException ex) {
+			apiResponse.setAffectedRows(0);
+			apiResponse.setMessage("Invoice Number Already Exist In Current Indent.");
+			Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+			return apiResponse;
+		} catch (Exception e) {
+			apiResponse.setMessage("'Failed to update into database. Please Try Again'");
+			Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+			return apiResponse;
+		}
+		return apiResponse;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, path = GET_UPDATEINVDATA, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ApiResultResponse updateINVData(
+			@ModelAttribute("IndentUpdateRequest") IndentUpdateRequest indentUpdateRequest, HttpServletRequest req,
+			HttpServletResponse res) {
+
+		ApiResultResponse apiResponse = new ApiResultResponse();
+
+		if (indentUpdateRequest.getInv_request_anct_date().equals("")
+				|| indentUpdateRequest.getInv_request_anct_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getInv_request_anct_date())) {
+			indentUpdateRequest.setInv_request_anct_date(null);
+		}
+		if (indentUpdateRequest.getInv_issuance_date().equals("")
+				|| indentUpdateRequest.getInv_issuance_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getInv_issuance_date())) {
+			indentUpdateRequest.setInv_issuance_date(null);
+		}
+		if (indentUpdateRequest.getInv_no().equals("") || indentUpdateRequest.getInv_no().equals("null")) {
+			indentUpdateRequest.setInv_no(null);
+		}
+		if (indentUpdateRequest.getEwb_no().equals("") || indentUpdateRequest.getEwb_no().equals("null")) {
+			indentUpdateRequest.setEwb_no(null);
+		}
+		if (indentUpdateRequest.getEwb_issuance_date().equals("")
+				|| indentUpdateRequest.getEwb_issuance_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getEwb_issuance_date())) {
+			indentUpdateRequest.setEwb_issuance_date(null);
+		}
+		if (indentUpdateRequest.getTransportation_method().equals("")
+				|| indentUpdateRequest.getTransportation_method().equals("null")) {
+			indentUpdateRequest.setTransportation_method(null);
+		}
+		if (indentUpdateRequest.getDispatch_date().equals("") || indentUpdateRequest.getDispatch_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getDispatch_date())) {
+			indentUpdateRequest.setDispatch_date(null);
+		}
+		if (indentUpdateRequest.getDispatch_from_indent().equals("")
+				|| indentUpdateRequest.getDispatch_from_indent().equals("null")) {
+			indentUpdateRequest.setDispatch_from_indent(null);
+		}
+		if (indentUpdateRequest.getDispatch_from_origin().equals("")
+				|| indentUpdateRequest.getDispatch_from_origin().equals("null")) {
+			indentUpdateRequest.setDispatch_from_origin(null);
+		}
+		if (indentUpdateRequest.getDispatch_to_indent().equals("")
+				|| indentUpdateRequest.getDispatch_to_indent().equals("null")) {
+			indentUpdateRequest.setDispatch_to_indent(null);
+		}
+		if (indentUpdateRequest.getDispatch_to_destination().equals("")
+				|| indentUpdateRequest.getDispatch_to_destination().equals("null")) {
+			indentUpdateRequest.setDispatch_to_destination(null);
+		}
+		if (indentUpdateRequest.getIndent_sheet_num().equals("")
+				|| indentUpdateRequest.getIndent_sheet_num().equals("null")) {
+			indentUpdateRequest.setIndent_sheet_num(null);
+		}
+		if (indentUpdateRequest.getInvoice_id().equals("") || indentUpdateRequest.getInvoice_id().equals("null")) {
+			indentUpdateRequest.setInvoice_id(null);
+		}
+		if (indentUpdateRequest.getMachine_sn().equals("") || indentUpdateRequest.getMachine_sn().equals("null")) {
+			indentUpdateRequest.setMachine_sn(null);
+		}
+
+		try {
+			String sql = updateQuery.getUpdateINVData();
+			int affectdRows = jdbcTemplate.update(sql,
+					new Object[] { indentUpdateRequest.getInv_request_anct_date(),
+							indentUpdateRequest.getInv_issuance_date(), indentUpdateRequest.getInv_no(),
+							indentUpdateRequest.getEwb_no(), indentUpdateRequest.getEwb_issuance_date(),
+							indentUpdateRequest.getTransportation_method(), indentUpdateRequest.getDispatch_date(),
+							indentUpdateRequest.getDispatch_from_indent(),
+							indentUpdateRequest.getDispatch_from_origin(), indentUpdateRequest.getDispatch_to_indent(),
+							indentUpdateRequest.getDispatch_to_destination(), indentUpdateRequest.getMachine_sn(),
+							indentUpdateRequest.getIndent_sheet_num(), indentUpdateRequest.getInvoice_id() });
+
+			if (affectdRows == 1) {
+				apiResponse.setAffectedRows(1);
+				apiResponse.setMessage("INV/eWB Updated successfully.");
+				Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentUpdateRequest.getIndent_sheet_num(), "INV/eWB Information Updated",
+						IndentManagement.class.getName());
+			}
+		}
+		catch (DuplicateKeyException ex) {
+			apiResponse.setAffectedRows(0);
+			apiResponse.setMessage("Invoice Number Already Existing.");
+			Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+			return apiResponse;
+		}
+		catch (Exception e) {
+			apiResponse.setMessage("'Failed to update into database. Please Try Again'");
+			Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+			return apiResponse;
+		}
+		return apiResponse;
+	}
+
+
+	@RequestMapping(method = RequestMethod.POST, path = GET_DELETEINVDATA, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ApiResultResponse deleteINVData(
+			@ModelAttribute("IndentUpdateRequest") IndentUpdateRequest indentUpdateRequest, HttpServletRequest req,
+			HttpServletResponse res) {
+
+		ApiResultResponse apiResponse = new ApiResultResponse();
+
+		if (indentUpdateRequest.getIndent_sheet_num().equals("")
+				|| indentUpdateRequest.getIndent_sheet_num().equals("null")) {
+			indentUpdateRequest.setIndent_sheet_num(null);
+		}
+		if (indentUpdateRequest.getInvoice_id().equals("") || indentUpdateRequest.getInvoice_id().equals("null")) {
+			indentUpdateRequest.setInvoice_id(null);
+		}
+
+		try {
+			String sql = updateQuery.getDeleteInvoiceData();
+			int affectdRows = jdbcTemplate.update(sql,
+					new Object[] { indentUpdateRequest.getIndent_sheet_num(), indentUpdateRequest.getInvoice_id() });
+
+			if (affectdRows == 1) {
+				apiResponse.setAffectedRows(1);
+				apiResponse.setMessage("INV/eWB Deleted successfully.");
+				Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentUpdateRequest.getIndent_sheet_num(), "INV/eWB Information Deleted",
+						IndentManagement.class.getName());
+			}
+		} catch (Exception e) {
+			apiResponse.setMessage("Failed to Deleted from database.");
+			Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + apiResponse.getMessage());
+			return apiResponse;
+		}
+		return apiResponse;
+	}
+
+
+
+
+	
+	
+
+
+	@RequestMapping(method = RequestMethod.POST, value = GET_UPDATELCDATA, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody IndentUpdateResponse getUpdateLCData(IndentUpdateRequest indentupdateres,
+			HttpServletRequest req, HttpServletResponse res) {
+
+		IndentUpdateResponse indentupdateresp = new IndentUpdateResponse();
+		getCurrentTimeUsingDate();
+
+		if (indentupdateres.getLc_chk_date_by_ij().equals("null")
+				|| StringUtils.isEmpty(indentupdateres.getLc_chk_date_by_ij())) {
+			indentupdateres.setLc_chk_date_by_ij(null);
+		}
+
+		if (indentupdateres.getLc_open_date().equals("null")
+				|| StringUtils.isEmpty(indentupdateres.getLc_open_date())) {
+			indentupdateres.setLc_open_date(null);
+		}
+
+		if (indentupdateres.getLc_last_revision_date().equals("null")
+				|| StringUtils.isEmpty(indentupdateres.getLc_last_revision_date())) {
+			indentupdateres.setLc_last_revision_date(null);
+		}
+
+		if (indentupdateres.getLatest_shipment_date().equals("null")
+				|| StringUtils.isEmpty(indentupdateres.getLatest_shipment_date())) {
+			indentupdateres.setLatest_shipment_date(null);
+		}
+
+		if (indentupdateres.getLc_expiry_date().equals("null")
+				|| StringUtils.isEmpty(indentupdateres.getLc_expiry_date())) {
+			indentupdateres.setLc_expiry_date(null);
+		}
+
+		String sql = updateQuery.getUpdateLCData();
+		try {
+			if (jdbcTemplate.update(sql,
+					new Object[] { indentupdateres.getLc_chk_date_by_ij(), indentupdateres.getLc_open_date(),
+							indentupdateres.getLc_last_revision_date(), indentupdateres.getLatest_shipment_date(),
+							indentupdateres.getLc_expiry_date(), indentupdateres.getIndent_sheet_num() }) == 1) {
+				indentupdateresp.setAffectedRows(1);
+
+				
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentupdateres.getIndent_sheet_num(), "LC Information Updated",
+						IndentManagement.class.getName());
+			} else {
+
+			}
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getUpdateLCDataLog());
+		} catch (Exception e) {
+			Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + e);
+		}
+
+		return indentupdateresp;
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = GET_UPDATECOMDATA, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody IndentUpdateResponse getUpdateCOMData(IndentUpdateRequest indentupdateres,
+			HttpServletRequest req, HttpServletResponse res) {
+
+		IndentUpdateResponse indentupdateresp = new IndentUpdateResponse();
+		getCurrentTimeUsingDate();
+
+		if (indentupdateres.getCom_month().equals("null") || StringUtils.isEmpty(indentupdateres.getCom_month())) {
+			indentupdateres.setCom_month(null);
+		}
+
+		String sql = updateQuery.getUpdateCOMData();
+		try {
+			if (jdbcTemplate.update(sql,
+					new Object[] { indentupdateres.getCom_month(), indentupdateres.getIndent_sheet_num() }) == 1) {
+				indentupdateresp.setAffectedRows(1);
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentupdateres.getIndent_sheet_num(), "COM Information Updated",
+						IndentManagement.class.getName());
+			} else {
+
+			}
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getUpdateCOMDataLog());
+		} catch (Exception e) {
+			Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + e);
+		}
+
+		return indentupdateresp;
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = GET_UPDATESHPINVDATA, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody IndentUpdateResponse getUpdateSHPINVData(IndentUpdateRequest indentupdateres,
+			HttpServletRequest req, HttpServletResponse res) {
+
+		IndentUpdateResponse indentupdateresp = new IndentUpdateResponse();
+		getCurrentTimeUsingDate();
+
+		if (indentupdateres.getInvoice_no1().equals("null") || StringUtils.isEmpty(indentupdateres.getInvoice_no1())) {
+			indentupdateres.setInvoice_no1(null);
+		}
+
+		if (indentupdateres.getInvoice_date1().equals("null")
+				|| StringUtils.isEmpty(indentupdateres.getInvoice_date1())) {
+			indentupdateres.setInvoice_date1(null);
+		}
+
+		if (indentupdateres.getMode1().equals("null") || StringUtils.isEmpty(indentupdateres.getMode1())) {
+			indentupdateres.setMode1(null);
+		}
+
+		if (indentupdateres.getFrom1().equals("null") || StringUtils.isEmpty(indentupdateres.getFrom1())) {
+			indentupdateres.setFrom1(null);
+		}
+
+		if (indentupdateres.getVessel1().equals("null") || StringUtils.isEmpty(indentupdateres.getVessel1())) {
+			indentupdateres.setVessel1(null);
+		}
+
+		if (indentupdateres.getAwb_bl_no1().equals("null") || StringUtils.isEmpty(indentupdateres.getAwb_bl_no1())) {
+			indentupdateres.setAwb_bl_no1(null);
+		}
+
+		if (indentupdateres.getEtd1().equals("null") || StringUtils.isEmpty(indentupdateres.getEtd1())) {
+			indentupdateres.setEtd1(null);
+		}
+
+		if (indentupdateres.getEta1().equals("null") || StringUtils.isEmpty(indentupdateres.getEta1())) {
+			indentupdateres.setEta1(null);
+		}
+
+		if (indentupdateres.getInvoice_no2().equals("null") || StringUtils.isEmpty(indentupdateres.getInvoice_no2())) {
+			indentupdateres.setInvoice_no2(null);
+		}
+
+		if (indentupdateres.getInvoice_date2().equals("null")
+				|| StringUtils.isEmpty(indentupdateres.getInvoice_date2())) {
+			indentupdateres.setInvoice_date2(null);
+		}
+
+		if (indentupdateres.getMode2().equals("null") || StringUtils.isEmpty(indentupdateres.getMode2())) {
+			indentupdateres.setMode2(null);
+		}
+
+		if (indentupdateres.getFrom2().equals("null") || StringUtils.isEmpty(indentupdateres.getFrom2())) {
+			indentupdateres.setFrom2(null);
+		}
+
+		if (indentupdateres.getVessel2().equals("null") || StringUtils.isEmpty(indentupdateres.getVessel2())) {
+			indentupdateres.setVessel2(null);
+		}
+
+		if (indentupdateres.getAwb_bl_no2().equals("null") || StringUtils.isEmpty(indentupdateres.getAwb_bl_no2())) {
+			indentupdateres.setAwb_bl_no2(null);
+		}
+
+		if (indentupdateres.getEtd2().equals("null") || StringUtils.isEmpty(indentupdateres.getEtd2())) {
+			indentupdateres.setEtd2(null);
+		}
+
+		if (indentupdateres.getEta2().equals("null") || StringUtils.isEmpty(indentupdateres.getEta2())) {
+			indentupdateres.setEta2(null);
+		}
+
+		if (indentupdateres.getInvoice_no3().equals("null") || StringUtils.isEmpty(indentupdateres.getInvoice_no3())) {
+			indentupdateres.setInvoice_no3(null);
+		}
+
+		if (indentupdateres.getInvoice_date3().equals("null")
+				|| StringUtils.isEmpty(indentupdateres.getInvoice_date3())) {
+			indentupdateres.setInvoice_date3(null);
+		}
+
+		if (indentupdateres.getMode3().equals("null") || StringUtils.isEmpty(indentupdateres.getMode3())) {
+			indentupdateres.setMode3(null);
+		}
+
+		if (indentupdateres.getFrom3().equals("null") || StringUtils.isEmpty(indentupdateres.getFrom3())) {
+			indentupdateres.setFrom3(null);
+		}
+
+		if (indentupdateres.getVessel3().equals("null") || StringUtils.isEmpty(indentupdateres.getVessel3())) {
+			indentupdateres.setVessel3(null);
+		}
+
+		if (indentupdateres.getAwb_bl_no3().equals("null") || StringUtils.isEmpty(indentupdateres.getAwb_bl_no3())) {
+			indentupdateres.setAwb_bl_no3(null);
+		}
+
+		if (indentupdateres.getEtd3().equals("null") || StringUtils.isEmpty(indentupdateres.getEtd3())) {
+			indentupdateres.setEtd3(null);
+		}
+
+		if (indentupdateres.getEta3().equals("null") || StringUtils.isEmpty(indentupdateres.getEta3())) {
+			indentupdateres.setEta3(null);
+		}
+
+		if (indentupdateres.getDel_sts().equals("null") || StringUtils.isEmpty(indentupdateres.getDel_sts())) {
+			indentupdateres.setDel_sts(null);
+		}
+
+		String sql = updateQuery.getUpdateSHPorINVData();
+		try {
+			if (jdbcTemplate.update(sql,
+					new Object[] { indentupdateres.getInvoice_no1(), indentupdateres.getInvoice_date1(),
+							indentupdateres.getMode1(), indentupdateres.getFrom1(), indentupdateres.getVessel1(),
+							indentupdateres.getAwb_bl_no1(), indentupdateres.getEtd1(), indentupdateres.getEta1(),
+
+							indentupdateres.getInvoice_no2(), indentupdateres.getInvoice_date2(),
+							indentupdateres.getMode2(), indentupdateres.getFrom2(), indentupdateres.getVessel2(),
+							indentupdateres.getAwb_bl_no2(), indentupdateres.getEtd2(), indentupdateres.getEta2(),
+
+							indentupdateres.getInvoice_no3(), indentupdateres.getInvoice_date3(),
+							indentupdateres.getMode3(), indentupdateres.getFrom3(), indentupdateres.getVessel3(),
+							indentupdateres.getAwb_bl_no3(), indentupdateres.getEtd3(), indentupdateres.getEta3(),
+
+							indentupdateres.getDel_sts(), indentupdateres.getIndent_sheet_num() }) == 1) {
+				indentupdateresp.setAffectedRows(1);
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentupdateres.getIndent_sheet_num(), "VD-SHP Information Updated",
+						IndentManagement.class.getName());
+			} else {
+
+			}
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getUpdateSHIPINVDataLog());
+		} catch (Exception e) {
+			Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + e);
+		}
+
+		return indentupdateresp;
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = GET_UPDATENEXTACTIONDATA, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody IndentUpdateResponse getUpdateNextActionData(IndentUpdateRequest indentupdatereq,
+			HttpServletRequest req, HttpServletResponse res) {
+
+		Boolean differentNextCheck = false;
+		IndentUpdateResponse indentupdateresp = new IndentUpdateResponse();
+
+		getCurrentTimeUsingDate();
+		// convert request object to null if empty.
+		if (indentupdatereq.getFor_info().equals("null") || StringUtils.isEmpty(indentupdatereq.getFor_info())) {
+			indentupdatereq.setFor_info(null);
+		}
+
+		if (indentupdatereq.getChecked_on().equals("null") || StringUtils.isEmpty(indentupdatereq.getChecked_on())) {
+			indentupdatereq.setChecked_on(null);
+		}
+
+		if (indentupdatereq.getNext_check().equals("null") || StringUtils.isEmpty(indentupdatereq.getNext_check())) {
+			indentupdatereq.setNext_check(null);
+		}
+
+		if (jwttokendetail.getJwt_userName() != "" || !StringUtils.isEmpty(jwttokendetail.getJwt_userName())) {
+			indentupdatereq.setUpdated_by(jwttokendetail.getJwt_userName());
+		}
+
+		if (indentupdatereq.getUpdated_by().equals("null")) {
+			indentupdatereq.setUpdated_by(null);
+		}
+
+		if (jwttokendetail.getJwt_userName() != "" || !StringUtils.isEmpty(jwttokendetail.getJwt_userName())) {
+			indentupdatereq.setUpdated_by(jwttokendetail.getJwt_userName());
+		}
+
+		String sql1 = updateQuery.getCheckNextDate();
+		Object[] params = new Object[] { indentupdatereq.getIndent_sheet_num(), indentupdatereq.getNext_check() };
+
+		try {
+			List<Map<String, Object>> dbNextActionData = jdbcTemplate.queryForList(sql1, params);
+
+			if (dbNextActionData.isEmpty()) {
+				differentNextCheck = true;
+			}
+
+			Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + logs.getValidateNextCheckLog());
+
+		} catch (Exception e) {
+			Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + e);
+		}
+
+		if (differentNextCheck == true) {
+
+			String sql2 = updateQuery.getUpdateNextActionData();
+
+			try {
+				if (jdbcTemplate.update(sql2,
+						new Object[] { indentupdatereq.getChecked_on(), indentupdatereq.getNext_check(),
+								indentupdatereq.getFor_info(), indentupdatereq.getUpdated_by(),
+								indentupdatereq.getIndent_sheet_num() }) == 1) {
+
+					indentupdateresp.setAffectedRows(1);
+					insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+							indentupdatereq.getIndent_sheet_num(), "NXT ACT Information Updated",
+							IndentManagement.class.getName());
+				}
+				Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + logs.getUpdateNextActionLog());
+
+			} catch (Exception e) {
+				Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + "\t" + e);
+			}
+
+		} else {
+
+			String sql3 = updateQuery.getUpdateIndentWithoutNextDate();
+			try {
+				Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + logs.getUpdateNextActionWithoutDateLog());
+				if (jdbcTemplate.update(sql3, new Object[] { indentupdatereq.getChecked_on(),
+						indentupdatereq.getFor_info(), indentupdatereq.getIndent_sheet_num() }) == 1) {
+					indentupdateresp.setAffectedRows(1);
+					insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+							indentupdatereq.getIndent_sheet_num(), "NXT ACT Information Updated",
+							IndentManagement.class.getName());
+				} else {
+
+				}
+			} catch (Exception e) {
+				Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + "\t" + e);
+			}
+
+		}
+
+		return indentupdateresp;
+
+	}
+
+	public boolean insertApplicationLog(String userId, String userName, String indent_sheet_num, String logMsg,
+			String controllerName) {
+		try {
+			String sql = dbGetQuery.getInsertApplicationLog();
+			int affectdRows = jdbcTemplate.update(sql,
+					new Object[] { userId, userName, indent_sheet_num, logMsg, controllerName });
+			if (affectdRows == 1) {
+				Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ ApplicationLogs.class.getName() + "\t" + "Application log inserted.");
+				return true;
+			}
+			return false;
+		} catch (DuplicateKeyException e) {
+			Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ ApplicationLogs.class.getName() + "\t" + "Duplicate entry for appication log.");
+		} catch (Exception e) {
+			Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ ApplicationLogs.class.getName() + "\t" + "Failed to insert into database.");
+		}
+		return false;
+	}
+
+	private void getCurrentTimeUsingDate() {
+		Date date = new Date();
+		DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+		formattedDate = dateFormat.format(date);
+	}
+	
+	
+	@RequestMapping(method = RequestMethod.POST, path = GET_INDENTLISTFROMINVOICE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody  List<Map<String, Object>> getIndentListFromInvoice(
+			@ModelAttribute("IndentUpdateRequest") IndentUpdateRequest indentUpdateRequest, HttpServletRequest req,
+			HttpServletResponse res) {
+
+		if (indentUpdateRequest.getInv_no().equals("") || indentUpdateRequest.getInv_no().equals("null")) {
+			indentUpdateRequest.setInv_no(null);
+		}
+		
+		if (indentUpdateRequest.getIndent_sheet_num().equals("") || indentUpdateRequest.getIndent_sheet_num().equals("null")) {
+			indentUpdateRequest.setIndent_sheet_num(null);
+		}
+		// check whether indent number and invoice number (composite key) exist or not. 
+		String query = updateQuery.getIndentFromInvoiceNo();
+		List<Map<String, Object>> data = new ArrayList<>();
+		try {
+			data= jdbcTemplate.queryForList(query,
+			        new Object[] { indentUpdateRequest.getInv_no() , indentUpdateRequest.getIndent_sheet_num()});
+			// invoice for a given indent not exist there fore invoice can be added and hence indent list for the given invoice should be return.
+			 if(data.isEmpty()) {
+				 String sql = updateQuery.getListOfIndentFromInvoiceNo();   // query for return indent list for the given invoice number. 
+				 data= jdbcTemplate.queryForList(sql,
+					        new Object[] { indentUpdateRequest.getInv_no() });
+				 Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+							+ ApplicationLogs.class.getName() + "\t" + "Indent list is return using Invoice number.");
+				 return data;
+			 }
+			 else {
+				 data= new ArrayList<>();
+				 Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+							+ ApplicationLogs.class.getName() + "\t" + "Indent for given Invoice number not exist.");
+				 return data;
+			 }
+		}
+		catch(Exception e) {
+			Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ ApplicationLogs.class.getName() + "\t" + "Failed to get Indent From Invoice.");
+			data= new ArrayList<>();
+			return data;
+		}      
+		       
+	}
+
+	
+	
+	@RequestMapping(method = RequestMethod.POST, value = PAYMENT_DATA, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody IndentUpdateResponse insertPaymentData(IndentUpdateRequest indentUpdateRequest,
+			HttpServletRequest req, HttpServletResponse res) {
+
+		IndentUpdateResponse indentupdateresp = new IndentUpdateResponse();
+		getCurrentTimeUsingDate();
+
+		if (indentUpdateRequest.getIndent_sheet_num().equals("") || indentUpdateRequest.getIndent_sheet_num().equals("null")) {
+			indentupdateresp.setAffectedRows(0);
+			indentupdateresp.setMessage("Indent_sheet_num can not be null. ");
+			return indentupdateresp;
+			
+		}
+		if (indentUpdateRequest.getPmt_sts().equals("") || indentUpdateRequest.getPmt_sts().equals("null")) {
+			indentupdateresp.setAffectedRows(0);
+			indentupdateresp.setMessage("Payment type can not be null. ");
+			return indentupdateresp;
+			
+		}
+		if (indentUpdateRequest.getPayment_type().equals("") || indentUpdateRequest.getPayment_type().equals("null")) {
+			indentupdateresp.setAffectedRows(0);
+			indentupdateresp.setMessage("Payment Type is null. ");
+			return indentupdateresp;
+		}
+		if (indentUpdateRequest.getPayment_date().equals("") || indentUpdateRequest.getPayment_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getPayment_date())) {
+			indentUpdateRequest.setPayment_date(null);
+		}
+		if (indentUpdateRequest.getPayment_amount().equals("") || indentUpdateRequest.getPayment_amount().equals("null")) {
+			indentUpdateRequest.setPayment_amount(null);
+		}
+		String sql;
+		int affectedRows = 0;
+		try {
+			
+			if(indentUpdateRequest.getPayment_amount()== null && indentUpdateRequest.getPayment_date()== null) {
+				sql = updateQuery.getUpdatePMTsts();
+				affectedRows = jdbcTemplate.update(sql, new Object[] { indentUpdateRequest.getPmt_sts(), indentUpdateRequest.getIndent_sheet_num() });
+				
+				 if(affectedRows!=0) {
+					 indentupdateresp.setAffectedRows(1);
+					 indentupdateresp.setMessage("PMT Status updated successfully.");
+					 
+					 insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+								indentUpdateRequest.getIndent_sheet_num(), indentupdateresp.getMessage(),
+								IndentManagement.class.getName());
+				}
+			}
+			else {
+				sql = updateQuery.getQueryCreatePaymentData();
+				affectedRows = jdbcTemplate.update(sql,
+				        new Object[] {indentUpdateRequest.getIndent_sheet_num(), indentUpdateRequest.getPayment_type(), indentUpdateRequest.getPayment_date(), indentUpdateRequest.getPayment_amount() });
+
+				 if(affectedRows!=0) {
+					 indentupdateresp.setAffectedRows(1);
+					 indentupdateresp.setMessage("Payment Data Inserted");
+						
+					 sql = updateQuery.getUpdatePMTsts();
+					 jdbcTemplate.update(sql, new Object[] { indentUpdateRequest.getPmt_sts(), indentUpdateRequest.getIndent_sheet_num() });
+					 insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+								indentUpdateRequest.getIndent_sheet_num(), indentupdateresp.getMessage(),
+								IndentManagement.class.getName());
+						
+					Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+								+ IndentManagement.class.getName() + "\t"+ indentupdateresp.getMessage());
+						
+					
+				 }
+				 else {
+					 indentupdateresp.setAffectedRows(0);
+					 indentupdateresp.setMessage("Failed to insert payment data.");
+						
+					 Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+								+ IndentManagement.class.getName() + "\t"+ indentupdateresp.getMessage());
+				 }
+			}
+			
+			
+		} catch (Exception e) {
+			Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + e);
+		}
+
+		return indentupdateresp;
+
+	}
+	
+	
+	
+	@RequestMapping(method = RequestMethod.PUT, value = PAYMENT_DATA, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody IndentUpdateResponse updatePaymentData(IndentUpdateRequest indentUpdateRequest,
+			HttpServletRequest req, HttpServletResponse res) {
+
+		IndentUpdateResponse indentupdateresp = new IndentUpdateResponse();
+		getCurrentTimeUsingDate();
+
+		if (indentUpdateRequest.getId().equals("") || indentUpdateRequest.getId().equals("null")) {
+			indentupdateresp.setAffectedRows(0);
+			indentupdateresp.setMessage("Payment id is null. ");
+			return indentupdateresp;
+		}
+
+		if (indentUpdateRequest.getIndent_sheet_num().equals("")
+				|| indentUpdateRequest.getIndent_sheet_num().equals("null")) {
+			indentupdateresp.setAffectedRows(0);
+			indentupdateresp.setMessage("IndentSheet is null. ");
+			return indentupdateresp;
+		}
+		
+		if (indentUpdateRequest.getPayment_type().equals("") || indentUpdateRequest.getPayment_type().equals("null")) {
+			indentupdateresp.setAffectedRows(0);
+			indentupdateresp.setMessage("Payment Type is null. ");
+			return indentupdateresp;
+		}
+		
+		if (indentUpdateRequest.getPayment_date().equals("") || indentUpdateRequest.getPayment_date().equals("null")
+				|| StringUtils.isEmpty(indentUpdateRequest.getPayment_date())) {
+			indentUpdateRequest.setPayment_date(null);
+		}
+		
+		if (indentUpdateRequest.getPayment_amount().equals("") || indentUpdateRequest.getPayment_amount().equals("null")) {
+			indentUpdateRequest.setPayment_amount(null);
+		}
+		
+		
+		String sql = updateQuery.getQueryUpdatePaymentData();
+		try {
+			if (jdbcTemplate.update(sql,
+					new Object[] {  indentUpdateRequest.getPayment_type(), indentUpdateRequest.getPayment_date(), indentUpdateRequest.getPayment_amount(), indentUpdateRequest.getId() }) == 1) {
+				indentupdateresp.setAffectedRows(1);
+				indentupdateresp.setMessage("Payment data updated successfully. ");
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentUpdateRequest.getIndent_sheet_num(), indentupdateresp.getMessage() ,
+						IndentManagement.class.getName());
+
+				sql = updateQuery.getUpdatePMTsts();
+				jdbcTemplate.update(sql,
+						new Object[] { indentUpdateRequest.getPmt_sts(), indentUpdateRequest.getIndent_sheet_num() });
+				Log4j2.logger.info("INFO\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + "\t" + indentupdateresp.getMessage());
+				
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentUpdateRequest.getIndent_sheet_num(),  indentupdateresp.getMessage(),
+						IndentManagement.class.getName());
+			} else {
+				indentupdateresp.setAffectedRows(0);
+				indentupdateresp.setMessage("Payment id not present. ");
+				return indentupdateresp;
+			}
+		} catch (Exception e) {
+			Log4j2.logger.error("ERROR\t" + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + e);
+		}
+
+		return indentupdateresp;
+
+	}
+	
+	
+	@RequestMapping(method = RequestMethod.POST, value = DELETE_PAYMENT_DATA, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody IndentUpdateResponse deletePaymentData(IndentUpdateRequest indentupdateres,
+			HttpServletRequest req, HttpServletResponse res) {
+
+		IndentUpdateResponse indentupdateresp = new IndentUpdateResponse();
+		getCurrentTimeUsingDate();
+
+		if (indentupdateres.getIndent_sheet_num().equals("") || indentupdateres.getIndent_sheet_num().equals("null")) {
+			indentupdateresp.setAffectedRows(0);
+			indentupdateresp.setMessage("Indent_sheet_number is null. ");
+			return indentupdateresp;
+		}
+		if (indentupdateres.getId().equals("") || indentupdateres.getId().equals("null")) {
+			indentupdateresp.setAffectedRows(0);
+			indentupdateresp.setMessage("Payment id is null. ");
+			return indentupdateresp;
+		}
+
+		try {
+			String sql = updateQuery.getQueryDeletePaymentData();
+			int affectdRows = jdbcTemplate.update(sql,
+					new Object[] { indentupdateres.getId()});
+			if (affectdRows == 1) {
+				indentupdateresp.setAffectedRows(1);
+				indentupdateresp.setMessage("Payment Data Deleted successfully.");
+				Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+						+ IndentManagement.class.getName() + "\t" + indentupdateresp.getMessage());
+
+				insertApplicationLog(user.getJwt_userId(), user.getJwt_userName(),
+						indentupdateres.getIndent_sheet_num(),  indentupdateresp.getMessage(),
+						IndentManagement.class.getName());
+			}
+		} catch (Exception e) {
+			indentupdateresp.setAffectedRows(0);
+			indentupdateresp.setMessage("Failed to delete from database.");
+			Log4j2.logger.log(Log4j2.LEVEL, "INFO " + user.getJwt_userId() + "\t" + user.getJwt_userName() + "\t"
+					+ IndentManagement.class.getName() + "\t" + indentupdateresp.getMessage());
+			return indentupdateresp;
+		}
+
+		return indentupdateresp;
+
+	}
+	
+	
+}

@@ -1,0 +1,193 @@
+<nav class="navbar navbar-expand-sm py-0 shadow-sm fixed-top navbar-light">
+  <ul class="nav navbar-nav flex-row justify-content- flex-nowrap pl-0">
+    <img style="max-height:35px; background-color: rgb(40, 46, 137);" src="assets/brand/Logo1.png">
+  </ul>
+
+  <div class="container">
+    <div class="navbar-collapse collapse justify-content-between align-items-center w-100" id="collapsingNavbar2">
+    </div>
+  </div>
+
+  <div class="card rounded-0" style="border:none; background-color:transparent;">
+    <div class="card-body" style="align-self: center;">
+      <div class="input-group input-group-sm" title="{{loginUsrName}}">
+        <div *ngIf="userChecked" class="input-group-append">
+          <span class="dot2 mr-1"></span>
+          <span class="dot4 mr-1"></span>
+          <span class="dot4 mr-1"></span>
+          <span class="dot4 mr-1"></span>
+        </div>
+        <div *ngIf="superUserChecked" class="input-group-append">
+          <span class="dot2 mr-1"></span>
+          <span class="dot2 mr-1"></span>
+          <span class="dot4 mr-1"></span>
+          <span class="dot4 mr-1"></span>
+        </div>
+        <div *ngIf="adminChecked" class="input-group-append">
+          <span class="dot2 mr-1"></span>
+          <span class="dot2 mr-1"></span>
+          <span class="dot2 mr-1"></span>
+          <span class="dot2 mr-1"></span>
+        </div>
+        <div *ngIf="ishidaChecked" class="input-group-append">
+          <span class="dot1 mr-1"></span>
+          <span class="dot1 mr-1"></span>
+          <span class="dot1 mr-1"></span>
+          <span class="dot1 mr-1"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-group" style="font-size: 0.8rem;font-weight: 400;">
+    <button class="btn btn-sm dropdown-toggle" type="button"
+      style="text-decoration: none; box-shadow:none; color:white;" data-toggle="dropdown" aria-haspopup="true"
+      aria-expanded="false">
+      <a style="color:white;font-size: 0.8rem;font-weight: 400;">{{loginUsrName | uppercase}}</a>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right rounded-0" aria-labelledby="dropdownMenu2">
+      <button class="dropdown-item customButton" type="button"
+        style="font-size: 0.8rem;font-weight: 500;color:rgb(40, 46, 137);"
+        (click)="chnageUserPassword(changeUserPassword)">
+        <i class="fa fa-edit" style="color:rgb(40, 46, 137);"></i> Change Password
+      </button>
+      <ng-container *ngIf="isAdmin">
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item customButton" type="button"
+          style="font-size: 0.8rem;font-weight: 500;color:rgb(40, 46, 137);" (click)="userregisRouterInit()"><i
+            class="fa fa-cog" style="color:rgb(40, 46, 137);" aria-hidden="true"></i> Setting</button>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item customButton" type="button"
+          style="font-size: 0.8rem;font-weight: 500;color:rgb(40, 46, 137);" (click)="logsRouterInit()"><i
+            class="fa fa-history" style="color:rgb(40, 46, 137);" aria-hidden="true"></i> Application Logs</button>
+      </ng-container>
+      <div class="dropdown-divider"></div>
+      <button class="dropdown-item customButton" type="button"
+        style="font-size: 0.8rem;font-weight: 500;color:rgb(40, 46, 137);" (click)="logoutRouterInit()"><i
+          class="fa fa-power-off" style="color:rgb(40, 46, 137);"></i> Logout</button>
+    </div>
+  </div>
+</nav>
+
+<ngx-ui-loader bgscolor = "#282e89"></ngx-ui-loader>
+
+
+<!-- .................. Change Password password model ......................... -->
+<ng-template #changeUserPassword let-modal>
+  <form [formGroup]="changePasswordForm" #changeUserPassword="ngForm" (ngSubmit)="changePassword()">
+    <div class="modal-body" style="margin: 8px;">
+      <div class="container-fluid conflucss">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="forgot mt-4">
+              <h2 class="text-ishida d-flex justify-content-center">Change Password</h2>
+            </div>
+            <div class="card mt-4 mb-4">
+              <div class="card-body">
+                <div class="col-auto mt-3">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fa fa-lg fa-fw text-ishida " aria-hidden="true" style="cursor: pointer;" [ngClass]="{
+                                                'fa-lock': !currPassFieldType,
+                                                'fa-unlock': currPassFieldType
+                                              }" (click)="toggleCurrFieldTextType()">
+                        </i>
+                      </div>
+                    </div>
+
+                    <input [type]="currPassFieldType ? 'text' : 'password'" class="form-control"
+                      placeholder="Current Password" formControlName="curr_password" autocomplete="current-password"
+                      (keyup)="textBox_KeyUp($event)" [ngClass]="{'is-invalid':changePasswordForm.get('curr_password').invalid 
+                                    && changePasswordForm.get('curr_password').touched
+                                  || (!isCurrPassMatched)}" required>
+                    <div
+                      *ngIf="changePasswordForm.get('curr_password').invalid && changePasswordForm.get('curr_password')?.errors.required"
+                      class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                      <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </div>
+                    <div *ngIf="!isCurrPassMatched" class="invalid-tooltip" placement="left"
+                      ngbTooltip="{{globalIncorrectPassMsg}}">
+                      <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fa fa-lg fa-fw text-ishida " aria-hidden="true" style="cursor: pointer;" [ngClass]="{
+                                                'fa-lock': !newPassFieldType,
+                                                'fa-unlock': newPassFieldType
+                                              }" (click)="toggleNewFieldTextType()">
+                        </i>
+                      </div>
+                    </div>
+                    <input [type]="newPassFieldType ? 'text' : 'password'" class="form-control"
+                      placeholder="New Password" formControlName="new_password"
+                      [ngClass]="{'is-invalid':changePasswordForm.get('new_password').invalid && changePasswordForm.get('new_password').touched
+                      || (changePasswordForm.get('new_password').value === changePasswordForm.get('curr_password').value && changePasswordForm.get('new_password').touched)}"
+                      autocomplete="new-password" required>
+                    <div
+                      *ngIf="changePasswordForm.get('new_password').invalid && changePasswordForm.get('new_password')?.errors.required"
+                      class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                      <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </div>
+                    <div
+                      *ngIf="changePasswordForm.get('new_password').invalid && changePasswordForm.get('new_password').dirty && changePasswordForm.get('new_password')?.errors?.pattern "
+                      class="invalid-tooltip" placement="left" ngbTooltip="{{globalInvalidPasswordMsg}}">
+                      <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </div>
+                    <div
+                      *ngIf="changePasswordForm.get('new_password').value === changePasswordForm.get('curr_password').value && changePasswordForm.get('new_password').touched"
+                      class="invalid-tooltip" placement="left" ngbTooltip="{{globalDiffNewAndCurrentPassMsg}}">
+                      <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fa fa-lg fa-fw text-ishida" aria-hidden="true" style="cursor: pointer;" [ngClass]="{
+                                                'fa-eye-slash': !confPassFieldType,
+                                                'fa-eye': confPassFieldType
+                                              }" (click)="toggleConfFieldTextType()">
+                        </i>
+                      </div>
+                    </div>
+                    <input [type]="confPassFieldType ? 'text' : 'password'" class="form-control"
+                      placeholder="Confirm Password" formControlName="confirm_password"
+                      [ngClass]="{'is-invalid':changePasswordForm.get('confirm_password').invalid && changePasswordForm.get('confirm_password').touched}"
+                      autocomplete="new-password" [errorStateMatcher]="matcher" required />
+                    <div
+                      *ngIf="changePasswordForm.get('confirm_password').invalid && changePasswordForm.get('confirm_password')?.errors.required"
+                      class="invalid-tooltip" placement="left" ngbTooltip="{{globalRequiredMsg}}">
+                      <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </div>
+                    <div
+                      *ngIf="changePasswordForm.get('confirm_password').invalid && changePasswordForm.get('confirm_password').dirty && changePasswordForm.get('confirm_password')?.errors?.pattern "
+                      class="invalid-tooltip" placement="left" ngbTooltip="{{globalInvalidPasswordMsg}}">
+                      <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </div>
+                    <div
+                      *ngIf="changePasswordForm.get('confirm_password').invalid && changePasswordForm.get('confirm_password').dirty && changePasswordForm.get('confirm_password')?.errors?.mustMatch "
+                      class="invalid-tooltip" placement="left" ngbTooltip="{{globalDiffPasswordMsg}}">
+                      <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-ishida rounded-0 mr-2"
+                  [disabled]="!changePasswordForm.valid" style="min-width: 78px; max-width: 78px;">Reset</button>
+                <button type="button" class="btn btn-outline-danger rounded-0" aria-label="Close"
+                  (click)="modal.dismiss('Cross click')" style="min-width: 78px; max-width: 78px;"> Close </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

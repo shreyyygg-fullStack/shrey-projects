@@ -1,0 +1,49 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+
+html {
+  background-color: #f9f9f9;
+}
+  body {
+    overflow: hidden;
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+    padding-left:5px; 
+    padding-right:5px;
+}
+
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+.btn-outline-ishida{color:#282E89;border-color:#282E89}.btn-outline-ishida:hover{color:#fff;background-color:#282E89;border-color:#282E89}.btn-outline-ishida.focus,.btn-outline-ishida:focus{box-shadow:0 0 0 .2rem rgba(40,46,137,.1)}.btn-outline-ishida.disabled,.btn-outline-ishida:disabled{color:#282E89;background-color:transparent}.btn-outline-ishida:not(:disabled):not(.disabled).active,.btn-outline-ishida:not(:disabled):not(.disabled):active,.show>.btn-outline-ishida.dropdown-toggle{color:#fff;background-color:#282E89;border-color:#282E89}.btn-outline-ishida:not(:disabled):not(.disabled).active:focus,.btn-outline-ishida:not(:disabled):not(.disabled):active:focus,.show>.btn-outline-ishida.dropdown-toggle:focus{box-shadow:0 0 0 .2rem rgba(40,46,137,.1)}
+   
+.text-ishida {
+  color: #282E89;
+}
+
+.disable-text-selection {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.pdfViewer {
+  padding: 12px !important;
+  background-color: #f8f8f8; 
+}
+
+.pdfViewer .page {
+  overflow-x: auto;
+  /* border: 1px solid rgba(0, 0, 0, 0.3) !important; */
+  box-sizing: border-box;
+  /* background-color: white; */
+}

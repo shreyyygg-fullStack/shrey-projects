@@ -1,0 +1,303 @@
+<nav aria-label="breadcrumb" class="mt-4">
+    <ol class="breadcrumb border bg-transparent shadow-sm">
+        <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+            (click)="homeRouterInit()">
+            Home
+        </li>
+        <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page">
+            <u>Settings</u>
+        </li>
+        <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+            (click)="emailRouterInit()">
+            <u>Email Setting</u>
+        </li>
+    </ol>
+</nav>
+
+<!-- nav bar -->
+<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin:0px 10px 5px 10px;">
+
+    <li class="nav-item navlinkcss">
+        <a class="nav-link navlinkcss" routerLink="/ii/usermanagement" id="global-setting" data-toggle="tab" role="tab"
+            aria-controls="segment-person-account" aria-selected="false">User Management</a>
+    </li>
+    <li class="nav-item navlinkcss ">
+        <a class="nav-link active navlinkcss" routerLink="/ii/email-setting" id="e-mail-setting" data-toggle="tab"
+            role="tab" aria-controls="segment-person-account" aria-selected="false">Email Setting</a>
+    </li>
+     <li class="nav-item navlinkcss ">
+        <a class="nav-link  navlinkcss" routerLink="/ii/inv-email-setting" id="e-mail-setting" data-toggle="tab"
+            role="tab" aria-controls="segment-person-account" aria-selected="false">INV Email Setting</a>
+    </li>
+</ul>
+<!-- nav bar ends -->
+<br>
+
+<!-- mail setting on and off button -->
+<div class="on-off-container form-check form-check-inline" style="width: 10%;margin-left: 23px;">
+    <div (click)="toggleState()" class="on-off-button on  border-0"
+        style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; min-width:50%;max-width: 50%; float: left; font-size: 15px;height: 30px; text-align: center; padding-top: 5px;">
+        ON</div>
+    <div (click)="toggleState()" class="on-off-button off border-0"
+        style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; min-width:50%;max-width: 50%; float: left; font-size: 15px; margin-left: -2px;height: 30px; text-align: center; padding-top: 5px;">
+        OFF</div>
+</div>
+<!-- mail setting on and off button ends-->
+
+<!-- settings buttons -->
+<!-- <button type="button" class="btn btncss rounded-0  mr-3"
+    style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; min-width:10%;max-width: 20%; float: right; font-size: 15px;"
+    title="INV/eWB Setting" [ngClass]="{'highlight-card':selectedSetting=='Setting 2'}"
+    (click)="onClickSelectedSetting('Setting 2')">
+    INV/eWB Setting
+</button> -->
+
+<button type="button" class="btn btncss rounded-0  mr-3"
+    style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; min-width:10%;max-width: 20%; float: right; font-size: 15px;"
+    title="II-EXF Setting" [ngClass]="{'highlight-card':selectedSetting=='Setting 1'}"
+    (click)="onClickSelectedSetting('Setting 1')">
+    II-EXF Setting
+</button>
+
+<!-- settings buttons ends-->
+<br>
+
+<!-- email form -->
+<div class="email-sender container-fluid">
+    <div class="row">
+        <div class="col-7 ">
+            <h6 *ngIf="selectedSetting=='Setting 1'"
+                style="margin-top: 2vh; margin-left: 2vh; text-decoration: underline;">II-EXF Date Updation Mail
+                Setting.
+            </h6>
+            <h6 *ngIf="selectedSetting=='Setting 2'"
+                style="margin-top: 2vh; margin-left: 2vh; text-decoration: underline;">INV/eWB Updation Mail Setting.
+            </h6>
+
+            <form [formGroup]="emailForm">
+                <div class="email-sender-header">
+                    <h6>To:</h6>
+                    <div class="email-sender-recipients">
+                        <div>
+                            <input style="border: 1px solid #000; width: 60%;" value="{{selectedString}}"
+                                placeholder="0 selected e-mails." readonly />
+                        </div>
+                    </div>
+                    <h6 style="margin-top: 12px;">Cc:</h6>
+                    <div class="email-sender-recipients">
+                        <div>
+                            <input style="border: 1px solid #000; width: 60%;" value="{{ccselectedString}}"
+                                placeholder="0 selected e-mails." readonly />
+                        </div>
+                    </div>
+                    <div class="email-sender-subject" style="width: 60%; margin-top: 12px;">
+                        <h6>Subject:</h6>
+                        <input type="text" formControlName="subject"
+                            style="height: 50%; border: 1px solid black; background-color: white;" id="subject"
+                            name="subject" placeholder="Enter Subject" [(ngModel)]="subjectData" required>
+                    </div>
+                </div>
+                <div style="margin-left: 12px; margin-top: 12px;min-height: 150px;">
+                    <h6 style="color: navy;">Body:</h6>
+                    <textarea class="email-sender-body" id="body" name="body" formControlName="body" type="text"
+                        style="border: 1px solid black; width: 99%; " placeholder="Compose your email..."
+                        [(ngModel)]="bodyMsg">
+            </textarea>
+                    <div class="readonly-overlay">
+                        {{ bodyNote }}
+                    </div>
+                </div>
+                <div class="email-sender-footer">
+                    <button type="submit" class="btn btn-outline-ishida rounded-0 "
+                        style="font-size: 12px; font-weight: 500; min-width:100px; border: 1px solid black;" [disabled]="!emailForm.valid"
+                        *ngIf="selectedSetting=='Setting 1'" (click)="saveMailSetting('1')">
+                        SAVE II-EXF
+                    </button>
+                    <button type="submit" class="btn btn-outline-ishida rounded-0 "
+                        style="font-size: 12px; font-weight: 500; min-width:100px; border: 1px solid black;" [disabled]="!emailForm.valid"
+                        *ngIf="selectedSetting=='Setting 2'" (click)="saveMailSetting('2')">
+                        SAVE INV/eWB
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-5">
+
+            <div class="btn-group " role="group"
+                style="width: 270px; float: right; margin-top: 10px; padding: 10px; margin-right: 240px;"
+                aria-label="Basic example">
+                <button type="button" class="btn btncss rounded-0"
+                    style="min-width:99%;max-width: 99%;box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; font-size: 15px;"
+                    data-toggle="modal" data-target="#addEmail">
+                    <i class="fa fa-plus pr-1" aria-hidden="true"></i>ADD E-MAIL</button>
+
+
+                <button type="button" class="btn btncsss rounded-0"
+                    style="min-width:30%;max-width: 30%; box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; font-size: 15px; margin-left: 50px;"
+                    [ngClass]="{'highlight-card':listView=='To'}" (click)="onClicklist('To')">
+                    TO:</button>
+
+                <button type="button" class="btn btncsss rounded-0"
+                    style="min-width:30%; max-width: 30%;box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; font-size: 15px; "
+                    [ngClass]="{'highlight-card':listView=='CC'}" (click)="onClicklist('CC')">
+                    CC:</button>
+
+            </div>
+            <div class="table-responsive"
+                style="overflow-y: scroll;max-height: 450px; margin-top: 10px; margin-right: 40px;">
+
+                <table class="table table-sm" *ngIf="listView=='To'"
+                    style="width: 90%; float: right; margin-bottom: 0;">
+                    <thead style="position: sticky; top: 0; z-index: 1; padding: 0;">
+                        <tr style="background-color:  #282e89; color: white;">
+                            <th scope="col" style="font-size: 15px; text-align: center;">REGISTERED E-MAILS</th>
+                            <th scope="col" style="font-size: 15px; text-align: center;">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let email of toemailsData">
+                            <td style="font-size: 13px; font-weight: 500; color:  #282e89;"><label>
+                                    <input type="checkbox" style="height: 20px;" [(ngModel)]="email.checked"
+                                        (change)="selectedemail()" />
+                                    {{ email.email | uppercase}}
+                                </label>
+                            </td>
+                            <td><button class="btn btn-sm mr-2 btn-outline-ishida rounded-0"
+                                    (click)="viewUpdateModal(updateEmail, email)"><i class="fa fa-edit"></i></button>
+                                <button class="btn btn-sm btn-outline-danger rounded-0" (click)="swalDelete(email)"><i
+                                        class=" fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-sm" *ngIf="listView=='CC'"
+                    style="width: 90%; float: right; margin-bottom: 0;">
+                    <thead style="position: sticky; top: 0; z-index: 1; padding: 0;">
+                        <tr style="background-color:  #282e89; color: white;">
+                            <th scope="col" style="font-size: 15px; text-align: center;">REGISTERED E-MAILS</th>
+                            <th scope="col" style="font-size: 15px; text-align: center;">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let email of ccemailsData">
+                            <td style="font-size: 13px; font-weight: 500; color:  #282e89;"><label>
+                                    <input type="checkbox" style="height: 20px;" [(ngModel)]="email.checked"
+                                        (change)="selectedCCemail()" />
+                                    {{ email.email | uppercase}}
+                                </label>
+                            </td>
+                            <td><button class="btn btn-sm mr-2 btn-outline-ishida rounded-0"
+                                    (click)="viewUpdateModal(updateEmail, email)"><i class="fa fa-edit"></i></button>
+                                <button class="btn btn-sm btn-outline-danger rounded-0" (click)="swalDelete(email)"><i
+                                        class=" fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- email form ends-->
+
+
+<!-- add email modal -->
+<div class="modal fade" id="addEmail" tabindex="-1" role="dialog" aria-labelledby="modalScrollableTitle"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md modal-dialog-centered modal-notify modal-success" role="document">
+        <div class="modal-content">
+            <form [formGroup]="addEmailForm">
+                <div class="modal-header">
+                    <h4 class="modal-title model-headercss" style=" color: #282e89; font-size: large;">ADD E-MAIL</h4>
+                </div>
+                <div class="modal-body plan-panel-height pt-2">
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text input-group-sm text-ishida rounded-0 prepend-label"
+                                style="min-width:148px;padding: 0rem 0.75rem; color:  #282e89;">
+                                <span>E-mail Address
+                                </span>
+                            </div>
+                        </div>
+                        <input type="email" id="email" name="email" class="form-control rounded-0 ipgcss1 uppercase "
+                            formControlName="newEmail" maxlength="{{emailMaxLength}}" style="font-size: large;"
+                            required>
+
+                        <div *ngIf="addEmailForm.get('newEmail').invalid && addEmailForm.get('newEmail').dirty && addEmailForm.get('newEmail')?.errors.emailDomain"
+                            class="invalid-input" placement="left" ngbTooltip="{{globalInvalidDomainMsg}}">
+                            <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                        </div>
+                        <div *ngIf="addEmailForm.get('newEmail').invalid && addEmailForm.get('newEmail').dirty && addEmailForm.get('newEmail')?.errors.email"
+                            class="invalid-input" placement="left" ngbTooltip="{{globalInvalidEmailMsg}}">
+                            <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-outline-ishida rounded-0" aria-label="Close"
+                        data-dismiss="modal" (click)="addEmail()"
+                        style="font-size: 12px; font-weight: 500; min-width:100px;" [disabled]="addEmailForm.invalid">
+                        ADD
+                    </button>
+                    <button type="button" class="btn btn-outline-danger rounded-0 ishida-bg" aria-label="Close"
+                        style="font-size: 12px; font-weight: 500; min-width:100px;" data-dismiss="modal"
+                        (click)="closeAddEmail()">
+                        CANCEL
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- add email modal ends-->
+
+<!-- email update modal -->
+<ng-template #updateEmail>
+    <div class="modal-content">
+        <form [formGroup]="updateEmailForm">
+            <div class="modal-header">
+                <h4 class="modal-title model-headercss" style=" color:  #282e89;font-size: large;">UPDATE E-MAIL</h4>
+            </div>
+            <div class="modal-body plan-panel-height pt-2">
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text input-group-sm text-ishida rounded-0 prepend-label"
+                            style="min-width:148px;padding: 0rem 0.75rem; color:  #282e89;">
+                            <span>E-mail Address
+                            </span>
+                        </div>
+                    </div>
+                    <input type="email" id="email" name="email" class="form-control rounded-0 ipgcss1 uppercase "
+                        formControlName="updatedEmail" maxlength="{{emailMaxLength}}" [(ngModel)]="selectedItem.email"
+                        style="font-size: large;">
+
+                    <div *ngIf="updateEmailForm.get('updatedEmail').invalid && updateEmailForm.get('updatedEmail').dirty && updateEmailForm.get('updatedEmail')?.errors.emailDomain"
+                        class="invalid-input" placement="left" ngbTooltip="{{globalInvalidDomainMsg}}">
+                        <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </div>
+                    <div *ngIf="updateEmailForm.get('updatedEmail').invalid && updateEmailForm.get('updatedEmail').dirty && updateEmailForm.get('updatedEmail')?.errors.email"
+                        class="invalid-input" placement="left" ngbTooltip="{{globalInvalidEmailMsg}}">
+                        <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-ishida rounded-0" aria-label="Close"
+                    (click)="onClickUpdateEmail()" style="font-size: 12px; font-weight: 500; min-width:100px;"
+                    [disabled]="updateEmailForm.invalid">
+                    UPDATE
+                </button>
+                <button type="button" class="btn btn-outline-danger rounded-0 ishida-bg" aria-label="Close"
+                    style="font-size: 12px; font-weight: 500; min-width:100px;" (click)="closeModal()">
+                    CANCEL
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+<!-- email update modal ends-->

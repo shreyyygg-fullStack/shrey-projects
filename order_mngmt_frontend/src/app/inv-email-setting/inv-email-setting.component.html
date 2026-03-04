@@ -1,0 +1,266 @@
+<nav aria-label="breadcrumb" class="mt-4">
+    <ol class="breadcrumb border bg-transparent shadow-sm">
+        <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+            (click)="homeRouterInit()">
+            Home
+        </li>
+        <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page">
+            <u>Settings</u>
+        </li>
+        <li class="breadcrumb-item active" style="color:rgb(40, 46, 137); cursor: pointer;" aria-current="page"
+            (click)="invEmailRouterInit()">
+            <u>INV Email Setting</u>
+        </li>
+    </ol>
+</nav>
+
+<!-- nav bar -->
+<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin:0px 10px 5px 10px;">
+
+    <li class="nav-item navlinkcss">
+        <a class="nav-link navlinkcss" routerLink="/ii/usermanagement" id="global-setting" data-toggle="tab" role="tab"
+            aria-controls="segment-person-account" aria-selected="false">User Management</a>
+    </li>
+    <li class="nav-item navlinkcss ">
+        <a class="nav-link  navlinkcss" routerLink="/ii/email-setting" id="e-mail-setting" data-toggle="tab" role="tab"
+            aria-controls="segment-person-account" aria-selected="false">Email Setting</a>
+    </li>
+    <li class="nav-item navlinkcss ">
+        <a class="nav-link active navlinkcss" routerLink="/ii/inv-email-setting" id="e-mail-setting" data-toggle="tab"
+            role="tab" aria-controls="segment-person-account" aria-selected="false">INV Email Setting</a>
+    </li>
+</ul>
+<!-- nav bar ends -->
+<br>
+
+<!-- mail setting on and off button -->
+<div class="on-off-container form-check form-check-inline" style="width: 10%;margin-left: 23px;">
+    <div (click)="toggleState()" class="on-off-button on  border-0"
+        style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; min-width:50%;max-width: 50%; float: left; font-size: 15px;height: 30px; text-align: center; padding-top: 5px;">
+        ON</div>
+    <div (click)="toggleState()" class="on-off-button off border-0"
+        style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; min-width:50%;max-width: 50%; float: left; font-size: 15px; margin-left: -2px;height: 30px; text-align: center; padding-top: 5px;">
+        OFF</div>
+</div>
+<!-- mail setting on and off button ends-->
+
+<!-- Region selection and Email Addition -->
+<div class="email-sender container-fluid">
+    <div class="row" style="height: 100%;">
+        <div class="col-6 " style="border-right: 1px  black; overflow-y: auto;">
+
+            <h6 style="margin-top: 2vh; margin-left: 2vh; text-decoration: underline;">Region Emails</h6>
+
+            <div class="input-group mb-3" style="margin-top: 20px;">
+
+
+                <select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon"
+                    (change)="selectCity($event.target.value)" style="max-width: 230px !important;"
+                    [(ngModel)]="selectedCity">
+                    <option *ngFor="let region of regions" value="{{region}}">{{region | uppercase}}</option>
+
+                </select>
+                <input type="text" class="form-control" aria-label="Sizing example input" placeholder="Add Emails"
+                    title="{{selectedEmailString}}" [(ngModel)]="selectedEmailString"
+                    aria-describedby="inputGroup-sizing-default" style="background-color: white;" readonly>
+            </div>
+
+            <div class="table-responsive" style="overflow-y: auto;height: calc(100vh - 28rem); margin-top: 20px; ">
+
+                <div class="d-flex justify-content-center align-items-center " style="height: 300px; "
+                    *ngIf="!selectedCity || selectedCity === ''">
+                    <h5>Select any Region!</h5>
+                </div>
+
+                <table *ngIf="selectedCity" class="table table-bordered table-sm"
+                    style="width: 100%; float: right; margin-bottom: 0;">
+                    <thead style="position: sticky; top: 0; z-index: 1; padding: 0;">
+                        <tr style="background-color:  #282e89; color: white;">
+                            <th scope="col" style="font-size: 15px; text-align: center;">Selected E-Mails For
+                                {{selectedCity}}</th>
+                        </tr>
+                    </thead>
+                    <div *ngIf="selectedEmails.length == 0 || !selectedEmails"
+                        class="d-flex justify-content-center align-items-center">
+                        <h6 style="padding-top: 30px;">Add emails from Registered E-mails!</h6>
+                    </div>
+                    <tbody *ngIf="selectedEmails.length > 0 ">
+                        <tr *ngFor="let email of selectedEmails">
+                            <td style="font-size: 13px; font-weight: 500; color:  #282e89;">
+                                <label style="padding-left: 10px;">{{ email| uppercase}}</label>
+                                <i class="fa fa-times" aria-hidden="true" (click)="removeEmail(email)"
+                                    style="float: inline-end;font-size: 16px;cursor: pointer;"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="submit" class="btn btn-outline-ishida rounded-0 mt-4"
+                style="font-size: 14px; font-weight: 500; min-width:100px;float: inline-end;"
+                (click)="saveRegionEmails()">
+                Save
+            </button>
+
+        </div>
+        <div class="col-6">
+            <h6 style="margin-top: 2vh; margin-left: 2vh; text-decoration: underline;">Add Region</h6>
+
+            <div class="input-group mb-3" style="margin-top: 20px;">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Region</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Sizing example input"
+                    placeholder="Enter region name" [(ngModel)]="newRegion"
+                    aria-describedby="inputGroup-sizing-default">
+                <button type="submit" class="btn btn-outline-ishida rounded-0 "
+                    style="font-size: 14px; font-weight: 500; min-width:100px;" (click)="addRegion()">
+                    Add
+                </button>
+            </div>
+
+            <button type="button" class="btn btncss rounded-0"
+                style="width:30%; box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; font-size: 15px;"
+                data-toggle="modal" data-target="#addEmail">
+                <i class="fa fa-plus pr-1" aria-hidden="true"></i>ADD E-MAIL</button>
+
+            <div class="table-responsive" style="overflow-y: scroll;height: calc(100vh - 26rem); margin-top: 20px; ">
+
+                <table class="table table-bordered table-sm" style="width: 100%; float: right; margin-bottom: 0;">
+                    <thead style="position: sticky; top: 0; z-index: 1; padding: 0;">
+                        <tr style="background-color:  #282e89; color: white;">
+                            <th scope="col" style="font-size: 15px; text-align: center;">REGISTERED E-MAILS</th>
+                            <th scope="col" style="font-size: 15px; text-align: center;">ACTION</th>
+                        </tr>
+                        <tr style="background-color: white;">
+                            <th colspan="2"> <input type="text" class="border-0 " placeholder="Search email"
+                                    [(ngModel)]="searchText" (input)="globalSearchKeyUp()"
+                                    style="width: 60%;border-radius: 5px; font-weight: 400; font-size: 14px;padding: 5px;" />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let email of registeredEmails">
+                            <td style="font-size: 13px; font-weight: 500; color:  #282e89;">
+                                <i *ngIf="selectedCity" class="fa fa-chevron-left fa-lg" aria-hidden="true"
+                                    style="cursor: pointer;" (click)="onSelect(email.email)"></i>
+                                <label style="padding-left: 10px;">{{ email.email | uppercase}}</label>
+                            </td>
+                            <td class="d-flex justify-content-center text-align-center">
+                                <button class="btn btn-sm btn-outline-ishida rounded-0"
+                                    (click)="viewUpdateModal(updateEmail, email)" style="height: 30px;"><i
+                                        class="fa fa-edit"></i></button>
+                                <button class="btn btn-sm ml-3 btn-outline-danger rounded-0" (click)="swalDelete(email)"
+                                    style="height: 30px;"><i class=" fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Region selection and Email Addition Ends-->
+
+
+<!-- add email modal -->
+<div class="modal fade" id="addEmail" tabindex="-1" role="dialog" aria-labelledby="modalScrollableTitle"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md modal-dialog-centered modal-notify modal-success" role="document">
+        <div class="modal-content">
+            <form [formGroup]="addEmailForm">
+                <div class="modal-header">
+                    <h4 class="modal-title model-headercss" style=" color: #282e89; font-size: large;">ADD E-MAIL</h4>
+                </div>
+                <div class="modal-body plan-panel-height pt-2">
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text input-group-sm text-ishida rounded-0 prepend-label"
+                                style="min-width:148px;padding: 0rem 0.75rem; color:  #282e89;">
+                                <span>E-mail Address
+                                </span>
+                            </div>
+                        </div>
+                        <input type="email" id="email" name="email" class="form-control rounded-0 ipgcss1 uppercase "
+                            formControlName="newEmail" maxlength="{{emailMaxLength}}" style="font-size: large;"
+                            required>
+
+                        <div *ngIf="addEmailForm.get('newEmail').invalid && addEmailForm.get('newEmail').dirty && addEmailForm.get('newEmail')?.errors.emailDomain"
+                            class="invalid-input" placement="left" ngbTooltip="{{globalInvalidDomainMsg}}">
+                            <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                        </div>
+                        <div *ngIf="addEmailForm.get('newEmail').invalid && addEmailForm.get('newEmail').dirty && addEmailForm.get('newEmail')?.errors.email"
+                            class="invalid-input" placement="left" ngbTooltip="{{globalInvalidEmailMsg}}">
+                            <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-outline-ishida rounded-0" aria-label="Close"
+                        data-dismiss="modal" (click)="addEmail()"
+                        style="font-size: 12px; font-weight: 500; min-width:100px;" [disabled]="addEmailForm.invalid">
+                        ADD
+                    </button>
+                    <button type="button" class="btn btn-outline-danger rounded-0 ishida-bg" aria-label="Close"
+                        style="font-size: 12px; font-weight: 500; min-width:100px;" data-dismiss="modal"
+                        (click)="closeAddEmail()">
+                        CANCEL
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- add email modal ends-->
+
+<!-- email update modal -->
+<ng-template #updateEmail>
+    <div class="modal-content">
+        <form [formGroup]="updateEmailForm">
+            <div class="modal-header">
+                <h4 class="modal-title model-headercss" style=" color:  #282e89;font-size: large;">UPDATE E-MAIL</h4>
+            </div>
+            <div class="modal-body plan-panel-height pt-2">
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text input-group-sm text-ishida rounded-0 prepend-label"
+                            style="min-width:148px;padding: 0rem 0.75rem; color:  #282e89;">
+                            <span>E-mail Address
+                            </span>
+                        </div>
+                    </div>
+                    <input type="email" id="email" name="email" class="form-control rounded-0 ipgcss1 uppercase "
+                        formControlName="updatedEmail" maxlength="{{emailMaxLength}}" [(ngModel)]="selectedItem.email"
+                        style="font-size: large;">
+
+                    <div *ngIf="updateEmailForm.get('updatedEmail').invalid && updateEmailForm.get('updatedEmail').dirty && updateEmailForm.get('updatedEmail')?.errors.emailDomain"
+                        class="invalid-input" placement="left" ngbTooltip="{{globalInvalidDomainMsg}}">
+                        <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </div>
+                    <div *ngIf="updateEmailForm.get('updatedEmail').invalid && updateEmailForm.get('updatedEmail').dirty && updateEmailForm.get('updatedEmail')?.errors.email"
+                        class="invalid-input" placement="left" ngbTooltip="{{globalInvalidEmailMsg}}">
+                        <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-ishida rounded-0" aria-label="Close"
+                    (click)="onClickUpdateEmail()" style="font-size: 12px; font-weight: 500; min-width:100px;"
+                    [disabled]="updateEmailForm.invalid">
+                    UPDATE
+                </button>
+                <button type="button" class="btn btn-outline-danger rounded-0 ishida-bg" aria-label="Close"
+                    style="font-size: 12px; font-weight: 500; min-width:100px;" (click)="closeModal()">
+                    CANCEL
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+<!-- email update modal ends-->
