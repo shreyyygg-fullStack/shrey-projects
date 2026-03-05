@@ -13,7 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>ClaimIt1.0</name>
-	<description>Ishida Expense Manager</description>
+	<description>Expense Manager</description>
 	<url/>
 	<licenses>
 		<license/>
