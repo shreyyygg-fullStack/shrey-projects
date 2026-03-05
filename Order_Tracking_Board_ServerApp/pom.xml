@@ -9,11 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.order</groupId>
-	<artifactId>iBoardServer</artifactId>
+	<artifactId>TrackingBoardServer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>iBoardServer</name>
-	<description>iBoardServer is a backend application for providing service to iotsboard application for operation and production.</description>
+	<name>TrackingBoardServer</name>
+	<description>Order Tracking Board Server is a backend application for providing service to order management application for operation and production.</description>
 	<url/>
 	<licenses>
 		<license/>
