@@ -56,7 +56,69 @@ A cross-platform mobile application designed for sales representatives to manage
 7.Workflow Automation & Notification Systems
 8.Database Optimization & Dynamic Queries
 
-2. IBoard – Real-Time Dispatch Communication Display System
+2. ServiceFlow – Field Service Engineer Management Mobile App
+
+ServiceFlow is a full-stack enterprise application designed to manage customer service requests and streamline field engineer operations. The system allows customers to raise service requests, administrators to assign engineers, and engineers to process and resolve requests through a structured workflow.
+
+The application ensures secure communication, real-time updates, and efficient tracking of service operations from request creation to final resolution.
+
+-Key Features
+•Service Request Management
+Customers or administrators can create service requests including customer details, issue description, location, and priority level.
+
+•Engineer Assignment Workflow
+Administrators assign service engineers to requests and monitor their progress through different stages of completion.
+
+•Structured Service Lifecycle
+Each request follows a controlled workflow:
+
+Request Raised → Assigned → Accepted → On The Way → In Progress → Resolved → Customer Confirmed → Closed
+
+•Real-Time Updates
+WebSocket-based notifications allow engineers to instantly receive new assignments and updates.
+
+•Secure Authentication
+JWT-based authentication with role-based access control ensures secure system usage.
+
+•Service Logs & Activity Tracking
+Every action taken by engineers is logged, creating a complete history of service operations.
+
+-Technology Stack
+Mobile Application
+1.React Native
+2.Axios
+3.React Navigation
+4.Context API
+5.AsyncStorage
+
+Backend
+1.Java
+2.Spring Boot
+3.Spring Security
+4.JWT Authentication
+5.WebSocket
+6.REST APIs
+
+-Database
+1.MySQL
+
+-Architecture Highlights
+1.Layered Spring Boot architecture (Controller → Service → Repository)
+2.Secure REST APIs with JWT authentication
+3.Real-time communication using WebSockets
+4.Modular React Native mobile architecture
+5.Clean separation of business logic and UI
+
+-Use Case
+This system is designed for organizations that deploy field engineers such as:
+1.Electronics service companies
+2.Industrial equipment maintenance providers
+3.Telecom field support teams
+4.Enterprise IT service departments
+
+ServiceFlow improves service response time, operational transparency, and customer satisfaction by digitizing the entire service workflow.
+
+3. IBoard – Real-Time Dispatch Communication Display System
 
 -Description
 A real-time communication board designed to display dispatch updates instantly across systems.
@@ -80,7 +142,7 @@ A real-time communication board designed to display dispatch updates instantly a
 3.Secure communication channels
 4.Scalable live-update dashboard design
 
-3. Organization Travel Claim Management System
+4. Organization Travel Claim Management System
 
 -Description
 A workflow-driven enterprise system for managing employee travel claims with automated approval and AI integration.
@@ -107,7 +169,7 @@ A workflow-driven enterprise system for managing employee travel claims with aut
 3.Design pattern implementation (Factory Pattern)
 4.Secure multi-layer backend design
 
-4. Enterprise Sales & Dispatch Tracking Application
+5. Enterprise Sales & Dispatch Tracking Application
 
 -Description
 A secure enterprise web application built to manage sales operations, dispatch tracking, and automated workflow communication.
